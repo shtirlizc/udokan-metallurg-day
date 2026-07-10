@@ -26,6 +26,8 @@
   --font-text-medium: normal 500 14px / 120% var(--font-primary), sans-serif;
   --font-text-regular: normal 400 12px / 140% var(--font-primary), sans-serif;
 
+  --font-button: normal 500 16px / 120% var(--font-primary), sans-serif;
+
   --space: 4px;
   --space8: calc(var(--space) * 2);
   --space12: calc(var(--space) * 3);
@@ -45,9 +47,11 @@
   --border-radius16: calc(var(--border-radius) * 4);
   --border-radius20: calc(var(--border-radius) * 5);
 
-  --transition-short: 0.1s;
-  --transition: 0.2s;
-  --transition-long: 0.4s;
+  --transition-short: 0.15s;
+  --transition: 0.3s;
+  --transition-long: 0.45s;
+
+  --transition-f: ease-out;
 
   --scrollbar-track-color: transparent;
   --scrollbar-color: var(--yellow-orange-accent);

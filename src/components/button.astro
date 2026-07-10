@@ -1,0 +1,48 @@
+---
+interface Props {
+  disabled?: boolean;
+  block?: boolean;
+}
+
+const { disabled = false, block = false } = Astro.props;
+---
+
+<button
+  type="button"
+  disabled={disabled}
+  class:list={["button", block && "block"]}><slot /></button
+>
+
+<style>
+  .button {
+    border: none;
+    font: var(--font-button);
+    color: var(--white-0);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: var(--yellow-orange-gradient);
+    border-radius: 10px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 49px;
+    transition: transform var(--transition-short);
+
+    @media (hover: hover) {
+      cursor: pointer;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &:disabled {
+      background-image: var(--brand-light-gradient);
+    }
+
+    &.block {
+      width: 100%;
+    }
+  }
+</style>
