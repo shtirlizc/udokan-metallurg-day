@@ -3,6 +3,7 @@ import { defineConfig, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://udokan-metallurg-day.vercel.app',
   fonts: [
     {
       provider: fontProviders.npm({ remote: false }),
