@@ -1,19 +1,21 @@
 ---
 interface Props {
+  href?: string;
   disabled?: boolean;
   block?: boolean;
 }
 
-const { disabled = false, block = false } = Astro.props;
+const { href = "", disabled = false, block = false } = Astro.props;
+const TagName = href ? "a" : "button";
 ---
 
-<button
-  type="button"
+<TagName
+  href={href}
   disabled={disabled}
   class:list={["button", block && "block"]}
 >
   <span><slot /></span>
-</button>
+</TagName>
 
 <style>
   .button {

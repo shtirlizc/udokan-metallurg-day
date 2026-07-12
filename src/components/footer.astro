@@ -1,0 +1,115 @@
+---
+const facts = [
+  "Удокан — крупнейшее месторождение меди в России",
+  "26,7 млн тонн наши ресурсы меди",
+  "5 000+ рабочих мест мы открыли после запуска первой очереди",
+  "91% сотрудников переживают за успехи компании, даже если они не затрагивают их лично ",
+  ">7 600 медных знаков признания заслуг выдано сотрудникам",
+];
+---
+
+<footer class="footer">
+  <div class="swiper footer-facts">
+    <div class="swiper-wrapper">
+      {
+        facts.map((fact) => (
+          <div class="swiper-slide">
+            <p class="fact">{fact}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-bottom: 20px;
+    min-width: 0;
+
+    /* desktop */
+    @media (width >= 960px) {
+      padding-bottom: 30px;
+    }
+
+    .footer-facts {
+      min-width: 0;
+
+      .swiper-wrapper {
+        transition-timing-function: linear;
+      }
+
+      .swiper-slide {
+        width: 180px;
+      }
+
+      .fact {
+        color: var(--color-white);
+        font: var(--font-text-regular);
+      }
+
+      /* desktop */
+      @media (width >= 960px) {
+        .swiper-wrapper {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 20px;
+          transform: none !important;
+        }
+
+        .swiper-slide {
+          width: auto;
+        }
+
+        .fact {
+          text-align: center;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  import { Swiper } from "swiper";
+  import { Autoplay, FreeMode } from "swiper/modules";
+
+  const mobileQuery = window.matchMedia("(max-width: 959px)");
+  let footerFactsSwiper: Swiper | undefined;
+
+  const initFooterFactsSwiper = () => {
+    if (footerFactsSwiper || !mobileQuery.matches) return;
+
+    footerFactsSwiper = new Swiper(".footer-facts", {
+      modules: [Autoplay, FreeMode],
+      slidesPerView: "auto",
+      spaceBetween: 20,
+      loop: true,
+      speed: 4500,
+      allowTouchMove: true,
+      freeMode: {
+        enabled: true,
+        momentum: false,
+      },
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
+      },
+    });
+  };
+
+  const destroyFooterFactsSwiper = () => {
+    if (!footerFactsSwiper || mobileQuery.matches) return;
+
+    footerFactsSwiper.destroy(true, true);
+    footerFactsSwiper = undefined;
+  };
+
+  const updateFooterFactsSwiper = () => {
+    initFooterFactsSwiper();
+    destroyFooterFactsSwiper();
+  };
+
+  updateFooterFactsSwiper();
+  mobileQuery.addEventListener("change", updateFooterFactsSwiper);
+</script>

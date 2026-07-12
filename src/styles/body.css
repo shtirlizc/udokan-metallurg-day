@@ -51,3 +51,10 @@ ol {
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+.swiper {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}

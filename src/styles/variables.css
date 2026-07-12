@@ -1,6 +1,8 @@
 :root {
   --font-primary: var(--font-onest);
 
+  --color-white: #ffffff;
+
   --black-100: #19324b;
   --divider-50: #ced0db;
   --bg-20: #f8fafd;

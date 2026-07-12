@@ -1,0 +1,32 @@
+---
+import Logo from "../assets/logo.svg";
+---
+
+<header class="header">
+  <div class="logo">
+    <Logo />
+  </div>
+</header>
+
+<style>
+  .header {
+    padding: var(--space20) var(--space8) 0;
+
+    /* desktop */
+    @media (width >= 960px) {
+      padding: var(--space20) var(--space20) 0;
+    }
+
+    .logo {
+      svg {
+        width: 75.6px;
+        height: auto;
+
+        /* desktop */
+        @media (width >= 960px) {
+          width: 126px;
+        }
+      }
+    }
+  }
+</style>

@@ -1,11 +1,76 @@
 ---
+import Footer from "../components/footer.astro";
 import Head from "../components/head.astro";
+import Header from "../components/header.astro";
+import Button from "../components/button.astro";
 ---
 
 <html lang="ru">
   <Head />
 
   <body>
-    <h1>Удоканская медь</h1>
+    <div class="main">
+      <Header />
+
+      <main class="main__content">
+        <h1>«Удокан — это вы»</h1>
+        <p>
+          Мы на «Удокане» отмечаем профессиональный праздник — День металлурга.
+          <br />
+          Один из подарков — эта интерактивная игра. Погрузитесь в атмосферу металлургического
+          производства, пройдите задания, почувствуйте свою причастность к общему
+          делу и получите заслуженное признание. Потому что «Удокан» — это вы!
+        </p>
+        <div class="main__play">
+          <Button href="1">Играть</Button>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
   </body>
 </html>
+
+<style>
+  .main {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100dvh;
+
+    /* TODO разделить фон на несколько слоев */
+    background-image: url("../assets/bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    /* desktop */
+    @media (width >= 960px) {
+      height: 100vh;
+    }
+
+    & .main__content {
+      color: var(--color-white);
+      max-width: 714px;
+      margin-inline: auto;
+      padding: 0 var(--space8);
+
+      /* desktop */
+      @media (width >= 960px) {
+        text-align: center;
+      }
+
+      h1 {
+        font: var(--font-title-1);
+      }
+
+      p {
+        margin-top: var(--space16);
+        font: var(--font-text-regular);
+      }
+
+      & .main__play {
+        margin-top: var(--space32);
+      }
+    }
+  }
+</style>
