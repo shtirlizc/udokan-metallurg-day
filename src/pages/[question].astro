@@ -18,6 +18,7 @@ interface Props {
 }
 
 const { question } = Astro.props;
+const { backgrounds } = question.data;
 ---
 
 <html lang="ru">
@@ -31,7 +32,12 @@ const { question } = Astro.props;
   </body>
 </html>
 
-<style>
+<style
+  define:vars={{
+    questionBgMobile: `url("${backgrounds.mobile.src}")`,
+    questionBgDesktop: `url("${backgrounds.desktop.src}")`,
+  }}
+>
   .question {
     position: relative;
     height: 100dvh;
@@ -47,8 +53,7 @@ const { question } = Astro.props;
     }
 
     .mobile-bg {
-      /* TODO подменить на фон из content */
-      background-image: url("../assets/bg.jpg");
+      background-image: var(--questionBgMobile);
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
@@ -60,6 +65,7 @@ const { question } = Astro.props;
         left: 0;
         width: 100%;
         height: 100%;
+        background-image: var(--questionBgDesktop);
       }
     }
   }

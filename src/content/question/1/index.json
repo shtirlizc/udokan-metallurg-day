@@ -1,6 +1,10 @@
 {
   "questionNumber": 1,
   "questionText": "Недавно у нас появились новые плакаты. Метафорически наши корпоративные ценности и «Кодекс Удокана» можно представить в виде:",
+  "backgrounds": {
+    "desktop": "images/bg-desktop.jpg",
+    "mobile": "images/bg-mobile.jpg"
+  },
   "answers": [
     {
       "id": "01",

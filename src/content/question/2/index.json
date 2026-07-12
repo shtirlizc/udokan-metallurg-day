@@ -1,6 +1,10 @@
 {
   "questionNumber": 2,
   "questionText": "question text 2",
+  "backgrounds": {
+    "desktop": "images/bg-desktop.jpg",
+    "mobile": "images/bg-mobile.jpg"
+  },
   "answers": [
     {
       "id": "01",
