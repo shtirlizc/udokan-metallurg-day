@@ -1,0 +1,108 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  answer: CollectionEntry<"question">["data"]["answers"][number];
+}
+
+const { answer } = Astro.props;
+const { id, text, comment } = answer;
+---
+
+<button type="button" class:list={["answer"]}>
+  <span class="answer__body">
+    <span class="answer__number">
+      <span>{id}</span>
+    </span>
+    <span class="answer__text">{text}</span>
+  </span>
+  <span class="answer__comment">{comment}</span>
+</button>
+
+<style>
+  .answer {
+    --success-border: #5ff03b;
+    --success-bg: #cbfbbf;
+    --fail-border: var(--red-accent);
+    --fail-bg: #f5c7bb;
+
+    background: none;
+    color: var(--black-100);
+    text-align: left;
+    padding: 0;
+    border: 1px solid var(--divider-50);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    outline: 1px solid transparent;
+    transition: outline var(--transition) var(--transition-f);
+
+    &:not(:disabled) {
+      &:hover {
+        outline: 1px solid var(--divider-50);
+
+        .answer__number::before {
+          transform: scaleX(1.15);
+        }
+      }
+    }
+
+    &.success {
+      border: 1px solid var(--success-border);
+
+      .answer__number::before {
+        background-color: var(--success-bg);
+      }
+    }
+
+    &.fail {
+      border: 1px solid var(--fail-border);
+
+      .answer__number::before {
+        background-color: var(--fail-bg);
+      }
+    }
+
+    & .answer__body {
+      display: grid;
+      grid-template-columns: 65px 1fr;
+    }
+
+    & .answer__number {
+      position: relative;
+      font: var(--font-answer);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fbf2ec;
+        transform-origin: left;
+        transition: transform var(--transition) var(--transition-f);
+      }
+
+      span {
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    & .answer__text {
+      font: var(--font-answer);
+      padding: var(--space16);
+      display: flex;
+      align-items: center;
+    }
+
+    & .answer__comment {
+      display: none;
+    }
+  }
+</style>

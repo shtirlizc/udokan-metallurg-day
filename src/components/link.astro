@@ -6,16 +6,14 @@ interface Props {
 }
 
 const { href = "", disabled = false, block = false } = Astro.props;
-const TagName = href ? "a" : "button";
 ---
 
-<TagName
+<a
   href={href}
-  disabled={disabled}
-  class:list={["button", block && "block"]}
+  class:list={["button", block && "block", disabled && "disabled"]}
 >
   <span><slot /></span>
-</TagName>
+</a>
 
 <style>
   .button {
@@ -64,7 +62,7 @@ const TagName = href ? "a" : "button";
       transition: opacity var(--transition) var(--transition-f);
     }
 
-    &:not(:disabled) {
+    &:not(.disabled) {
       @media (hover: hover) {
         cursor: pointer;
 
@@ -80,7 +78,9 @@ const TagName = href ? "a" : "button";
       }
     }
 
-    &:disabled {
+    &.disabled {
+      pointer-events: none;
+
       &::after {
         opacity: 1;
       }

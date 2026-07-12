@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import Head from "../components/head.astro";
+import Quiz from "../components/quiz.astro";
+
+export async function getStaticPaths() {
+  const questions = await getCollection("question");
+
+  return questions.map((question) => ({
+    params: { question: question.id },
+    props: { question },
+  }));
+}
+
+interface Props {
+  question: CollectionEntry<"question">;
+}
+
+const { question } = Astro.props;
+---
+
+<html lang="ru">
+  <Head />
+
+  <body>
+    <div class="question">
+      <div class="mobile-bg"></div>
+      <Quiz question={question} />
+    </div>
+  </body>
+</html>
+
+<style>
+  .question {
+    position: relative;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: 4fr 6fr;
+
+    /* desktop */
+    @media (width >= 960px) {
+      height: 100vh;
+      grid-template-columns: 473px 1fr;
+      grid-template-rows: none;
+      padding: 10px;
+    }
+
+    .mobile-bg {
+      /* TODO подменить на фон из content */
+      background-image: url("../assets/bg.jpg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+
+      /* desktop */
+      @media (width >= 960px) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+</style>

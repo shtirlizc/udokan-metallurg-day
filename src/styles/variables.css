@@ -27,6 +27,7 @@
   --font-title-2: normal 600 20px / 105% var(--font-primary), sans-serif;
   --font-text-medium: normal 500 14px / 120% var(--font-primary), sans-serif;
   --font-text-regular: normal 400 12px / 140% var(--font-primary), sans-serif;
+  --font-answer: normal 500 16px / 110% var(--font-primary), sans-serif;
 
   --font-button: normal 500 16px / 120% var(--font-primary), sans-serif;
 
@@ -65,5 +66,6 @@
     --font-title-2: normal 600 32px / 105% var(--font-primary), sans-serif;
     --font-text-medium: normal 500 16px / 120% var(--font-primary), sans-serif;
     --font-text-regular: normal 400 14px / 140% var(--font-primary), sans-serif;
+    --font-answer: normal 500 14px / 120% var(--font-primary), sans-serif;
   }
 }

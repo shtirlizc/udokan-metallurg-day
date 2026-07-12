@@ -1,0 +1,94 @@
+---
+import Link from "./link.astro";
+import type { CollectionEntry } from "astro:content";
+import Answer from "./answer.astro";
+
+interface Props {
+  question: CollectionEntry<"question">;
+}
+
+const { question } = Astro.props;
+const { questionNumber, questionText, answers, nextPage } = question.data;
+---
+
+<div class="quiz">
+  <div class="quiz__head">
+    <h2>Вопрос {questionNumber}</h2>
+    <p>
+      {questionText}
+    </p>
+  </div>
+
+  <ul class="quiz__body">
+    {
+      answers.map((answer) => {
+        return (
+          <li>
+            <Answer answer={answer} />
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <div class="quiz__next">
+    <Link href={nextPage} block disabled>Следующий вопрос</Link>
+  </div>
+</div>
+
+<style>
+  .quiz {
+    background-color: var(--white-0);
+    border-radius: var(--border-radius12);
+    z-index: 1;
+    height: 100%;
+    padding: var(--space20) var(--space16);
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    /* desktop */
+    @media (width >= 960px) {
+      padding: var(--space32);
+    }
+
+    & .quiz__head {
+      h2 {
+        font: var(--font-title-2);
+      }
+
+      p {
+        margin-top: var(--space16);
+        font: var(--font-text-medium);
+
+        /* desktop */
+        @media (width >= 960px) {
+          margin-top: var(--space32);
+        }
+      }
+    }
+
+    & .quiz__body {
+      margin-top: var(--space20);
+      margin-bottom: var(--space40);
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: var(--space);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: var(--space24);
+        gap: var(--space8);
+      }
+    }
+
+    & .quiz__next {
+      margin-top: auto;
+      margin-bottom: 0;
+      position: sticky;
+      bottom: 0;
+    }
+  }
+</style>

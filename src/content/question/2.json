@@ -1,0 +1,23 @@
+{
+  "questionNumber": 2,
+  "questionText": "question text 2",
+  "answers": [
+    {
+      "id": "01",
+      "text": "answer 11",
+      "comment": "comment"
+    },
+    {
+      "id": "02",
+      "text": "answer 22",
+      "comment": "comment"
+    },
+    {
+      "id": "03",
+      "text": "answer 33",
+      "comment": "comment"
+    }
+  ],
+  "correctAnswerId": "02",
+  "nextPage": "3"
+}
