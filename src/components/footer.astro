@@ -94,6 +94,12 @@ const facts = [
         delay: 0,
         disableOnInteraction: false,
         pauseOnMouseEnter: false,
+        waitForTransition: false,
+      },
+      on: {
+        touchEnd(swiper) {
+          swiper.autoplay.resume();
+        },
       },
     });
   };
