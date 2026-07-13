@@ -40,6 +40,8 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
 <script>
   import { gsap } from "gsap";
 
+  type AnswerType = "success" | "fail";
+
   const quiz = document.querySelector(".quiz");
   const nextLink = quiz?.querySelector("a");
 
@@ -49,11 +51,14 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
       answer.addEventListener("click", () => {
         const answerId = answer.dataset.number;
         const correctAnswerId = answer.dataset.correctAnswerId;
+        const answerType: AnswerType =
+          answerId === correctAnswerId ? "success" : "fail";
 
-        answer.classList.add(answerId === correctAnswerId ? "success" : "fail");
+        answer.classList.add(answerType);
         disableAnswerButtons(answers);
         activateNextLink(nextLink);
         showComment(answer);
+        answerAnimation(answerType, answer);
       });
     });
   }
@@ -83,6 +88,64 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
       duration: 0.4,
       ease: "back.out",
     });
+  }
+
+  function answerAnimation(answerType: AnswerType, answer: HTMLButtonElement) {
+    const answerBody = answer.querySelector<HTMLElement>(".answer__body");
+
+    if (!answerBody) return;
+
+    gsap.killTweensOf(answerBody);
+
+    if (answerType === "success") {
+      gsap
+        .timeline({ defaults: { ease: "power2.out" } })
+        .set(answerBody, {
+          transformOrigin: "50% 50%",
+          x: 0,
+          rotate: 0,
+          scale: 1,
+        })
+        .to(answerBody, {
+          scale: 1.04,
+          rotate: -1.5,
+          duration: 0.18,
+        })
+        .to(answerBody, {
+          scale: 0.98,
+          rotate: 1.5,
+          duration: 0.15,
+        })
+        .to(answerBody, {
+          scale: 1.02,
+          rotate: -0.8,
+          duration: 0.15,
+        })
+        .to(answerBody, {
+          scale: 1,
+          rotate: 0,
+          duration: 0.27,
+          ease: "back.out(2)",
+        });
+
+      return;
+    }
+
+    gsap.fromTo(
+      answerBody,
+      { x: 0 },
+      {
+        keyframes: [
+          { x: -10, duration: 0.09 },
+          { x: 8, duration: 0.09 },
+          { x: -6, duration: 0.09 },
+          { x: 4, duration: 0.09 },
+          { x: -2, duration: 0.075 },
+          { x: 0, duration: 0.075 },
+        ],
+        ease: "power2.out",
+      },
+    );
   }
 </script>
 
