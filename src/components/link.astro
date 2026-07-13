@@ -21,7 +21,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
 
     position: relative;
     box-sizing: border-box;
-    border: var(--button-border-width) solid transparent;
+    border: none;
     font: var(--font-button);
     color: var(--white-0);
     display: inline-flex;
@@ -32,33 +32,44 @@ const { href = "", disabled = false, block = false } = Astro.props;
     height: 60px;
     line-height: 60px;
     padding: 0 49px;
-    background: linear-gradient(180deg, #ffbe38 0%, #f83833 100%) border-box;
+    background-image: linear-gradient(
+      180deg,
+      #ffc037 0%,
+      #f83833 50%,
+      #ffc037 100%
+    );
+    background-position: 0 0;
+    background-size: 100% 200%;
     overflow: hidden;
-    transition: transform var(--transition-short);
+    transition:
+      transform var(--transition-short),
+      background-position var(--transition) var(--transition-f);
 
     &::before {
       content: "";
       position: absolute;
-      top: var(--button-border-width);
-      right: var(--button-border-width);
-      left: var(--button-border-width);
-      height: 200%;
-      border-radius: calc(10px - var(--button-border-width));
-      background-image: linear-gradient(
-        180deg,
-        #ffc037 0%,
-        #f83833 50%,
-        #ffc037 100%
-      );
-      transform: translateY(0);
-      transition: transform var(--transition) var(--transition-f);
+      inset: 0;
+      z-index: 1;
+      padding: var(--button-border-width);
+      border-radius: inherit;
+      background-image: linear-gradient(180deg, #ffa238 0%, #f83833 100%);
+      pointer-events: none;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
     }
 
     &::after {
       content: "";
       position: absolute;
-      inset: var(--button-border-width);
-      border-radius: calc(10px - var(--button-border-width));
+      inset: 0;
+      z-index: 2;
+      border-radius: inherit;
       background-image: var(--brand-light-gradient);
       opacity: 0;
       pointer-events: none;
@@ -70,9 +81,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
         cursor: pointer;
 
         &:hover {
-          &::before {
-            transform: translateY(-50%);
-          }
+          background-position: 0 100%;
         }
       }
 
@@ -91,7 +100,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
 
     span {
       position: relative;
-      z-index: 1;
+      z-index: 3;
     }
 
     &.block {
