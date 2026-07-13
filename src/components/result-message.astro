@@ -1,0 +1,234 @@
+---
+import Link from "./link.astro";
+import LogoIcon from "../assets/logo-icon.svg";
+
+interface Props {
+  questionsCount: number;
+}
+
+const { questionsCount } = Astro.props;
+---
+
+<div
+  class="message"
+  popover
+  id="result-message"
+  data-questions-count={questionsCount}
+>
+  <div>
+    <div class="message__result">
+      <ul class="message__result-chart">
+        {
+          Array.from({ length: questionsCount }).map(() => (
+            <li>
+              <LogoIcon />
+            </li>
+          ))
+        }
+      </ul>
+      <p class="message__result-legend"></p>
+    </div>
+
+    <p class="message__text"></p>
+  </div>
+
+  <Link href="/" block>Пройти еще раз</Link>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  const RESULT_C =
+    "Все начинается с первого шага — рады, что вы с нами! Вместе у нас все получится!";
+  const RESULT_B =
+    "Еще немного, и вас будет не догнать! Поздравляем, вы истинный удоканец!";
+  const RESULT_A =
+    "Вы — хранитель наших  ценностей и традиций.  Поздравляем с праздником  и напоминаем — мы гордимся работать с вами в одной команде!";
+
+  const messageTexts = new Map<number, string>();
+  messageTexts.set(1, RESULT_C);
+  messageTexts.set(2, RESULT_C);
+  messageTexts.set(3, RESULT_C);
+  messageTexts.set(4, RESULT_B);
+  messageTexts.set(5, RESULT_B);
+  messageTexts.set(6, RESULT_A);
+  messageTexts.set(7, RESULT_A);
+
+  const resultMessage = document.getElementById("result-message");
+  if (resultMessage) {
+    initResultMessage(resultMessage);
+  }
+
+  function initResultMessage(resultMessage: HTMLElement) {
+    const questionsCount = Number(resultMessage.dataset.questionsCount);
+    const savedResult = sessionStorage.getItem("udokan_quiz");
+
+    if (!Number.isFinite(questionsCount) || questionsCount <= 0) {
+      goHome();
+      return;
+    }
+
+    if (savedResult) {
+      try {
+        const parsedAnswers = JSON.parse(savedResult);
+        const isValid = validateResults(parsedAnswers);
+
+        if (isValid) {
+          calcResult(parsedAnswers);
+        } else {
+          goHome();
+          return;
+        }
+      } catch {
+        goHome();
+        return;
+      }
+    } else {
+      goHome();
+      return;
+    }
+
+    function goHome() {
+      window.location.href = "/";
+    }
+
+    function validateResults(answers: unknown) {
+      if (!answers || typeof answers !== "object" || Array.isArray(answers)) {
+        return false;
+      }
+
+      const values = Object.values(answers);
+
+      return (
+        values.length === questionsCount &&
+        values.every((value) => value === "success" || value === "fail")
+      );
+    }
+
+    function calcResult(result: Record<string, "success" | "fail">) {
+      const answers = Object.values(result);
+      const total = answers.length;
+      const correctAnswersLength = answers.filter(
+        (_) => _ === "success",
+      ).length;
+
+      showResult(
+        correctAnswersLength,
+        `${correctAnswersLength}/${total} правильных ответов`,
+        messageTexts.get(correctAnswersLength) ?? RESULT_C,
+      );
+    }
+
+    function showResult(
+      correctAnswersCount: number,
+      legendText: string,
+      message: string,
+    ) {
+      const icons = Array.from(
+        resultMessage.querySelectorAll<HTMLElement>(
+          ".message__result-chart li",
+        ),
+      );
+      const legendEl = resultMessage.querySelector(".message__result-legend");
+      const messageEl = resultMessage.querySelector(".message__text");
+
+      if (legendEl && messageEl) {
+        legendEl.textContent = legendText;
+        messageEl.textContent = message;
+
+        setTimeout(() => {
+          const correctIcons = icons.slice(0, correctAnswersCount);
+
+          gsap.set(icons, { opacity: 0.5, scale: 1 });
+          gsap.to(correctIcons, {
+            keyframes: [
+              {
+                opacity: 1,
+                scale: 1.3,
+                duration: 0.25,
+                ease: "back.out(2)",
+              },
+              {
+                scale: 1,
+                duration: 0.2,
+                ease: "power2.out",
+              },
+            ],
+            stagger: 0.1,
+          });
+        }, 300);
+
+        resultMessage.showPopover();
+      }
+    }
+  }
+</script>
+
+<style>
+  .message {
+    aspect-ratio: 359 / 285;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    text-align: center;
+    inset: 0;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    overflow: visible;
+    background-color: transparent;
+    color: var(--black-100);
+    opacity: 0;
+    transform: scale(0.75);
+    transition:
+      opacity var(--transition-long) var(--transition-f),
+      transform var(--transition-long) var(--transition-f);
+
+    &:popover-open {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      aspect-ratio: 473 / 418;
+    }
+  }
+
+  @starting-style {
+    .message:popover-open {
+      opacity: 0;
+      transform: scale(0.75);
+    }
+  }
+
+  .message__result {
+    & .message__result-chart {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+
+      li {
+        width: var(--space48);
+        height: var(--space48);
+        opacity: 0.5;
+      }
+    }
+
+    & .message__result-legend {
+      font: var(--font-text-medium);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: var(--space);
+      }
+    }
+  }
+
+  .message__text {
+    margin: var(--space16) 0;
+    font: var(--font-result);
+  }
+</style>

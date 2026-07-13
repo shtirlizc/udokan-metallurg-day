@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import Head from "../components/head.astro";
+import Header from "../components/header.astro";
+import ResultMessage from "../components/result-message.astro";
+
+const questions = await getCollection("question");
+const questionsCount = questions.length;
+---
+
+<html lang="ru">
+  <Head />
+
+  <body>
+    <div class="result">
+      <Header />
+
+      <main class="result__content">
+        <ResultMessage questionsCount={questionsCount} />
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .result {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100dvh;
+
+    /* TODO разделить фон на несколько слоев */
+    background-image: url("../assets/bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    /* desktop */
+    @media (width >= 960px) {
+      height: 100vh;
+    }
+
+    & .result__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space8);
+
+      .message {
+        max-width: 473px;
+        border-radius: 24px;
+        background-color: var(--white-0);
+        padding: var(--space16);
+
+        /* desktop */
+        @media (width >= 960px) {
+          padding: var(--space32);
+        }
+      }
+    }
+  }
+</style>
