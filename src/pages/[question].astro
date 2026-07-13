@@ -78,10 +78,9 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
         Math.max(-limit, Math.min(limit, value));
 
       const onOrientation = (event: DeviceOrientationEvent) => {
-        // Приводим наклон телефона к диапазону от -0.5 до 0.5, как у курсора.
+        // На телефоне реагируем только на наклон влево и вправо.
         const x = clamp(event.gamma ?? 0, 30) / 60;
-        const y = clamp(event.beta ?? 0, 30) / 60;
-        setParallax(x, y);
+        setParallax(x, 0);
       };
 
       const startOrientation = () => {
