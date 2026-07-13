@@ -51,18 +51,18 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
   const bg = document.querySelector<HTMLElement>(".bg");
   const bgChars = document.querySelector<HTMLElement>(".bg-chars");
 
-  if (
-    bg &&
-    bgChars &&
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches
-  ) {
+  if (bg && bgChars) {
+    const setParallax = (x: number, y: number) => {
+      bg.style.transform = `translate(${-x * 18}px, ${-y * 18}px) scale(1.04)`;
+      bgChars.style.transform = `translate(${-x * 30}px, ${-y * 30}px)`;
+    };
+
     const move = (event: MouseEvent) => {
       const rect = bgChars.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-      bg.style.transform = `translate(${-x * 18}px, ${-y * 18}px) scale(1.04)`;
-      bgChars.style.transform = `translate(${-x * 30}px, ${-y * 30}px)`;
+      setParallax(x, y);
     };
 
     const reset = () => {
@@ -70,8 +70,45 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
       bgChars.style.transform = "translate(0, 0)";
     };
 
-    bgChars.addEventListener("mousemove", move);
-    bgChars.addEventListener("mouseleave", reset);
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      bgChars.addEventListener("mousemove", move);
+      bgChars.addEventListener("mouseleave", reset);
+    } else if ("DeviceOrientationEvent" in window) {
+      const clamp = (value: number, limit: number) =>
+        Math.max(-limit, Math.min(limit, value));
+
+      const onOrientation = (event: DeviceOrientationEvent) => {
+        // Приводим наклон телефона к диапазону от -0.5 до 0.5, как у курсора.
+        const x = clamp(event.gamma ?? 0, 30) / 60;
+        const y = clamp(event.beta ?? 0, 30) / 60;
+        setParallax(x, y);
+      };
+
+      const startOrientation = () => {
+        window.addEventListener("deviceorientation", onOrientation, {
+          passive: true,
+        });
+      };
+
+      const orientationEvent = DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+        requestPermission?: () => Promise<"granted" | "denied">;
+      };
+
+      // Safari требует запросить доступ к датчикам после действия пользователя.
+      if (orientationEvent.requestPermission) {
+        window.addEventListener(
+          "pointerdown",
+          async () => {
+            if ((await orientationEvent.requestPermission?.()) === "granted") {
+              startOrientation();
+            }
+          },
+          { once: true },
+        );
+      } else {
+        startOrientation();
+      }
+    }
   }
 </script>
 
