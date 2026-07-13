@@ -1,10 +1,14 @@
 ---
+import { Image } from "astro:assets";
 
+import cloudsImg from "./assets/clouds.webp";
 ---
 
 <div class="bg">
   <div class="blue"></div>
-  <div class="clouds"></div>
+  <div class="clouds">
+    <Image src={cloudsImg} alt="" />
+  </div>
   <div class="forest"></div>
 </div>
 
@@ -50,10 +54,13 @@
     .clouds {
       position: absolute;
       inset: 0;
-      background-image: url("assets/clouds.webp");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+      overflow: hidden;
+
+      img {
+        width: auto;
+        max-height: 85vh;
+        animation: clouds 150s linear both;
+      }
     }
 
     .forest {
@@ -69,6 +76,16 @@
       @media (width >= 960px) {
         display: block;
       }
+    }
+  }
+
+  @keyframes clouds {
+    from {
+      transform: translate(0);
+    }
+
+    to {
+      transform: translate(-100%);
     }
   }
 </style>
