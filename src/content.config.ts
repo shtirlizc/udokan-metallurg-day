@@ -8,23 +8,26 @@ const question = defineCollection({
     pattern: "**/index.json",
     generateId: ({ entry }) => entry.split("/")[0],
   }),
-  schema: ({ image }) => z.object({
-    questionNumber: z.number(),
-    questionText: z.string(),
-    backgrounds: z.object({
-      desktop: image(),
-      mobile: image(),
-    }),
-    answers: z.array(
-      z.object({
-        id: z.string(),
-        text: z.string(),
-        comment: z.string(),
+  schema: ({ image }) =>
+    z.object({
+      questionNumber: z.number(),
+      questionText: z.string(),
+      backgrounds: z.object({
+        desktop: image(),
+        mobile: image(),
+        charsDesktop: image().optional(),
+        charsMobile: image().optional(),
       }),
-    ),
-    correctAnswerId: z.string(),
-    nextPage: z.string(),
-  }),
+      answers: z.array(
+        z.object({
+          id: z.string(),
+          text: z.string(),
+          comment: z.string(),
+        }),
+      ),
+      correctAnswerId: z.string(),
+      nextPage: z.string(),
+    }),
 });
 
 export const collections = { question };

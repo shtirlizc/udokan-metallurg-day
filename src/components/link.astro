@@ -17,10 +17,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
 
 <style>
   .button {
-    --button-border-width: 1px;
-
     position: relative;
-    box-sizing: border-box;
     border: none;
     font: var(--font-button);
     color: var(--white-0);
@@ -32,44 +29,33 @@ const { href = "", disabled = false, block = false } = Astro.props;
     height: 60px;
     line-height: 60px;
     padding: 0 49px;
-    background-image: linear-gradient(
-      180deg,
-      #ffc037 0%,
-      #f83833 50%,
-      #ffc037 100%
-    );
-    background-position: 0 0;
-    background-size: 100% 200%;
     overflow: hidden;
-    transition:
-      transform var(--transition-short),
-      background-position var(--transition) var(--transition-f);
+    transition: transform var(--transition-short);
 
     &::before {
       content: "";
       position: absolute;
-      inset: 0;
-      z-index: 1;
-      padding: var(--button-border-width);
-      border-radius: inherit;
-      background-image: linear-gradient(180deg, #ffa238 0%, #f83833 100%);
-      pointer-events: none;
-      mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      mask-composite: exclude;
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200%;
+      background-image: linear-gradient(
+        180deg,
+        #ffc037 0%,
+        #f83833 50%,
+        #ffc037 100%
+      );
+      transform: translateY(0);
+      transition: transform var(--transition) var(--transition-f);
     }
 
     &::after {
       content: "";
       position: absolute;
-      inset: 0;
-      z-index: 2;
-      border-radius: inherit;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-image: var(--brand-light-gradient);
       opacity: 0;
       pointer-events: none;
@@ -81,7 +67,9 @@ const { href = "", disabled = false, block = false } = Astro.props;
         cursor: pointer;
 
         &:hover {
-          background-position: 0 100%;
+          &::before {
+            transform: translateY(-50%);
+          }
         }
       }
 
@@ -100,7 +88,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
 
     span {
       position: relative;
-      z-index: 3;
+      z-index: 1;
     }
 
     &.block {

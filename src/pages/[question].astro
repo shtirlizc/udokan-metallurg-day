@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Head from "../components/head.astro";
@@ -19,6 +20,7 @@ interface Props {
 
 const { question } = Astro.props;
 const { backgrounds } = question.data;
+const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
 ---
 
 <html lang="ru">
@@ -26,7 +28,20 @@ const { backgrounds } = question.data;
 
   <body>
     <div class="question">
-      <div class="mobile-bg"></div>
+      <div class="bg">
+        {
+          charsDesktop && charsMobile && (
+            <div class="bg-chars">
+              <div class="desktop">
+                <Image src={charsDesktop} alt="" />
+              </div>
+              <div class="mobile">
+                <Image src={charsMobile} alt="" />
+              </div>
+            </div>
+          )
+        }
+      </div>
       <Quiz question={question} />
     </div>
   </body>
@@ -34,8 +49,8 @@ const { backgrounds } = question.data;
 
 <style
   define:vars={{
-    questionBgMobile: `url("${backgrounds.mobile.src}")`,
-    questionBgDesktop: `url("${backgrounds.desktop.src}")`,
+    questionBgMobile: `url("${mobile.src}")`,
+    questionBgDesktop: `url("${desktop.src}")`,
   }}
 >
   .question {
@@ -52,7 +67,8 @@ const { backgrounds } = question.data;
       padding: 10px;
     }
 
-    .mobile-bg {
+    .bg {
+      position: relative;
       background-image: var(--questionBgMobile);
       background-repeat: no-repeat;
       background-position: center;
@@ -66,6 +82,42 @@ const { backgrounds } = question.data;
         width: 100%;
         height: 100%;
         background-image: var(--questionBgDesktop);
+      }
+
+      .bg-chars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .mobile {
+          width: 100%;
+          height: 100%;
+
+          /* desktop */
+          @media (width >= 960px) {
+            display: none;
+          }
+        }
+
+        .desktop {
+          width: 100%;
+          height: 100%;
+          display: none;
+
+          /* desktop */
+          @media (width >= 960px) {
+            display: block;
+          }
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
