@@ -1,6 +1,12 @@
 ---
 import { Font } from "astro:assets";
 import "../styles/_main.css";
+
+const title = "Удокан — это вы";
+const description =
+  "Интерактивная игра ко Дню металлурга от Удоканской меди.";
+const url = new URL(Astro.url.pathname, Astro.site);
+const cover = new URL("/cover.jpg", Astro.site);
 ---
 
 <head>
@@ -22,5 +28,26 @@ import "../styles/_main.css";
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
-  <title>Удоканская медь</title>
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={url} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Удоканская медь" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={url} />
+  <meta property="og:image" content={cover} />
+  <meta property="og:image:secure_url" content={cover} />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Карьер Удокана с логотипом компании" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={cover} />
+  <meta name="twitter:image:alt" content="Карьер Удокана с логотипом компании" />
 </head>
