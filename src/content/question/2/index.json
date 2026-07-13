@@ -1,6 +1,6 @@
 {
   "questionNumber": 2,
-  "questionText": "question text 2",
+  "questionText": "Заглянем на совещание по внедрению новой технологии, которую предложили сотрудники участка N. Потенциально улучшение выгодно, но придётся потрудиться и создать новую инструкцию. Стоит ли игра свеч?",
   "backgrounds": {
     "desktop": "images/bg-desktop.jpg",
     "mobile": "images/bg-mobile.jpg"
@@ -8,17 +8,17 @@
   "answers": [
     {
       "id": "01",
-      "text": "answer 11",
+      "text": "Нет, будем действовать по заранее написанному плану",
       "comment": "comment"
     },
     {
       "id": "02",
-      "text": "answer 22",
+      "text": "Решение должен принимать руководитель, это не моё дело",
       "comment": "comment"
     },
     {
       "id": "03",
-      "text": "answer 33",
+      "text": "Да, мы ценим гибкость и готовы к изменениям",
       "comment": "comment"
     }
   ],

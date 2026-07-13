@@ -1,0 +1,27 @@
+{
+  "questionNumber": 3,
+  "questionText": "Пора отправиться в сердце Удокана — карьер «Западный». Кстати, знаете, почему наша корпоративная спецодежда включает оранжевый цвет?",
+  "backgrounds": {
+    "desktop": "images/bg-desktop.jpg",
+    "mobile": "images/bg-mobile.jpg"
+  },
+  "answers": [
+    {
+      "id": "01",
+      "text": "Оранжевый напоминает нам о любимых апельсинах",
+      "comment": "comment"
+    },
+    {
+      "id": "02",
+      "text": "Яркий цвет заметнее в условиях производства",
+      "comment": "comment"
+    },
+    {
+      "id": "03",
+      "text": "Он больше подходит под наш корпоративный стиль",
+      "comment": "comment"
+    }
+  ],
+  "correctAnswerId": "01",
+  "nextPage": "4"
+}

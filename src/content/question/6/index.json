@@ -1,0 +1,27 @@
+{
+  "questionNumber": 6,
+  "questionText": "Вот мы и добрались до обогатительной фабрики и гидрометаллургического завода. Производственные масштабы здесь, конечно, впечатляют, как и объём производства меди. В рамках I-й очереди он составляет…",
+  "backgrounds": {
+    "desktop": "images/bg-desktop.jpg",
+    "mobile": "images/bg-mobile.jpg"
+  },
+  "answers": [
+    {
+      "id": "01",
+      "text": "150 000 тонн в год",
+      "comment": "comment"
+    },
+    {
+      "id": "02",
+      "text": "125 000 тонн в год",
+      "comment": "comment"
+    },
+    {
+      "id": "03",
+      "text": "90 000 тонн в год",
+      "comment": "comment"
+    }
+  ],
+  "correctAnswerId": "02",
+  "nextPage": "7"
+}

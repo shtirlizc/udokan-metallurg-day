@@ -1,0 +1,27 @@
+{
+  "questionNumber": 4,
+  "questionText": "На карьере стоит пыль столбом: это колонны БелАЗов везут руду в корпус крупного дробления. Удоканское месторождение считается уникальным: в его состав входят два вида руд. Можете сказать, какие?",
+  "backgrounds": {
+    "desktop": "images/bg-desktop.jpg",
+    "mobile": "images/bg-mobile.jpg"
+  },
+  "answers": [
+    {
+      "id": "01",
+      "text": "Сульфидные и окисленные",
+      "comment": "comment"
+    },
+    {
+      "id": "02",
+      "text": "Богатые и самородные",
+      "comment": "comment"
+    },
+    {
+      "id": "03",
+      "text": "Сульфатные и смешанные",
+      "comment": "comment"
+    }
+  ],
+  "correctAnswerId": "02",
+  "nextPage": "5"
+}

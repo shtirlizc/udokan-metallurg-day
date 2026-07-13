@@ -26,23 +26,24 @@ const { id, text, comment } = answer;
     --fail-border: var(--red-accent);
     --fail-bg: #f5c7bb;
 
-    background: none;
     color: var(--black-100);
     text-align: left;
+    width: 100%;
     padding: 0;
     border: 1px solid var(--divider-50);
+    background-color: var(--bg-20);
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
-    outline: 1px solid transparent;
-    transition: outline var(--transition) var(--transition-f);
+    transition: border var(--transition) var(--transition-f);
 
     &:not(:disabled) {
       &:hover {
-        outline: 1px solid var(--divider-50);
+        border-color: var(--yellow-orange-accent);
 
         .answer__number::before {
-          transform: scaleX(1.15);
+          transform: scaleX(1.1);
+          background-color: var(--yellow-orange-accent);
         }
       }
     }
@@ -85,7 +86,9 @@ const { id, text, comment } = answer;
         height: 100%;
         background-color: #fbf2ec;
         transform-origin: left;
-        transition: transform var(--transition) var(--transition-f);
+        transition:
+          transform var(--transition) var(--transition-f),
+          background-color var(--transition) var(--transition-f);
       }
 
       span {
