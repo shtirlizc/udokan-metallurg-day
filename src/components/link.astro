@@ -17,8 +17,11 @@ const { href = "", disabled = false, block = false } = Astro.props;
 
 <style>
   .button {
+    --button-border-width: 1px;
+
     position: relative;
-    border: none;
+    box-sizing: border-box;
+    border: var(--button-border-width) solid transparent;
     font: var(--font-button);
     color: var(--white-0);
     display: inline-flex;
@@ -29,16 +32,18 @@ const { href = "", disabled = false, block = false } = Astro.props;
     height: 60px;
     line-height: 60px;
     padding: 0 49px;
+    background: linear-gradient(180deg, #ffbe38 0%, #f83833 100%) border-box;
     overflow: hidden;
     transition: transform var(--transition-short);
 
     &::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      top: var(--button-border-width);
+      right: var(--button-border-width);
+      left: var(--button-border-width);
       height: 200%;
+      border-radius: calc(10px - var(--button-border-width));
       background-image: linear-gradient(
         180deg,
         #ffc037 0%,
@@ -52,10 +57,8 @@ const { href = "", disabled = false, block = false } = Astro.props;
     &::after {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: var(--button-border-width);
+      border-radius: calc(10px - var(--button-border-width));
       background-image: var(--brand-light-gradient);
       opacity: 0;
       pointer-events: none;
