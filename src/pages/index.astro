@@ -3,6 +3,7 @@ import Footer from "../components/footer.astro";
 import Head from "../components/head.astro";
 import Header from "../components/header.astro";
 import Link from "../components/link.astro";
+import MainBg from "../components/main/main-bg.astro";
 ---
 
 <html lang="ru">
@@ -10,6 +11,7 @@ import Link from "../components/link.astro";
 
   <body>
     <div class="main">
+      <MainBg />
       <Header />
 
       <main class="main__content">
@@ -47,22 +49,12 @@ import Link from "../components/link.astro";
     grid-template-rows: auto 1fr auto;
     height: 100dvh;
 
-    /* TODO разделить фон на несколько слоев */
-    background-image: url("../assets/bg.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-
-    /* desktop */
-    @media (width >= 960px) {
-      height: 100vh;
-    }
-
     & .main__content {
       color: var(--color-white);
       max-width: 714px;
       margin-inline: auto;
       padding: 0 var(--space8);
+      z-index: 1;
 
       /* desktop */
       @media (width >= 960px) {
