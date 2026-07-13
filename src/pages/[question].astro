@@ -89,9 +89,10 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
         });
       };
 
-      const orientationEvent = DeviceOrientationEvent as typeof DeviceOrientationEvent & {
-        requestPermission?: () => Promise<"granted" | "denied">;
-      };
+      const orientationEvent =
+        DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+          requestPermission?: () => Promise<"granted" | "denied">;
+        };
 
       // Safari требует запросить доступ к датчикам после действия пользователя.
       if (orientationEvent.requestPermission) {
@@ -158,6 +159,8 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
         height: 100%;
         overflow: hidden;
         transition: transform 220ms ease-out;
+        opacity: 0;
+        animation: bg-chars-appear 600ms ease-out forwards;
 
         .mobile {
           width: 100%;
@@ -186,6 +189,25 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
           object-fit: cover;
         }
       }
+    }
+  }
+
+  @keyframes bg-chars-appear {
+    from {
+      left: -60px;
+      opacity: 0;
+    }
+
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .question .bg .bg-chars {
+      animation: none;
+      opacity: 1;
     }
   }
 </style>
