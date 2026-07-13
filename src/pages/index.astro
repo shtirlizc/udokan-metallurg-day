@@ -53,12 +53,13 @@ import MainBg from "../components/main/main-bg.astro";
       color: var(--color-white);
       max-width: 714px;
       margin-inline: auto;
-      padding: 0 var(--space8);
+      padding: 6px var(--space8);
       z-index: 1;
 
       /* desktop */
       @media (width >= 960px) {
         text-align: center;
+        padding: 0;
       }
 
       h1 {
@@ -66,12 +67,17 @@ import MainBg from "../components/main/main-bg.astro";
       }
 
       p {
-        margin-top: var(--space16);
+        margin-top: 14px;
         font: var(--font-text-regular);
       }
 
       & .main__play {
-        margin-top: var(--space32);
+        margin-top: 25px;
+
+        /* desktop */
+        @media (width >= 960px) {
+          margin-top: 34px;
+        }
       }
     }
   }

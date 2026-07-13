@@ -29,7 +29,7 @@ const facts = [
 
     /* desktop */
     @media (width >= 960px) {
-      padding-bottom: 30px;
+      padding: 0 30px 30px;
     }
 
     .footer-facts {
@@ -41,11 +41,24 @@ const facts = [
 
       .swiper-slide {
         width: 180px;
+
+        /* desktop */
+        @media (width >= 960px) {
+          width: 240px;
+        }
       }
 
       .fact {
         color: var(--color-white);
-        font: var(--font-text-regular);
+        font: var(--font-text-medium);
+        line-height: 110%;
+
+        /* desktop */
+        @media (width >= 960px) {
+          font-size: 14px;
+          line-height: 140%;
+          font-weight: 400;
+        }
       }
 
       /* desktop */

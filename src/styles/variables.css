@@ -23,10 +23,10 @@
   --brand-gradient: linear-gradient(180deg, #c38358 0%, #a25120 100%);
   --brand-light-gradient: linear-gradient(180deg, #efd7cb 0%, #dcbcac 100%);
 
-  --font-title-1: normal 500 25px / 105% var(--font-primary), sans-serif;
+  --font-title-1: normal 500 30px / 110% var(--font-primary), sans-serif;
   --font-title-2: normal 600 20px / 105% var(--font-primary), sans-serif;
   --font-text-medium: normal 500 14px / 120% var(--font-primary), sans-serif;
-  --font-text-regular: normal 400 12px / 140% var(--font-primary), sans-serif;
+  --font-text-regular: normal 400 14px / 140% var(--font-primary), sans-serif;
   --font-answer: normal 500 16px / 110% var(--font-primary), sans-serif;
   --font-result: normal 500 20px / 120% var(--font-primary), sans-serif;
 
