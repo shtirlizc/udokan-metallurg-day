@@ -37,6 +37,7 @@ const { questionsCount } = Astro.props;
 
 <script>
   import { gsap } from "gsap";
+  import { navigate } from "astro:transitions/client";
 
   const RESULT_C =
     "Все начинается с первого шага — рады, что вы с нами! Вместе у нас все получится!";
@@ -54,10 +55,16 @@ const { questionsCount } = Astro.props;
   messageTexts.set(6, RESULT_A);
   messageTexts.set(7, RESULT_A);
 
-  const resultMessage = document.getElementById("result-message");
-  if (resultMessage) {
+  function initCurrentResultMessage() {
+    const resultMessage = document.getElementById("result-message");
+
+    if (!resultMessage || resultMessage.dataset.initialized === "true") return;
+
+    resultMessage.dataset.initialized = "true";
     initResultMessage(resultMessage);
   }
+
+  document.addEventListener("astro:page-load", initCurrentResultMessage);
 
   function initResultMessage(resultMessage: HTMLElement) {
     const questionsCount = Number(resultMessage.dataset.questionsCount);
@@ -89,7 +96,7 @@ const { questionsCount } = Astro.props;
     }
 
     function goHome() {
-      window.location.href = "/";
+      navigate("/");
     }
 
     function validateResults(answers: unknown) {

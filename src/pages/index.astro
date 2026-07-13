@@ -32,7 +32,13 @@ import Link from "../components/link.astro";
 </html>
 
 <script>
-  sessionStorage.removeItem("udokan_quiz");
+  function resetQuizStorageOnHomePage() {
+    if (window.location.pathname === "/") {
+      sessionStorage.removeItem("udokan_quiz");
+    }
+  }
+
+  document.addEventListener("astro:page-load", resetQuizStorageOnHomePage);
 </script>
 
 <style>

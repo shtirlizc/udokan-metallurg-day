@@ -42,11 +42,18 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
 
   type AnswerType = "success" | "fail";
 
-  const quiz = document.querySelector<HTMLElement>(".quiz");
-  const questionNumber = quiz?.dataset.questionNumber;
-  const nextLink = quiz?.querySelector("a");
+  function initQuiz() {
+    const quiz = document.querySelector<HTMLElement>(".quiz");
 
-  if (quiz && nextLink && questionNumber) {
+    if (!quiz || quiz.dataset.initialized === "true") return;
+
+    const questionNumber = quiz.dataset.questionNumber;
+    const nextLink = quiz.querySelector<HTMLAnchorElement>("a");
+
+    if (!nextLink || !questionNumber) return;
+
+    quiz.dataset.initialized = "true";
+
     const answers = quiz.querySelectorAll<HTMLButtonElement>("button");
     answers.forEach((answer) => {
       answer.addEventListener("click", () => {
@@ -70,6 +77,8 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
       });
     });
   }
+
+  document.addEventListener("astro:page-load", initQuiz);
 
   function saveToStorage(questionId: string, answerType: AnswerType) {
     const KEY = "udokan_quiz";
