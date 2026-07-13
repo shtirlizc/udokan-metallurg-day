@@ -3,13 +3,19 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   answer: CollectionEntry<"question">["data"]["answers"][number];
+  correctAnswerId: string;
 }
 
-const { answer } = Astro.props;
+const { answer, correctAnswerId } = Astro.props;
 const { id, text, comment } = answer;
 ---
 
-<button type="button" class:list={["answer"]}>
+<button
+  type="button"
+  class:list={["answer"]}
+  data-number={id}
+  data-correct-answer-id={correctAnswerId}
+>
   <span class="answer__body">
     <span class="answer__number">
       <span>{id}</span>
@@ -26,47 +32,56 @@ const { id, text, comment } = answer;
     --fail-border: var(--red-accent);
     --fail-bg: #f5c7bb;
 
+    background: none;
+    border: none;
     color: var(--black-100);
     text-align: left;
     width: 100%;
     padding: 0;
-    border: 1px solid var(--divider-50);
-    background-color: var(--bg-20);
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border var(--transition) var(--transition-f);
 
     &:not(:disabled) {
-      &:hover {
-        border-color: var(--yellow-orange-accent);
+      cursor: pointer;
 
-        .answer__number::before {
-          transform: scaleX(1.1);
-          background-color: var(--yellow-orange-accent);
+      &:hover {
+        .answer__body {
+          border-color: var(--yellow-orange-accent);
+
+          .answer__number::before {
+            transform: scaleX(1.1);
+            background-color: var(--yellow-orange-accent);
+          }
         }
       }
     }
 
     &.success {
-      border: 1px solid var(--success-border);
+      .answer__body {
+        border: 1px solid var(--success-border) !important;
 
-      .answer__number::before {
-        background-color: var(--success-bg);
+        .answer__number::before {
+          background-color: var(--success-bg) !important;
+        }
       }
     }
 
     &.fail {
-      border: 1px solid var(--fail-border);
+      .answer__body {
+        border: 1px solid var(--fail-border) !important;
 
-      .answer__number::before {
-        background-color: var(--fail-bg);
+        .answer__number::before {
+          background-color: var(--fail-bg) !important;
+        }
       }
     }
 
     & .answer__body {
       display: grid;
       grid-template-columns: 65px 1fr;
+      border: 1px solid var(--divider-50);
+      background-color: var(--bg-20);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border var(--transition) var(--transition-f);
     }
 
     & .answer__number {
@@ -102,10 +117,23 @@ const { id, text, comment } = answer;
       padding: var(--space16);
       display: flex;
       align-items: center;
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding: var(--space24);
+      }
     }
 
     & .answer__comment {
       display: none;
+      font: var(--font-answer);
+      padding-top: 10px;
+      padding-bottom: var(--space16);
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding-bottom: var(--space20);
+      }
     }
   }
 </style>

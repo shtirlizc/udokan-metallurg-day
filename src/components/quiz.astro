@@ -8,7 +8,8 @@ interface Props {
 }
 
 const { question } = Astro.props;
-const { questionNumber, questionText, answers, nextPage } = question.data;
+const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
+  question.data;
 ---
 
 <div class="quiz">
@@ -24,7 +25,7 @@ const { questionNumber, questionText, answers, nextPage } = question.data;
       answers.map((answer) => {
         return (
           <li>
-            <Answer answer={answer} />
+            <Answer answer={answer} correctAnswerId={correctAnswerId} />
           </li>
         );
       })
@@ -32,9 +33,58 @@ const { questionNumber, questionText, answers, nextPage } = question.data;
   </ul>
 
   <div class="quiz__next">
-    <Link href={`/${nextPage}`} block>Следующий вопрос</Link>
+    <Link href={`/${nextPage}`} block disabled>Следующий вопрос</Link>
   </div>
 </div>
+
+<script>
+  import { gsap } from "gsap";
+
+  const quiz = document.querySelector(".quiz");
+  const nextLink = quiz?.querySelector("a");
+
+  if (quiz && nextLink) {
+    const answers = quiz.querySelectorAll<HTMLButtonElement>("button");
+    answers.forEach((answer) => {
+      answer.addEventListener("click", () => {
+        const answerId = answer.dataset.number;
+        const correctAnswerId = answer.dataset.correctAnswerId;
+
+        answer.classList.add(answerId === correctAnswerId ? "success" : "fail");
+        disableAnswerButtons(answers);
+        activateNextLink(nextLink);
+        showComment(answer);
+      });
+    });
+  }
+
+  function disableAnswerButtons(answers: NodeListOf<HTMLButtonElement>) {
+    answers.forEach((answer) => {
+      answer.disabled = true;
+    });
+  }
+
+  function activateNextLink(nextLink: HTMLAnchorElement) {
+    nextLink.classList.remove("disabled");
+  }
+
+  function showComment(answer: HTMLButtonElement) {
+    const comment = answer.querySelector(".answer__comment");
+
+    const tl = gsap.timeline();
+    tl.set(comment, {
+      display: "block",
+      height: 0,
+      opacity: 0,
+      overflow: "hidden",
+    }).to(comment, {
+      height: "auto",
+      opacity: 1,
+      duration: 0.4,
+      ease: "back.out",
+    });
+  }
+</script>
 
 <style>
   .quiz {
