@@ -12,7 +12,7 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
   question.data;
 ---
 
-<div class="quiz">
+<div class="quiz" data-question-number={questionNumber}>
   <div class="quiz__head">
     <h2>Вопрос {questionNumber}</h2>
     <p>
@@ -42,25 +42,59 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
 
   type AnswerType = "success" | "fail";
 
-  const quiz = document.querySelector(".quiz");
+  const quiz = document.querySelector<HTMLElement>(".quiz");
+  const questionNumber = quiz?.dataset.questionNumber;
   const nextLink = quiz?.querySelector("a");
 
-  if (quiz && nextLink) {
+  if (quiz && nextLink && questionNumber) {
     const answers = quiz.querySelectorAll<HTMLButtonElement>("button");
     answers.forEach((answer) => {
       answer.addEventListener("click", () => {
         const answerId = answer.dataset.number;
         const correctAnswerId = answer.dataset.correctAnswerId;
+
+        if (!answerId || !correctAnswerId) {
+          console.error("answerId and correctAnswerId are required");
+          return;
+        }
+
         const answerType: AnswerType =
           answerId === correctAnswerId ? "success" : "fail";
 
         answer.classList.add(answerType);
+        saveToStorage(questionNumber, answerType);
         disableAnswerButtons(answers);
         activateNextLink(nextLink);
         showComment(answer);
         answerAnimation(answerType, answer);
       });
     });
+  }
+
+  function saveToStorage(questionId: string, answerType: AnswerType) {
+    const KEY = "udokan_quiz";
+    const savedAnswers = sessionStorage.getItem(KEY);
+
+    let answers: Record<string, AnswerType> = {};
+
+    if (savedAnswers) {
+      try {
+        const parsedAnswers = JSON.parse(savedAnswers);
+
+        if (
+          parsedAnswers &&
+          typeof parsedAnswers === "object" &&
+          !Array.isArray(parsedAnswers)
+        ) {
+          answers = parsedAnswers;
+        }
+      } catch {
+        answers = {};
+      }
+    }
+
+    answers[questionId] = answerType;
+    sessionStorage.setItem(KEY, JSON.stringify(answers));
   }
 
   function disableAnswerButtons(answers: NodeListOf<HTMLButtonElement>) {
