@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import backgroundImg from "../assets/bg.jpg";
 import Head from "../components/head.astro";
 import Header from "../components/header.astro";
 import ResultMessage from "../components/result-message.astro";
@@ -14,6 +16,7 @@ const questionsCount = questions.length;
 
   <body>
     <div class="result">
+      <Image class="result__bg" src={backgroundImg} alt="" />
       <Header />
 
       <main class="result__content">
@@ -25,15 +28,23 @@ const questionsCount = questions.length;
 
 <style>
   .result {
+    position: relative;
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100dvh;
 
-    /* TODO разделить фон на несколько слоев */
-    background-image: url("../assets/bg.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    .result__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    > :not(.result__bg) {
+      position: relative;
+      z-index: 1;
+    }
 
     /* desktop */
     @media (width >= 960px) {

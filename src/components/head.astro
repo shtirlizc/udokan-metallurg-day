@@ -53,5 +53,44 @@ const cover = new URL("/cover.jpg", Astro.site);
     name="twitter:image:alt"
     content="Карьер Удокана с логотипом компании"
   />
+  <script>
+    type PreparationEvent = Event & {
+      loader: () => Promise<void>;
+      newDocument: Document;
+      signal: AbortSignal;
+    };
+
+    function waitForImage(src: string, signal: AbortSignal) {
+      return new Promise<void>((resolve) => {
+        const image = new Image();
+
+        const finish = () => {
+          signal.removeEventListener("abort", finish);
+          image.onload = null;
+          image.onerror = null;
+          resolve();
+        };
+
+        signal.addEventListener("abort", finish, { once: true });
+        image.onload = finish;
+        image.onerror = finish;
+        image.src = src;
+      });
+    }
+
+    document.addEventListener("astro:before-preparation", (event) => {
+      const preparation = event as PreparationEvent;
+      const loadPage = preparation.loader;
+
+      preparation.loader = async () => {
+        await loadPage();
+        await Promise.all(
+          [...preparation.newDocument.images].map((image) =>
+            waitForImage(image.src, preparation.signal),
+          ),
+        );
+      };
+    });
+  </script>
   <ClientRouter />
 </head>
