@@ -71,6 +71,48 @@ body {
   }
 }
 
+@media (max-width: 959px) {
+  @keyframes page-slide-out-up {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes page-slide-in-up {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes page-slide-out-down {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes page-slide-in-down {
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   mix-blend-mode: normal;
