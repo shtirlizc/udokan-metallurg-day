@@ -119,13 +119,13 @@ body {
   }
 
   to {
-    transform: translateY(-100%) scale(1.5);
+    transform: translateY(-100%) scale(1.2);
   }
 }
 
 @keyframes chars-new-forward {
   from {
-    transform: translateY(100%) scale(1.5);
+    transform: translateY(100%) scale(1.2);
   }
 
   to {
@@ -139,13 +139,13 @@ body {
   }
 
   to {
-    transform: translateY(100%) scale(1.5);
+    transform: translateY(100%) scale(1.2);
   }
 }
 
 @keyframes chars-new-back {
   from {
-    transform: translateY(-100%) scale(1.5);
+    transform: translateY(-100%) scale(1.2);
   }
 
   to {
@@ -195,7 +195,7 @@ body {
 
 @keyframes quiz-panel-enter {
   from {
-    transform: translateY(calc(100vh + 30vh));
+    transform: translateY(calc(100vh + 50vh));
   }
 
   to {
@@ -209,13 +209,13 @@ body {
   }
 
   to {
-    transform: translateY(calc(-100vh - 30vh));
+    transform: translateY(calc(-100vh - 50vh));
   }
 }
 
 @keyframes quiz-panel-enter-back {
   from {
-    transform: translateY(calc(-100vh - 30vh));
+    transform: translateY(calc(-100vh - 50vh));
   }
 
   to {
@@ -229,7 +229,7 @@ body {
   }
 
   to {
-    transform: translateY(calc(100vh + 30vh));
+    transform: translateY(calc(100vh + 50vh));
   }
 }
 
