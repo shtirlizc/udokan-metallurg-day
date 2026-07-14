@@ -1,5 +1,5 @@
 export const transitionTiming = {
-  duration: "2.5s",
+  duration: "3s",
   easing: "cubic-bezier(0.16, 1, 0.3, 1)",
   fillMode: "both",
 };
