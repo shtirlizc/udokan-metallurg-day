@@ -63,18 +63,33 @@ const cover = new URL("/cover.jpg", Astro.site);
     function waitForImage(src: string, signal: AbortSignal) {
       return new Promise<void>((resolve) => {
         const image = new Image();
+        let completed = false;
 
         const finish = () => {
+          if (completed) return;
+          completed = true;
           signal.removeEventListener("abort", finish);
           image.onload = null;
           image.onerror = null;
           resolve();
         };
 
+        const decode = async () => {
+          try {
+            await image.decode();
+          } catch {
+            // A failed image must not block navigation.
+          }
+
+          finish();
+        };
+
         signal.addEventListener("abort", finish, { once: true });
-        image.onload = finish;
+        image.onload = decode;
         image.onerror = finish;
         image.src = src;
+
+        if (image.complete) void decode();
       });
     }
 

@@ -113,8 +113,227 @@ body {
   }
 }
 
+@keyframes chars-old-forward {
+  from {
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    transform: translateY(-100%) scale(1.5);
+  }
+}
+
+@keyframes chars-new-forward {
+  from {
+    transform: translateY(100%) scale(1.5);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chars-old-back {
+  from {
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    transform: translateY(100%) scale(1.5);
+  }
+}
+
+@keyframes chars-new-back {
+  from {
+    transform: translateY(-100%) scale(1.5);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes question-background-old-forward {
+  from {
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    transform: translateY(-100%) scale(0.833333);
+  }
+}
+
+@keyframes question-background-new-forward {
+  from {
+    transform: translateY(100%) scale(0.833333);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes question-background-old-back {
+  from {
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    transform: translateY(100%) scale(0.833333);
+  }
+}
+
+@keyframes question-background-new-back {
+  from {
+    transform: translateY(-100%) scale(0.833333);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes quiz-panel-enter {
+  from {
+    transform: translateY(calc(100vh + 30vh));
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes quiz-panel-leave {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(-100vh - 30vh));
+  }
+}
+
+@keyframes quiz-panel-enter-back {
+  from {
+    transform: translateY(calc(-100vh - 30vh));
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes quiz-panel-leave-back {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(100vh + 30vh));
+  }
+}
+
+@media (max-width: 959px) {
+  @keyframes chars-old-forward {
+    from {
+      transform: translateX(0) scale(1);
+    }
+
+    to {
+      transform: translateX(-100%) scale(1.5);
+    }
+  }
+
+  @keyframes chars-new-forward {
+    from {
+      transform: translateX(100%) scale(1.5);
+    }
+
+    to {
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes chars-old-back {
+    from {
+      transform: translateX(0) scale(1);
+    }
+
+    to {
+      transform: translateX(100%) scale(1.5);
+    }
+  }
+
+  @keyframes chars-new-back {
+    from {
+      transform: translateX(-100%) scale(1.5);
+    }
+
+    to {
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes question-background-old-forward {
+    from {
+      transform: translateX(0) scale(1);
+    }
+
+    to {
+      transform: translateX(-100%) scale(0.833333);
+    }
+  }
+
+  @keyframes question-background-new-forward {
+    from {
+      transform: translateX(100%) scale(0.833333);
+    }
+
+    to {
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes question-background-old-back {
+    from {
+      transform: translateX(0) scale(1);
+    }
+
+    to {
+      transform: translateX(100%) scale(0.833333);
+    }
+  }
+
+  @keyframes question-background-new-back {
+    from {
+      transform: translateX(-100%) scale(0.833333);
+    }
+
+    to {
+      transform: translateX(0) scale(1);
+    }
+  }
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(chars),
+::view-transition-new(chars) {
+  transform-origin: left bottom;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(question-background),
+::view-transition-new(question-background) {
+  transform-origin: center;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(quiz-panel),
+::view-transition-new(quiz-panel) {
   mix-blend-mode: normal;
 }
 

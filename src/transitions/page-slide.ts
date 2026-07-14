@@ -1,27 +1,27 @@
-const timing = {
-  duration: "0.55s",
-  easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+export const transitionTiming = {
+  duration: "2s",
+  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
   fillMode: "both",
 };
 
 export const pageSlide = {
   forwards: {
     old: {
-      ...timing,
+      ...transitionTiming,
       name: "page-slide-out-up",
     },
     new: {
-      ...timing,
+      ...transitionTiming,
       name: "page-slide-in-up",
     },
   },
   backwards: {
     old: {
-      ...timing,
+      ...transitionTiming,
       name: "page-slide-out-down",
     },
     new: {
-      ...timing,
+      ...transitionTiming,
       name: "page-slide-in-down",
     },
   },

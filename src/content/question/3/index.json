@@ -2,8 +2,10 @@
   "questionNumber": 3,
   "questionText": "Пора отправиться в сердце Удокана — карьер «Западный». Кстати, знаете, почему наша корпоративная спецодежда включает оранжевый цвет?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.jpg",
-    "mobile": "images/bg-mobile.jpg"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {
