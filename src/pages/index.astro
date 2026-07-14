@@ -4,9 +4,10 @@ import Head from "../components/head.astro";
 import Header from "../components/header.astro";
 import Link from "../components/link.astro";
 import MainBg from "../components/main/main-bg.astro";
+import { pageSlide } from "../transitions/page-slide";
 ---
 
-<html lang="ru">
+<html lang="ru" transition:animate={pageSlide}>
   <Head />
 
   <body>

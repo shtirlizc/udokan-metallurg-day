@@ -3,12 +3,13 @@ import { getCollection } from "astro:content";
 import Head from "../components/head.astro";
 import Header from "../components/header.astro";
 import ResultMessage from "../components/result-message.astro";
+import { pageSlide } from "../transitions/page-slide";
 
 const questions = await getCollection("question");
 const questionsCount = questions.length;
 ---
 
-<html lang="ru">
+<html lang="ru" transition:animate={pageSlide}>
   <Head />
 
   <body>

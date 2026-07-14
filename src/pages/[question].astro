@@ -4,6 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Head from "../components/head.astro";
 import Quiz from "../components/quiz.astro";
+import { pageSlide } from "../transitions/page-slide";
 
 export async function getStaticPaths() {
   const questions = await getCollection("question");
@@ -23,7 +24,7 @@ const { backgrounds } = question.data;
 const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
 ---
 
-<html lang="ru">
+<html lang="ru" transition:animate={pageSlide}>
   <Head />
 
   <body>
