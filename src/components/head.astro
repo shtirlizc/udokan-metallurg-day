@@ -60,23 +60,30 @@ const cover = new URL("/cover.jpg", Astro.site);
       signal: AbortSignal;
     };
 
-    function waitForImage(src: string, signal: AbortSignal) {
+    function waitForImage(image: HTMLImageElement, signal: AbortSignal) {
       return new Promise<void>((resolve) => {
-        const image = new Image();
+        const preload = new Image();
+        const picture = image.closest("picture");
+        const source = picture
+          ? [...picture.querySelectorAll("source")].find(
+              (candidate) =>
+                !candidate.media || window.matchMedia(candidate.media).matches,
+            )
+          : undefined;
         let completed = false;
 
         const finish = () => {
           if (completed) return;
           completed = true;
           signal.removeEventListener("abort", finish);
-          image.onload = null;
-          image.onerror = null;
+          preload.onload = null;
+          preload.onerror = null;
           resolve();
         };
 
         const decode = async () => {
           try {
-            await image.decode();
+            await preload.decode();
           } catch {
             // A failed image must not block navigation.
           }
@@ -85,11 +92,13 @@ const cover = new URL("/cover.jpg", Astro.site);
         };
 
         signal.addEventListener("abort", finish, { once: true });
-        image.onload = decode;
-        image.onerror = finish;
-        image.src = src;
+        preload.onload = decode;
+        preload.onerror = finish;
+        preload.sizes = source?.sizes || image.sizes;
+        preload.srcset = source?.srcset || image.srcset;
+        preload.src = image.src;
 
-        if (image.complete) void decode();
+        if (preload.complete) void decode();
       });
     }
 
@@ -101,7 +110,7 @@ const cover = new URL("/cover.jpg", Astro.site);
         await loadPage();
         await Promise.all(
           [...preparation.newDocument.images].map((image) =>
-            waitForImage(image.src, preparation.signal),
+            waitForImage(image, preparation.signal),
           ),
         );
       };
