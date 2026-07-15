@@ -1,73 +1,39 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import backgroundImg from "../assets/bg.jpg";
-import Head from "../components/head.astro";
+
 import Header from "../components/header.astro";
 import ResultMessage from "../components/result-message.astro";
-import { pageSlide } from "../transitions/page-slide";
+import MainLayout from "../layouts/main.astro";
 
 const questions = await getCollection("question");
 const questionsCount = questions.length;
 ---
 
-<html lang="ru" transition:name="root" transition:animate={pageSlide}>
-  <Head />
-
-  <body>
-    <div class="result">
-      <Image class="result__bg" src={backgroundImg} alt="" />
-      <Header />
-
-      <main class="result__content">
-        <ResultMessage questionsCount={questionsCount} />
-      </main>
-    </div>
-  </body>
-</html>
+<MainLayout>
+  <Header />
+  <main class="content">
+    <ResultMessage questionsCount={questionsCount} />
+  </main>
+  <div></div>
+</MainLayout>
 
 <style>
-  .result {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100dvh;
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space8);
 
-    .result__bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .message {
+      max-width: 473px;
+      border-radius: 24px;
+      background-color: var(--white-0);
+      padding: var(--space16);
+      width: calc(100vw - 16px);
 
-    > :not(.result__bg) {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* desktop */
-    @media (width >= 960px) {
-      height: 100vh;
-    }
-
-    & .result__content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: var(--space8);
-
-      .message {
-        max-width: 473px;
-        border-radius: 24px;
-        background-color: var(--white-0);
-        padding: var(--space16);
-        width: calc(100vw - 16px);
-
-        /* desktop */
-        @media (width >= 960px) {
-          padding: var(--space32);
-        }
+      /* desktop */
+      @media (width >= 960px) {
+        padding: var(--space32);
       }
     }
   }

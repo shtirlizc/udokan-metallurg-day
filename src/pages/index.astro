@@ -1,38 +1,27 @@
 ---
 import Footer from "../components/footer.astro";
-import Head from "../components/head.astro";
 import Header from "../components/header.astro";
 import Link from "../components/link.astro";
-import MainBg from "../components/main/main-bg.astro";
-import { pageSlide } from "../transitions/page-slide";
+import MainLayout from "../layouts/main.astro";
 ---
 
-<html lang="ru" transition:name="root" transition:animate={pageSlide}>
-  <Head />
-
-  <body>
-    <div class="main">
-      <MainBg />
-      <Header />
-
-      <main class="main__content">
-        <h1>«Удокан — это вы»</h1>
-        <p>
-          Мы на «Удокане» отмечаем профессиональный праздник — День металлурга.
-          <br />
-          Один из подарков — эта интерактивная игра. Погрузитесь в атмосферу металлургического
-          производства, пройдите задания, почувствуйте свою причастность к общему
-          делу и получите заслуженное признание. Потому что «Удокан» — это вы!
-        </p>
-        <div class="main__play">
-          <Link href="/1">Играть</Link>
-        </div>
-      </main>
-
-      <Footer />
+<MainLayout>
+  <Header />
+  <main class="content">
+    <h1>«Удокан — это вы»</h1>
+    <p>
+      Мы на «Удокане» отмечаем профессиональный праздник — День металлурга.
+      <br />
+      Один из подарков — эта интерактивная игра. Погрузитесь в атмосферу металлургического
+      производства, пройдите задания, почувствуйте свою причастность к общему делу
+      и получите заслуженное признание. Потому что «Удокан» — это вы!
+    </p>
+    <div class="main__play">
+      <Link href="/1">Играть</Link>
     </div>
-  </body>
-</html>
+  </main>
+  <Footer />
+</MainLayout>
 
 <script>
   function resetQuizStorageOnHomePage() {
@@ -45,40 +34,34 @@ import { pageSlide } from "../transitions/page-slide";
 </script>
 
 <style>
-  .main {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    height: 100dvh;
+  .content {
+    color: var(--color-white);
+    max-width: 714px;
+    margin-inline: auto;
+    padding: 6px var(--space8);
+    z-index: 1;
 
-    & .main__content {
-      color: var(--color-white);
-      max-width: 714px;
-      margin-inline: auto;
-      padding: 6px var(--space8);
-      z-index: 1;
+    /* desktop */
+    @media (width >= 960px) {
+      text-align: center;
+      padding: 0;
+    }
+
+    h1 {
+      font: var(--font-title-1);
+    }
+
+    p {
+      margin-top: 14px;
+      font: var(--font-text-regular);
+    }
+
+    & .main__play {
+      margin-top: 25px;
 
       /* desktop */
       @media (width >= 960px) {
-        text-align: center;
-        padding: 0;
-      }
-
-      h1 {
-        font: var(--font-title-1);
-      }
-
-      p {
-        margin-top: 14px;
-        font: var(--font-text-regular);
-      }
-
-      & .main__play {
-        margin-top: 25px;
-
-        /* desktop */
-        @media (width >= 960px) {
-          margin-top: 34px;
-        }
+        margin-top: 34px;
       }
     }
   }
