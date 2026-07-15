@@ -63,32 +63,29 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
               />
             </picture>
           </div>
-          {
-            desktopChars && mobileChars && (
-              <div
-                class="bg-chars"
-                transition:name="chars"
-                transition:animate={charsTransition}
-              >
-                <picture>
-                  <source
-                    media="(min-width: 960px)"
-                    srcset={desktopChars.src}
-                    width="1440"
-                    height="810"
-                    type="image/webp"
-                  />
-                  <img
-                    src={mobileChars.src}
-                    {...mobileChars.attributes}
-                    alt=""
-                    loading="eager"
-                    decoding="sync"
-                  />
-                </picture>
-              </div>
-            )
-          }
+
+          <div
+            class="bg-chars"
+            transition:name="chars"
+            transition:animate={charsTransition}
+          >
+            <picture>
+              <source
+                media="(min-width: 960px)"
+                srcset={desktopChars.src}
+                width="1440"
+                height="810"
+                type="image/webp"
+              />
+              <img
+                src={mobileChars.src}
+                {...mobileChars.attributes}
+                alt=""
+                loading="eager"
+                decoding="sync"
+              />
+            </picture>
+          </div>
         </div>
       </div>
       <div

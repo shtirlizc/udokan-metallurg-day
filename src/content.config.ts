@@ -15,8 +15,8 @@ const question = defineCollection({
       backgrounds: z.object({
         desktop: image(),
         mobile: image(),
-        charsDesktop: image().optional(),
-        charsMobile: image().optional(),
+        charsDesktop: image(),
+        charsMobile: image(),
       }),
       answers: z.array(
         z.object({

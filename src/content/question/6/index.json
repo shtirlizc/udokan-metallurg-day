@@ -4,7 +4,8 @@
   "backgrounds": {
     "desktop": "images/bg-desktop.png",
     "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png"
+    "charsDesktop": "images/chars-desktop.png",
+    "charsMobile": "./images/chars-mobile.png"
   },
   "answers": [
     {
