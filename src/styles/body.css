@@ -240,7 +240,7 @@ body {
     }
 
     to {
-      transform: translateX(-100%) scale(1.1);
+      transform: translateX(-125%) scale(1.1);
     }
   }
 
