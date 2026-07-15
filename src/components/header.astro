@@ -1,8 +1,14 @@
 ---
 import Logo from "../assets/logo.svg";
+
+interface Props {
+  isCentered?: boolean;
+}
+
+const { isCentered = false } = Astro.props;
 ---
 
-<header class="header">
+<header class:list={[`header`, isCentered && "isCentered"]}>
   <div class="logo">
     <Logo />
   </div>
@@ -13,6 +19,16 @@ import Logo from "../assets/logo.svg";
     position: relative;
     padding: var(--space20) var(--space8) 0;
     z-index: 1;
+
+    &.isCentered {
+      display: flex;
+      justify-content: center;
+
+      /* desktop */
+      @media (width >= 960px) {
+        justify-content: space-between;
+      }
+    }
 
     /* desktop */
     @media (width >= 960px) {
