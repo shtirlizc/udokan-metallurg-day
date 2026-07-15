@@ -120,11 +120,15 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
     }
 
     & .question__body {
-      position: absolute;
-      inset: 0;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      /* desktop */
+      @media (width >= 960px) {
+        position: absolute;
+        inset: 0;
+      }
     }
 
     .bg {
@@ -170,5 +174,11 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
         }
       }
     }
+  }
+
+  .quiz-panel {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 </style>
