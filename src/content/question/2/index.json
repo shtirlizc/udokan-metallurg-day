@@ -2,10 +2,10 @@
   "questionNumber": 2,
   "questionText": "Заглянем на совещание по внедрению новой технологии, которую предложили сотрудники участка N. Потенциально улучшение выгодно, но придётся потрудиться и создать новую инструкцию. Стоит ли игра свеч?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.webp",
-    "mobile": "images/bg-mobile.webp",
-    "charsDesktop": "images/chars-desktop.webp",
-    "charsMobile": "images/chars-mobile.webp"
+    "desktop": "images/bg-desktop.png",
+    "mobile": "images/bg-mobile.png",
+    "charsDesktop": "images/chars-desktop.png",
+    "charsMobile": "images/chars-mobile.png"
   },
   "answers": [
     {

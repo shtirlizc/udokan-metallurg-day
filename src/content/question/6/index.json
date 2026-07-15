@@ -2,8 +2,9 @@
   "questionNumber": 6,
   "questionText": "Вот мы и добрались до обогатительной фабрики и гидрометаллургического завода. Производственные масштабы здесь, конечно, впечатляют, как и объём производства меди. В рамках I-й очереди он составляет…",
   "backgrounds": {
-    "desktop": "images/bg-desktop.jpg",
-    "mobile": "images/bg-mobile.jpg"
+    "desktop": "images/bg-desktop.png",
+    "mobile": "images/bg-mobile.png",
+    "charsDesktop": "images/chars-desktop.png"
   },
   "answers": [
     {

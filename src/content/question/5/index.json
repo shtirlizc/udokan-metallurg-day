@@ -2,8 +2,10 @@
   "questionNumber": 5,
   "questionText": "От корпуса крупного дробления тянется яркая жёлтая «нить», соединяющая карьер и технологический комплекс — это наш конвейер. Ежедневно по этой транспортной артерии десятки тонн руды доставляются на обогатительную фабрику. Сможете назвать протяжённость конвейерной ленты?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.jpg",
-    "mobile": "images/bg-mobile.jpg"
+    "desktop": "images/bg-desktop.png",
+    "mobile": "images/bg-mobile.png",
+    "charsDesktop": "images/chars-desktop.png",
+    "charsMobile": "images/chars-mobile.png"
   },
   "answers": [
     {
