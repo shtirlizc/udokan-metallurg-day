@@ -313,6 +313,46 @@ body {
       transform: translateX(0);
     }
   }
+
+  @keyframes quiz-panel-enter {
+    from {
+      transform: translateX(calc(100vw + 50vw));
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes quiz-panel-leave {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(-100vw - 50vw));
+    }
+  }
+
+  @keyframes quiz-panel-enter-back {
+    from {
+      transform: translateX(calc(-100vw - 50vw));
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes quiz-panel-leave-back {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(100vw + 50vw));
+    }
+  }
 }
 
 ::view-transition-old(root),

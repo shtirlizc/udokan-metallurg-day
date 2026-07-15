@@ -180,5 +180,11 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    border-radius: var(--border-radius12) var(--border-radius12) 0 0;
+
+    /* desktop */
+    @media (width >= 960px) {
+      border-radius: 24px;
+    }
   }
 </style>
