@@ -385,19 +385,6 @@ body {
   mix-blend-mode: normal;
 }
 
-@media (max-width: 959px) {
-  ::view-transition-old(root),
-  ::view-transition-new(root),
-  ::view-transition-old(chars),
-  ::view-transition-new(chars),
-  ::view-transition-old(question-background),
-  ::view-transition-new(question-background),
-  ::view-transition-old(quiz-panel),
-  ::view-transition-new(quiz-panel) {
-    animation-duration: 2s;
-  }
-}
-
 a {
   text-decoration: none;
 }
