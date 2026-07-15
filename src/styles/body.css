@@ -115,12 +115,10 @@ body {
 
 @keyframes chars-old-forward {
   from {
-    opacity: 1;
     transform: translateY(0) scale(1);
   }
 
   to {
-    opacity: 0;
     transform: translateY(-100%) scale(1.1);
   }
 }
@@ -137,12 +135,10 @@ body {
 
 @keyframes chars-old-back {
   from {
-    opacity: 1;
     transform: translateY(0) scale(1);
   }
 
   to {
-    opacity: 0;
     transform: translateY(100%) scale(1.1);
   }
 }
@@ -240,12 +236,10 @@ body {
 @media (max-width: 959px) {
   @keyframes chars-old-forward {
     from {
-      opacity: 1;
       transform: translateX(0) scale(1);
     }
 
     to {
-      opacity: 0;
       transform: translateX(-100%) scale(1.1);
     }
   }
@@ -262,12 +256,10 @@ body {
 
   @keyframes chars-old-back {
     from {
-      opacity: 1;
       transform: translateX(0) scale(1);
     }
 
     to {
-      opacity: 0;
       transform: translateX(100%) scale(1.1);
     }
   }
