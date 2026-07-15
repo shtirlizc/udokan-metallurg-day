@@ -7,9 +7,17 @@ interface Props {
   question: CollectionEntry<"question">;
 }
 
+type QuestionAnswer = CollectionEntry<"question">["data"]["answers"][number];
+
 const { question } = Astro.props;
-const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
-  question.data;
+const {
+  questionNumber,
+  questionText,
+  correctAnswerId,
+  answers,
+  nextPage,
+  isLast = false,
+} = question.data;
 ---
 
 <div class="quiz" data-question-number={questionNumber}>
@@ -22,7 +30,7 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
 
   <ul class="quiz__body">
     {
-      answers.map((answer) => {
+      answers.map((answer: QuestionAnswer) => {
         return (
           <li>
             <Answer answer={answer} correctAnswerId={correctAnswerId} />
@@ -33,7 +41,9 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
   </ul>
 
   <div class="quiz__next">
-    <Link href={`/${nextPage}`} block disabled>Следующий вопрос</Link>
+    <Link href={`/${nextPage}`} block disabled>
+      {isLast ? "Получить результаты" : "Следующий вопрос"}
+    </Link>
   </div>
 </div>
 

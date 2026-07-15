@@ -25,5 +25,6 @@
     }
   ],
   "correctAnswerId": "02",
-  "nextPage": "result"
+  "nextPage": "result",
+  "isLast": true
 }

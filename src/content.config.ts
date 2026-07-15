@@ -27,6 +27,7 @@ const question = defineCollection({
       ),
       correctAnswerId: z.string(),
       nextPage: z.string(),
+      isLast: z.boolean().optional(),
     }),
 });
 
