@@ -316,7 +316,7 @@ body {
 
   @keyframes quiz-panel-enter {
     from {
-      transform: translateX(calc(100vw + 50vw));
+      transform: translateX(100vw);
     }
 
     to {
@@ -330,13 +330,13 @@ body {
     }
 
     to {
-      transform: translateX(calc(-100vw - 50vw));
+      transform: translateX(-100vw);
     }
   }
 
   @keyframes quiz-panel-enter-back {
     from {
-      transform: translateX(calc(-100vw - 50vw));
+      transform: translateX(-100vw);
     }
 
     to {
@@ -350,7 +350,7 @@ body {
     }
 
     to {
-      transform: translateX(calc(100vw + 50vw));
+      transform: translateX(100vw);
     }
   }
 }
