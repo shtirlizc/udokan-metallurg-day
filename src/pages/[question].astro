@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Head from "../components/head.astro";
@@ -25,6 +25,13 @@ interface Props {
 const { question } = Astro.props;
 const { backgrounds } = question.data;
 const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
+const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
+  await Promise.all([
+    getImage({ src: mobile, format: "webp", quality: 75 }),
+    getImage({ src: desktop, format: "webp", quality: 75 }),
+    charsMobile && getImage({ src: charsMobile, format: "webp", quality: 75 }),
+    charsDesktop && getImage({ src: charsDesktop, format: "webp", quality: 75 }),
+  ]);
 ---
 
 <html lang="ru" transition:name="root" transition:animate={pageSlide}>
@@ -38,52 +45,42 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
           transition:name="question-background"
           transition:animate={questionBackgroundTransition}
         >
-          <Image
-            class="bg__image bg__image--mobile"
-            src={mobile}
-            alt=""
-            loading="eager"
-            decoding="sync"
-            format="webp"
-            quality={75}
-          />
-          <Image
-            class="bg__image bg__image--desktop"
-            src={desktop}
-            alt=""
-            loading="eager"
-            decoding="sync"
-            format="webp"
-            quality={75}
-          />
+          <picture class="bg__image">
+            <source
+              media="(min-width: 960px)"
+              srcset={desktopBackground.src}
+              type="image/webp"
+            />
+            <img
+              src={mobileBackground.src}
+              {...mobileBackground.attributes}
+              alt=""
+              loading="eager"
+              decoding="sync"
+            />
+          </picture>
         </div>
         {
-          charsDesktop && charsMobile && (
+          desktopChars && mobileChars && (
             <div
               class="bg-chars"
               transition:name="chars"
               transition:animate={charsTransition}
             >
-              <div class="desktop">
-                <Image
-                  src={charsDesktop}
+              <picture>
+                <source
+                  media="(min-width: 960px)"
+                  srcset={desktopChars.src}
+                  type="image/webp"
+                />
+                <img
+                  src={mobileChars.src}
+                  {...mobileChars.attributes}
                   alt=""
                   loading="eager"
                   decoding="sync"
-                  format="webp"
-                  quality={75}
                 />
-              </div>
-              <div class="mobile">
-                <Image
-                  src={charsMobile}
-                  alt=""
-                  loading="eager"
-                  decoding="sync"
-                  format="webp"
-                  quality={75}
-                />
-              </div>
+              </picture>
             </div>
           )
         }
@@ -138,20 +135,10 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
           inset: 0;
           width: 100%;
           height: 100%;
-          object-fit: cover;
-
-          &--desktop {
-            display: none;
-
-            @media (width >= 960px) {
-              display: block;
-            }
-          }
-
-          &--mobile {
-            @media (width >= 960px) {
-              display: none;
-            }
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
           }
         }
       }
@@ -164,25 +151,10 @@ const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
         height: 100%;
         overflow: hidden;
 
-        .mobile {
+        picture {
           width: 100%;
           height: 100%;
-
-          /* desktop */
-          @media (width >= 960px) {
-            display: none;
-          }
-        }
-
-        .desktop {
-          width: 100%;
-          height: 100%;
-          display: none;
-
-          /* desktop */
-          @media (width >= 960px) {
-            display: block;
-          }
+          display: block;
         }
 
         img {
