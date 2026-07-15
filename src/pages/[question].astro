@@ -27,10 +27,11 @@ const { backgrounds } = question.data;
 const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
 const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
   await Promise.all([
-    getImage({ src: mobile, format: "webp" }),
-    getImage({ src: desktop, format: "webp" }),
-    charsMobile && getImage({ src: charsMobile, format: "webp" }),
-    charsDesktop && getImage({ src: charsDesktop, format: "webp" }),
+    getImage({ src: mobile, format: "webp", quality: 100 }),
+    getImage({ src: desktop, format: "webp", quality: 100 }),
+    charsMobile && getImage({ src: charsMobile, format: "webp", quality: 100 }),
+    charsDesktop &&
+      getImage({ src: charsDesktop, format: "webp", quality: 100 }),
   ]);
 ---
 
