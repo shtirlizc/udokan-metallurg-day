@@ -105,7 +105,7 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
     width: 100%;
     height: 100dvh;
     display: grid;
-    grid-template-rows: 4.7fr 6fr;
+    grid-template-rows: 5.1fr 6fr;
     overflow: hidden;
 
     /* desktop */
@@ -178,12 +178,16 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
     overflow-x: hidden;
     overflow-y: auto;
     border-radius: var(--border-radius12) var(--border-radius12) 0 0;
-    padding: var(--space20) var(--space16);
+    padding: var(--space20) var(--space16) var(--space16);
+    background-color: var(--white-0);
+    margin-top: -15px;
 
     /* desktop */
     @media (width >= 960px) {
       border-radius: 0;
       padding: 0;
+      background-color: transparent;
+      margin-top: 0;
     }
   }
 </style>
