@@ -196,15 +196,9 @@ const { questionNumber, questionText, correctAnswerId, answers, nextPage } =
   .quiz {
     background-color: var(--white-0);
     z-index: 1;
-    padding: var(--space20) var(--space16);
     height: 100%;
     display: flex;
     flex-direction: column;
-
-    /* desktop */
-    @media (width >= 960px) {
-      padding: var(--space32);
-    }
 
     & .quiz__head {
       h2 {
