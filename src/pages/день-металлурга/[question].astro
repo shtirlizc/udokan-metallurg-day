@@ -32,6 +32,17 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
     charsDesktop &&
       getImage({ src: charsDesktop, format: "webp", quality: 100 }),
   ]);
+
+const {
+  loading: _mobileBackgroundLoading,
+  decoding: _mobileBackgroundDecoding,
+  ...mobileBackgroundAttributes
+} = mobileBackground.attributes;
+const {
+  loading: _mobileCharsLoading,
+  decoding: _mobileCharsDecoding,
+  ...mobileCharsAttributes
+} = mobileChars.attributes;
 ---
 
 <!--
@@ -61,10 +72,11 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
               />
               <img
                 src={mobileBackground.src}
-                {...mobileBackground.attributes}
                 alt=""
                 loading="eager"
                 decoding="sync"
+                fetchpriority="high"
+                {...mobileBackgroundAttributes}
               />
             </picture>
           </div>
@@ -84,10 +96,11 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
               />
               <img
                 src={mobileChars.src}
-                {...mobileChars.attributes}
                 alt=""
                 loading="eager"
                 decoding="sync"
+                fetchpriority="high"
+                {...mobileCharsAttributes}
               />
             </picture>
           </div>

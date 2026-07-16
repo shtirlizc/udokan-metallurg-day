@@ -166,12 +166,10 @@ const cover = new URL("/cover.jpg", Astro.site);
       preparation.loader = async () => {
         const startedAt = performance.now();
         await loadPage();
-        const isQuestionToQuestion =
-          isIOS() &&
-          document.querySelector(".question") &&
-          preparation.newDocument.querySelector(".question");
+        const isIOSQuestionExit =
+          isIOS() && document.querySelector(".question");
 
-        if (isQuestionToQuestion) {
+        if (isIOSQuestionExit) {
           addIOSQuestionTransitionStyle(preparation.newDocument);
 
           document
@@ -197,7 +195,7 @@ const cover = new URL("/cover.jpg", Astro.site);
           native: "startViewTransition" in document,
           images: images.length,
           scoped: transitionImages.length > 0,
-          iosQuestionTransition: Boolean(isQuestionToQuestion),
+          iosQuestionExit: Boolean(isIOSQuestionExit),
         });
 
         await Promise.all(
