@@ -377,6 +377,35 @@ body {
   mix-blend-mode: normal;
 }
 
+/*
+ * The result page has no matching named question layers. Without an explicit
+ * old-snapshot animation, the browser falls back to fading those layers out.
+ */
+::view-transition-old(question-background) {
+  animation: question-background-old-forward 1.5s cubic-bezier(0.4, 0, 0.2, 1)
+    both;
+}
+
+::view-transition-old(chars) {
+  animation: chars-old-forward 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+::view-transition-old(quiz-panel) {
+  animation: quiz-panel-leave 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+[data-astro-transition="back"]::view-transition-old(question-background) {
+  animation-name: question-background-old-back;
+}
+
+[data-astro-transition="back"]::view-transition-old(chars) {
+  animation-name: chars-old-back;
+}
+
+[data-astro-transition="back"]::view-transition-old(quiz-panel) {
+  animation-name: quiz-panel-leave-back;
+}
+
 a {
   text-decoration: none;
 }
