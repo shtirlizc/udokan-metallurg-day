@@ -48,6 +48,32 @@ const [mobileBackground, desktopBackground] = await Promise.all([
   />
 </div>
 
+<script>
+  const forest = document.querySelector<HTMLImageElement>(".forest");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (forest && !reducedMotion.matches) {
+    let frame: number | undefined;
+
+    const moveForest = (event: PointerEvent) => {
+      const x = ((event.clientX / window.innerWidth) - 0.5) * -16;
+      const y = ((event.clientY / window.innerHeight) - 0.5) * -10;
+
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        forest.style.setProperty("--forest-x", `${x}px`);
+        forest.style.setProperty("--forest-y", `${y}px`);
+      });
+    };
+
+    window.addEventListener("pointermove", moveForest, { passive: true });
+    window.addEventListener("pointerleave", () => {
+      forest.style.setProperty("--forest-x", "0px");
+      forest.style.setProperty("--forest-y", "0px");
+    });
+  }
+</script>
+
 <style>
   .bg {
     position: absolute;
@@ -111,11 +137,21 @@ const [mobileBackground, desktopBackground] = await Promise.all([
       width: 100%;
       height: auto;
       display: none;
+      transform: translate(var(--forest-x, 0), var(--forest-y, 0)) scale(1.025);
+      transition: transform 300ms ease-out;
+      will-change: transform;
 
       /* desktop */
       @media (width >= 960px) {
         display: block;
       }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg .forest {
+      transform: none;
+      transition: none;
     }
   }
 
