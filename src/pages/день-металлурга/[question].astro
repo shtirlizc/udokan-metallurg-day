@@ -35,11 +35,15 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
   ]);
 ---
 
-<html lang="ru" transition:name="root" transition:animate={pageSlide}>
+<html lang="ru">
   <Head />
 
   <body>
-    <div class="question">
+    <div
+      class="question"
+      transition:name="page-content"
+      transition:animate={pageSlide}
+    >
       <div class="question__body">
         <div class="bg">
           <div

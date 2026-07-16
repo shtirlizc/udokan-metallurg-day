@@ -69,6 +69,30 @@ const { questionsCount } = Astro.props;
   function initResultMessage(resultMessage: HTMLElement) {
     const questionsCount = Number(resultMessage.dataset.questionsCount);
     const savedResult = sessionStorage.getItem("udokan_quiz");
+    const restartLink = resultMessage.querySelector<HTMLAnchorElement>("a");
+
+    restartLink?.addEventListener("click", (event) => {
+      if (resultMessage.classList.contains("is-leaving")) return;
+
+      event.preventDefault();
+      resultMessage.classList.add("is-leaving");
+
+      let navigated = false;
+      let fallback: number | undefined;
+      const onTransitionEnd = (transitionEvent: TransitionEvent) => {
+        if (transitionEvent.propertyName === "opacity") restart();
+      };
+      const restart = () => {
+        if (navigated) return;
+        navigated = true;
+        if (fallback) clearTimeout(fallback);
+        resultMessage.removeEventListener("transitionend", onTransitionEnd);
+        navigate(restartLink.href);
+      };
+
+      resultMessage.addEventListener("transitionend", onTransitionEnd);
+      fallback = window.setTimeout(restart, 500);
+    });
 
     if (!Number.isFinite(questionsCount) || questionsCount <= 0) {
       goHome();
@@ -143,29 +167,37 @@ const { questionsCount } = Astro.props;
         legendEl.textContent = legendText;
         messageEl.textContent = message;
 
+        const revealDelay = document.documentElement.hasAttribute(
+          "data-astro-transition",
+        )
+          ? 1_500
+          : 0;
+
         setTimeout(() => {
-          const correctIcons = icons.slice(0, correctAnswersCount);
+          resultMessage.showPopover();
 
-          gsap.set(icons, { opacity: 0.5, scale: 1 });
-          gsap.to(correctIcons, {
-            keyframes: [
-              {
-                opacity: 1,
-                scale: 1.3,
-                duration: 0.25,
-                ease: "back.out(2)",
-              },
-              {
-                scale: 1,
-                duration: 0.2,
-                ease: "power2.out",
-              },
-            ],
-            stagger: 0.1,
-          });
-        }, 300);
+          setTimeout(() => {
+            const correctIcons = icons.slice(0, correctAnswersCount);
 
-        resultMessage.showPopover();
+            gsap.set(icons, { opacity: 0.5, scale: 1 });
+            gsap.to(correctIcons, {
+              keyframes: [
+                {
+                  opacity: 1,
+                  scale: 1.3,
+                  duration: 0.25,
+                  ease: "back.out(2)",
+                },
+                {
+                  scale: 1,
+                  duration: 0.2,
+                  ease: "power2.out",
+                },
+              ],
+              stagger: 0.1,
+            });
+          }, 300);
+        }, revealDelay);
       }
     }
   }
@@ -195,6 +227,11 @@ const { questionsCount } = Astro.props;
     &:popover-open {
       opacity: 1;
       transform: scale(1);
+    }
+
+    &:popover-open.is-leaving {
+      opacity: 0;
+      transform: scale(0.75);
     }
 
     /* desktop */
