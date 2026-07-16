@@ -119,13 +119,13 @@ body {
   }
 
   to {
-    transform: translateY(-100%) scale(1.1);
+    transform: translateY(-100%) scale(1.2);
   }
 }
 
 @keyframes chars-new-forward {
   from {
-    transform: translateY(100%) scale(1.1);
+    transform: translateY(100%) scale(1.2);
   }
 
   to {
@@ -139,13 +139,13 @@ body {
   }
 
   to {
-    transform: translateY(100%) scale(1.1);
+    transform: translateY(100%) scale(1.2);
   }
 }
 
 @keyframes chars-new-back {
   from {
-    transform: translateY(-100%) scale(1.1);
+    transform: translateY(-100%) scale(1.2);
   }
 
   to {
@@ -155,41 +155,41 @@ body {
 
 @keyframes question-background-old-forward {
   from {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   to {
-    transform: translateY(-100%);
+    transform: translateY(-100%) scale(1.1);
   }
 }
 
 @keyframes question-background-new-forward {
   from {
-    transform: translateY(100%);
+    transform: translateY(100%) scale(1.1);
   }
 
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes question-background-old-back {
   from {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   to {
-    transform: translateY(100%);
+    transform: translateY(100%) scale(1.1);
   }
 }
 
 @keyframes question-background-new-back {
   from {
-    transform: translateY(-100%);
+    transform: translateY(-100%) scale(1.1);
   }
 
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -240,13 +240,13 @@ body {
     }
 
     to {
-      transform: translateX(-125%) scale(1.1);
+      transform: translateX(-125%) scale(1.2);
     }
   }
 
   @keyframes chars-new-forward {
     from {
-      transform: translateX(100%) scale(1.1);
+      transform: translateX(100%) scale(1.2);
     }
 
     to {
@@ -260,13 +260,13 @@ body {
     }
 
     to {
-      transform: translateX(100%) scale(1.1);
+      transform: translateX(100%) scale(1.2);
     }
   }
 
   @keyframes chars-new-back {
     from {
-      transform: translateX(-100%) scale(1.1);
+      transform: translateX(-100%) scale(1.2);
     }
 
     to {
@@ -276,41 +276,41 @@ body {
 
   @keyframes question-background-old-forward {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scale(1);
     }
 
     to {
-      transform: translateX(-100%);
+      transform: translateX(-100%) scale(1.1);
     }
   }
 
   @keyframes question-background-new-forward {
     from {
-      transform: translateX(100%);
+      transform: translateX(100%) scale(1.1);
     }
 
     to {
-      transform: translateX(0);
+      transform: translateX(0) scale(1);
     }
   }
 
   @keyframes question-background-old-back {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scale(1);
     }
 
     to {
-      transform: translateX(100%);
+      transform: translateX(100%) scale(1.1);
     }
   }
 
   @keyframes question-background-new-back {
     from {
-      transform: translateX(-100%);
+      transform: translateX(-100%) scale(1.1);
     }
 
     to {
-      transform: translateX(0);
+      transform: translateX(0) scale(1);
     }
   }
 
