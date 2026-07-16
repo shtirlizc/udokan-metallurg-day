@@ -82,7 +82,7 @@ const {
         saveToStorage(questionNumber, answerType);
         disableAnswerButtons(answers);
         activateNextLink(nextLink);
-        showComment(answer);
+        showComment(answer).eventCallback("onComplete", scrollToPageBottom);
         answerAnimation(answerType, answer);
       });
     });
@@ -126,11 +126,24 @@ const {
     nextLink.classList.remove("disabled");
   }
 
+  function scrollToPageBottom() {
+    if (!window.matchMedia("(max-width: 959px)").matches) return;
+
+    requestAnimationFrame(() => {
+      const scrollContainer = document.querySelector<HTMLElement>(".question");
+
+      scrollContainer?.scrollTo({
+        top: scrollContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    });
+  }
+
   function showComment(answer: HTMLButtonElement) {
     const comment = answer.querySelector(".answer__comment");
 
     const tl = gsap.timeline();
-    tl.set(comment, {
+    return tl.set(comment, {
       display: "block",
       height: 0,
       opacity: 0,
