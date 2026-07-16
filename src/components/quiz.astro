@@ -49,18 +49,28 @@ const {
 
 <script>
   import { gsap } from "gsap";
+  import { navigate } from "astro:transitions/client";
 
   type AnswerType = "success" | "fail";
 
   function initQuiz() {
     const quiz = document.querySelector<HTMLElement>(".quiz");
 
-    if (!quiz || quiz.dataset.initialized === "true") return;
+    if (!quiz) return;
 
     const questionNumber = quiz.dataset.questionNumber;
     const nextLink = quiz.querySelector<HTMLAnchorElement>("a");
 
     if (!nextLink || !questionNumber) return;
+
+    // On browser back/forward Astro can preserve the previous DOM, so this
+    // check must run before the initialization guard on every page load.
+    if (hasSavedAnswer(questionNumber)) {
+      navigate(nextLink.href, { history: "replace" });
+      return;
+    }
+
+    if (quiz.dataset.initialized === "true") return;
 
     quiz.dataset.initialized = "true";
 
@@ -107,6 +117,25 @@ const {
   }
 
   document.addEventListener("astro:page-load", initQuiz);
+
+  function hasSavedAnswer(questionId: string) {
+    const savedAnswers = sessionStorage.getItem("udokan_quiz");
+
+    if (!savedAnswers) return false;
+
+    try {
+      const answers: unknown = JSON.parse(savedAnswers);
+
+      return (
+        answers !== null &&
+        typeof answers === "object" &&
+        !Array.isArray(answers) &&
+        Object.hasOwn(answers, questionId)
+      );
+    } catch {
+      return false;
+    }
+  }
 
   function saveToStorage(questionId: string, answerType: AnswerType) {
     const KEY = "udokan_quiz";
