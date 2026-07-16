@@ -5,7 +5,6 @@ import { getCollection } from "astro:content";
 import Head from "../../components/head.astro";
 import Quiz from "../../components/quiz.astro";
 import { charsTransition } from "../../transitions/chars";
-import { pageSlide } from "../../transitions/page-slide";
 import { questionBackgroundTransition } from "../../transitions/question-background";
 import { quizPanelTransition } from "../../transitions/quiz-panel";
 
@@ -35,15 +34,16 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
   ]);
 ---
 
+<!--
+  The question scene owns three independently animated View Transition layers.
+  Do not also snapshot this wrapper: on Safari that creates an additional
+  full-viewport old snapshot and the first outgoing scene can be dropped.
+-->
 <html lang="ru">
   <Head />
 
   <body>
-    <div
-      class="question"
-      transition:name="page-content"
-      transition:animate={pageSlide}
-    >
+    <div class="question">
       <div class="question__body">
         <div class="bg">
           <div
@@ -51,7 +51,7 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
             transition:name="question-background"
             transition:animate={questionBackgroundTransition}
           >
-            <picture class="bg__image">
+            <picture class="bg__image" data-transition-image>
               <source
                 media="(min-width: 960px)"
                 srcset={desktopBackground.src}
@@ -74,7 +74,7 @@ const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
             transition:name="chars"
             transition:animate={charsTransition}
           >
-            <picture>
+            <picture data-transition-image>
               <source
                 media="(min-width: 960px)"
                 srcset={desktopChars.src}

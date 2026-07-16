@@ -61,6 +61,15 @@ const cover = new URL("/cover.jpg", Astro.site);
     };
 
     const imageLoadTimeout = 15_000;
+    const transitionImageSelector = "[data-transition-image] img";
+    const debugTransitions = new URLSearchParams(location.search).has(
+      "debug-transitions",
+    );
+
+    function debugTransition(event: string, detail?: unknown) {
+      if (!debugTransitions) return;
+      console.debug(`[view-transition] ${event}`, detail ?? "");
+    }
 
     function waitForImage(image: HTMLImageElement, signal: AbortSignal) {
       return new Promise<void>((resolve) => {
@@ -120,13 +129,41 @@ const cover = new URL("/cover.jpg", Astro.site);
       const loadPage = preparation.loader;
 
       preparation.loader = async () => {
+        const startedAt = performance.now();
         await loadPage();
-        await Promise.all(
-          [...preparation.newDocument.images].map((image) =>
-            waitForImage(image, preparation.signal),
+        const transitionImages = [
+          ...preparation.newDocument.querySelectorAll<HTMLImageElement>(
+            transitionImageSelector,
           ),
+        ];
+        const images =
+          transitionImages.length > 0
+            ? transitionImages
+            : [...preparation.newDocument.images];
+
+        debugTransition("prepared", {
+          native: "startViewTransition" in document,
+          images: images.length,
+          scoped: transitionImages.length > 0,
+        });
+
+        await Promise.all(
+          images.map((image) => waitForImage(image, preparation.signal)),
         );
+
+        debugTransition("images-ready", {
+          duration: Math.round(performance.now() - startedAt),
+          aborted: preparation.signal.aborted,
+        });
       };
+    });
+
+    document.addEventListener("astro:before-swap", () => {
+      debugTransition("before-swap");
+    });
+
+    document.addEventListener("astro:after-swap", () => {
+      debugTransition("after-swap");
     });
   </script>
   <ClientRouter />

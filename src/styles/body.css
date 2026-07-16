@@ -378,6 +378,15 @@ body {
 }
 
 /*
+ * Question pages deliberately have no page-content layer, so the landing page
+ * has no matching new snapshot when navigation starts the quiz. Keep its
+ * outgoing slide explicit instead of falling back to the browser fade.
+ */
+::view-transition-old(page-content) {
+  animation: page-slide-out-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/*
  * The result page has no matching named question layers. Without an explicit
  * old-snapshot animation, the browser falls back to fading those layers out.
  */
@@ -396,6 +405,10 @@ body {
 
 [data-astro-transition="back"]::view-transition-old(question-background) {
   animation-name: question-background-old-back;
+}
+
+[data-astro-transition="back"]::view-transition-old(page-content) {
+  animation-name: page-slide-out-down;
 }
 
 [data-astro-transition="back"]::view-transition-old(chars) {
