@@ -80,6 +80,26 @@ const cover = new URL("/cover.jpg", Astro.site);
       console.debug(`[view-transition] ${event}`, detail ?? "");
     }
 
+    function addIOSQuestionTransitionStyle(newDocument: Document) {
+      const style = newDocument.createElement("style");
+      style.dataset.iosQuestionTransitionStyle = "true";
+      style.textContent = `
+        ::view-transition-old(root) {
+          animation: page-slide-out-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+        }
+
+        ::view-transition-new(root) {
+          animation: none !important;
+          opacity: 0 !important;
+        }
+
+        [data-astro-transition="back"]::view-transition-old(root) {
+          animation-name: page-slide-out-down !important;
+        }
+      `;
+      newDocument.head.append(style);
+    }
+
     function waitForImage(image: HTMLImageElement, signal: AbortSignal) {
       return new Promise<void>((resolve) => {
         const preload = new Image();
@@ -138,34 +158,31 @@ const cover = new URL("/cover.jpg", Astro.site);
       const loadPage = preparation.loader;
       debugNavigation = isTransitionDebugEnabled();
 
-      const isQuestionToQuestion =
-        isIOS() &&
-        document.querySelector(".question") &&
-        preparation.newDocument.querySelector(".question");
-
-      if (isQuestionToQuestion) {
-        document.documentElement.dataset.iosQuestionTransition = "true";
-        preparation.newDocument.documentElement.dataset.iosQuestionTransition =
-          "true";
-
-        document
-          .querySelectorAll<HTMLElement>(
-            ".question [data-astro-transition-scope]",
-          )
-          .forEach((layer) => {
-            layer.style.viewTransitionName = "none";
-          });
-      }
-
       debugTransition("navigation-start", {
         from: location.pathname,
         native: "startViewTransition" in document,
-        iosQuestionTransition: Boolean(isQuestionToQuestion),
       });
 
       preparation.loader = async () => {
         const startedAt = performance.now();
         await loadPage();
+        const isQuestionToQuestion =
+          isIOS() &&
+          document.querySelector(".question") &&
+          preparation.newDocument.querySelector(".question");
+
+        if (isQuestionToQuestion) {
+          addIOSQuestionTransitionStyle(preparation.newDocument);
+
+          document
+            .querySelectorAll<HTMLElement>(
+              ".question [data-astro-transition-scope]",
+            )
+            .forEach((layer) => {
+              layer.style.viewTransitionName = "none";
+            });
+        }
+
         const transitionImages = [
           ...preparation.newDocument.querySelectorAll<HTMLImageElement>(
             transitionImageSelector,
@@ -180,6 +197,7 @@ const cover = new URL("/cover.jpg", Astro.site);
           native: "startViewTransition" in document,
           images: images.length,
           scoped: transitionImages.length > 0,
+          iosQuestionTransition: Boolean(isQuestionToQuestion),
         });
 
         await Promise.all(
@@ -216,7 +234,9 @@ const cover = new URL("/cover.jpg", Astro.site);
           eventName === "animationend" &&
           animation.pseudoElement === "::view-transition-old(root)"
         ) {
-          document.documentElement.removeAttribute("data-ios-question-transition");
+          document
+            .querySelector(`style[data-ios-question-transition-style]`)
+            ?.remove();
         }
       });
     }
