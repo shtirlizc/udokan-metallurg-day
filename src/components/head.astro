@@ -62,12 +62,14 @@ const cover = new URL("/cover.jpg", Astro.site);
 
     const imageLoadTimeout = 15_000;
     const transitionImageSelector = "[data-transition-image] img";
-    const debugTransitions = new URLSearchParams(location.search).has(
-      "debug-transitions",
-    );
+    let debugNavigation = false;
+
+    function isTransitionDebugEnabled() {
+      return new URLSearchParams(location.search).has("debug-transitions");
+    }
 
     function debugTransition(event: string, detail?: unknown) {
-      if (!debugTransitions) return;
+      if (!debugNavigation) return;
       console.debug(`[view-transition] ${event}`, detail ?? "");
     }
 
@@ -127,6 +129,12 @@ const cover = new URL("/cover.jpg", Astro.site);
     document.addEventListener("astro:before-preparation", (event) => {
       const preparation = event as PreparationEvent;
       const loadPage = preparation.loader;
+      debugNavigation = isTransitionDebugEnabled();
+
+      debugTransition("navigation-start", {
+        from: location.pathname,
+        native: "startViewTransition" in document,
+      });
 
       preparation.loader = async () => {
         const startedAt = performance.now();
