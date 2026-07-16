@@ -62,22 +62,12 @@ const cover = new URL("/cover.jpg", Astro.site);
 
     const imageLoadTimeout = 15_000;
     const transitionImageSelector = "[data-transition-image] img";
-    let debugNavigation = false;
-
-    function isTransitionDebugEnabled() {
-      return new URLSearchParams(location.search).has("debug-transitions");
-    }
 
     function isIOS() {
       return (
         /iP(ad|hone|od)/.test(navigator.userAgent) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
       );
-    }
-
-    function debugTransition(event: string, detail?: unknown) {
-      if (!debugNavigation) return;
-      console.debug(`[view-transition] ${event}`, detail ?? "");
     }
 
     function addIOSQuestionTransitionStyle(newDocument: Document) {
@@ -156,25 +146,20 @@ const cover = new URL("/cover.jpg", Astro.site);
     document.addEventListener("astro:before-preparation", (event) => {
       const preparation = event as PreparationEvent;
       const loadPage = preparation.loader;
-      debugNavigation = isTransitionDebugEnabled();
-
-      debugTransition("navigation-start", {
-        from: location.pathname,
-        native: "startViewTransition" in document,
-      });
 
       preparation.loader = async () => {
-        const startedAt = performance.now();
         await loadPage();
-        const isIOSQuestionExit =
-          isIOS() && document.querySelector(".question");
+        const isIOSSceneExit =
+          isIOS() &&
+          (document.querySelector(".question") ||
+            document.querySelector("#result-message"));
 
-        if (isIOSQuestionExit) {
+        if (isIOSSceneExit) {
           addIOSQuestionTransitionStyle(preparation.newDocument);
 
           document
             .querySelectorAll<HTMLElement>(
-              ".question [data-astro-transition-scope]",
+              ".question [data-astro-transition-scope], .main [data-astro-transition-scope]",
             )
             .forEach((layer) => {
               layer.style.viewTransitionName = "none";
@@ -191,53 +176,21 @@ const cover = new URL("/cover.jpg", Astro.site);
             ? transitionImages
             : [...preparation.newDocument.images];
 
-        debugTransition("prepared", {
-          native: "startViewTransition" in document,
-          images: images.length,
-          scoped: transitionImages.length > 0,
-          iosQuestionExit: Boolean(isIOSQuestionExit),
-        });
-
         await Promise.all(
           images.map((image) => waitForImage(image, preparation.signal)),
         );
-
-        debugTransition("images-ready", {
-          duration: Math.round(performance.now() - startedAt),
-          aborted: preparation.signal.aborted,
-        });
       };
     });
 
-    document.addEventListener("astro:before-swap", () => {
-      debugTransition("before-swap");
+    document.addEventListener("animationend", (event) => {
+      const animation = event as AnimationEvent;
+
+      if (animation.pseudoElement !== "::view-transition-old(root)") return;
+
+      document
+        .querySelector(`style[data-ios-question-transition-style]`)
+        ?.remove();
     });
-
-    document.addEventListener("astro:after-swap", () => {
-      debugTransition("after-swap");
-    });
-
-    for (const eventName of ["animationstart", "animationend", "animationcancel"]) {
-      document.addEventListener(eventName, (event) => {
-        const animation = event as AnimationEvent;
-
-        if (!animation.pseudoElement.startsWith("::view-transition")) return;
-
-        debugTransition(eventName, {
-          animation: animation.animationName,
-          pseudoElement: animation.pseudoElement,
-        });
-
-        if (
-          eventName === "animationend" &&
-          animation.pseudoElement === "::view-transition-old(root)"
-        ) {
-          document
-            .querySelector(`style[data-ios-question-transition-style]`)
-            ?.remove();
-        }
-      });
-    }
   </script>
   <ClientRouter />
 </head>

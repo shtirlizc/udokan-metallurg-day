@@ -72,6 +72,16 @@ const { questionsCount } = Astro.props;
     const restartLink = resultMessage.querySelector<HTMLAnchorElement>("a");
 
     restartLink?.addEventListener("click", (event) => {
+      const isIOS =
+        /iP(ad|hone|od)/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      if (isIOS) {
+        event.preventDefault();
+        navigate(restartLink.href);
+        return;
+      }
+
       if (resultMessage.classList.contains("is-leaving")) return;
 
       event.preventDefault();
