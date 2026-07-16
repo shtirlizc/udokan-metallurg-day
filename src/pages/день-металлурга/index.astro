@@ -25,14 +25,19 @@ import MainLayout from "../../layouts/main.astro";
 
 <script>
   function resetQuizStorageOnHomePage() {
+    const pathname = decodeURIComponent(window.location.pathname).replace(
+      /\/$/,
+      "",
+    );
+
     if (
-      window.location.pathname === "/день-металлурга" ||
-      window.location.pathname === "/день-металлурга/"
+      pathname === "/день-металлурга"
     ) {
       sessionStorage.removeItem("udokan_quiz");
     }
   }
 
+  resetQuizStorageOnHomePage();
   document.addEventListener("astro:page-load", resetQuizStorageOnHomePage);
 </script>
 
