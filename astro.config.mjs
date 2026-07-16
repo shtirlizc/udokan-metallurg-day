@@ -4,6 +4,7 @@ import { defineConfig, fontProviders } from "astro/config";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://udokan-metallurg-day.vercel.app',
+  // site: 'https://udokan.shtirlizc.ru',
   redirects: {
     "/404": "/",
   },
