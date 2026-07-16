@@ -53,24 +53,6 @@ const cover = new URL("/cover.jpg", Astro.site);
     name="twitter:image:alt"
     content="Карьер Удокана с логотипом компании"
   />
-  <!--
-    WebKit can omit old named snapshots after the first client-side navigation.
-    Astro's fallback uses the same transition keyframes without native snapshots.
-  -->
-  <script is:inline>
-    (() => {
-      const isIOS =
-        /iP(ad|hone|od)/.test(navigator.userAgent) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-      if (isIOS) {
-        Object.defineProperty(document, "startViewTransition", {
-          configurable: true,
-          value: undefined,
-        });
-      }
-    })();
-  </script>
   <script>
     type PreparationEvent = Event & {
       loader: () => Promise<void>;
@@ -84,6 +66,13 @@ const cover = new URL("/cover.jpg", Astro.site);
 
     function isTransitionDebugEnabled() {
       return new URLSearchParams(location.search).has("debug-transitions");
+    }
+
+    function isIOS() {
+      return (
+        /iP(ad|hone|od)/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+      );
     }
 
     function debugTransition(event: string, detail?: unknown) {
@@ -149,9 +138,29 @@ const cover = new URL("/cover.jpg", Astro.site);
       const loadPage = preparation.loader;
       debugNavigation = isTransitionDebugEnabled();
 
+      const isQuestionToQuestion =
+        isIOS() &&
+        document.querySelector(".question") &&
+        preparation.newDocument.querySelector(".question");
+
+      if (isQuestionToQuestion) {
+        document.documentElement.dataset.iosQuestionTransition = "true";
+        preparation.newDocument.documentElement.dataset.iosQuestionTransition =
+          "true";
+
+        document
+          .querySelectorAll<HTMLElement>(
+            ".question [data-astro-transition-scope]",
+          )
+          .forEach((layer) => {
+            layer.style.viewTransitionName = "none";
+          });
+      }
+
       debugTransition("navigation-start", {
         from: location.pathname,
         native: "startViewTransition" in document,
+        iosQuestionTransition: Boolean(isQuestionToQuestion),
       });
 
       preparation.loader = async () => {
@@ -202,6 +211,13 @@ const cover = new URL("/cover.jpg", Astro.site);
           animation: animation.animationName,
           pseudoElement: animation.pseudoElement,
         });
+
+        if (
+          eventName === "animationend" &&
+          animation.pseudoElement === "::view-transition-old(root)"
+        ) {
+          document.documentElement.removeAttribute("data-ios-question-transition");
+        }
       });
     }
   </script>

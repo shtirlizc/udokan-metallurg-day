@@ -360,6 +360,20 @@ body {
   mix-blend-mode: normal;
 }
 
+/*
+ * WebKit can omit old named snapshots after a client-side page transition.
+ * On iOS, question-to-question navigation folds the old scene into root and
+ * uses the reliable root snapshot for the outgoing slide.
+ */
+html[data-ios-question-transition]::view-transition-old(root) {
+  animation: page-slide-out-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+html[data-ios-question-transition]::view-transition-new(root) {
+  animation: none;
+  opacity: 0;
+}
+
 ::view-transition-old(chars),
 ::view-transition-new(chars) {
   transform-origin: left bottom;
@@ -408,6 +422,12 @@ body {
 }
 
 [data-astro-transition="back"]::view-transition-old(page-content) {
+  animation-name: page-slide-out-down;
+}
+
+html[data-ios-question-transition][data-astro-transition="back"]::view-transition-old(
+  root
+) {
   animation-name: page-slide-out-down;
 }
 
