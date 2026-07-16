@@ -53,6 +53,24 @@ const cover = new URL("/cover.jpg", Astro.site);
     name="twitter:image:alt"
     content="Карьер Удокана с логотипом компании"
   />
+  <!--
+    WebKit can omit old named snapshots after the first client-side navigation.
+    Astro's fallback uses the same transition keyframes without native snapshots.
+  -->
+  <script is:inline>
+    (() => {
+      const isIOS =
+        /iP(ad|hone|od)/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      if (isIOS) {
+        Object.defineProperty(document, "startViewTransition", {
+          configurable: true,
+          value: undefined,
+        });
+      }
+    })();
+  </script>
   <script>
     type PreparationEvent = Event & {
       loader: () => Promise<void>;
