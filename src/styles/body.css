@@ -119,13 +119,13 @@ body {
   }
 
   to {
-    transform: translateY(-100%) scale(1.2);
+    transform: translateY(-100%) scale(1.1);
   }
 }
 
 @keyframes chars-new-forward {
   from {
-    transform: translateY(100%) scale(1.2);
+    transform: translateY(100%) scale(1.1);
   }
 
   to {
@@ -139,13 +139,13 @@ body {
   }
 
   to {
-    transform: translateY(100%) scale(1.2);
+    transform: translateY(100%) scale(1.1);
   }
 }
 
 @keyframes chars-new-back {
   from {
-    transform: translateY(-100%) scale(1.2);
+    transform: translateY(-100%) scale(1.1);
   }
 
   to {
@@ -159,13 +159,13 @@ body {
   }
 
   to {
-    transform: translateY(-100%) scale(1.1);
+    transform: translateY(-100%) scale(1);
   }
 }
 
 @keyframes question-background-new-forward {
   from {
-    transform: translateY(100%) scale(1.1);
+    transform: translateY(100%) scale(1);
   }
 
   to {
@@ -179,13 +179,13 @@ body {
   }
 
   to {
-    transform: translateY(100%) scale(1.1);
+    transform: translateY(100%) scale(1);
   }
 }
 
 @keyframes question-background-new-back {
   from {
-    transform: translateY(-100%) scale(1.1);
+    transform: translateY(-100%) scale(1);
   }
 
   to {
@@ -240,13 +240,13 @@ body {
     }
 
     to {
-      transform: translateX(-125%) scale(1.2);
+      transform: translateX(-125%) scale(1.1);
     }
   }
 
   @keyframes chars-new-forward {
     from {
-      transform: translateX(100%) scale(1.2);
+      transform: translateX(100%) scale(1.1);
     }
 
     to {
@@ -260,13 +260,13 @@ body {
     }
 
     to {
-      transform: translateX(100%) scale(1.2);
+      transform: translateX(100%) scale(1.1);
     }
   }
 
   @keyframes chars-new-back {
     from {
-      transform: translateX(-100%) scale(1.2);
+      transform: translateX(-100%) scale(1.1);
     }
 
     to {
@@ -280,13 +280,13 @@ body {
     }
 
     to {
-      transform: translateX(-100%) scale(1.1);
+      transform: translateX(-100%) scale(1);
     }
   }
 
   @keyframes question-background-new-forward {
     from {
-      transform: translateX(100%) scale(1.1);
+      transform: translateX(100%) scale(1);
     }
 
     to {
@@ -300,13 +300,13 @@ body {
     }
 
     to {
-      transform: translateX(100%) scale(1.1);
+      transform: translateX(100%) scale(1);
     }
   }
 
   @keyframes question-background-new-back {
     from {
-      transform: translateX(-100%) scale(1.1);
+      transform: translateX(-100%) scale(1);
     }
 
     to {
