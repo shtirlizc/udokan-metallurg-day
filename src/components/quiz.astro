@@ -41,7 +41,7 @@ const {
   </ul>
 
   <div class="quiz__next">
-    <Link href={`/${nextPage}`} block disabled>
+    <Link href={`/день-металлурга/${nextPage}`} block disabled>
       {isLast ? "Получить результаты" : "Следующий вопрос"}
     </Link>
   </div>
@@ -143,17 +143,19 @@ const {
     const comment = answer.querySelector(".answer__comment");
 
     const tl = gsap.timeline();
-    return tl.set(comment, {
-      display: "block",
-      height: 0,
-      opacity: 0,
-      overflow: "hidden",
-    }).to(comment, {
-      height: "auto",
-      opacity: 1,
-      duration: 0.4,
-      ease: "back.out",
-    });
+    return tl
+      .set(comment, {
+        display: "block",
+        height: 0,
+        opacity: 0,
+        overflow: "hidden",
+      })
+      .to(comment, {
+        height: "auto",
+        opacity: 1,
+        duration: 0.4,
+        ease: "back.out",
+      });
   }
 
   function answerAnimation(answerType: AnswerType, answer: HTMLButtonElement) {

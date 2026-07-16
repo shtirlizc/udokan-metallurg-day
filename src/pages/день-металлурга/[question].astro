@@ -2,12 +2,12 @@
 import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import Head from "../components/head.astro";
-import Quiz from "../components/quiz.astro";
-import { charsTransition } from "../transitions/chars";
-import { pageSlide } from "../transitions/page-slide";
-import { questionBackgroundTransition } from "../transitions/question-background";
-import { quizPanelTransition } from "../transitions/quiz-panel";
+import Head from "../../components/head.astro";
+import Quiz from "../../components/quiz.astro";
+import { charsTransition } from "../../transitions/chars";
+import { pageSlide } from "../../transitions/page-slide";
+import { questionBackgroundTransition } from "../../transitions/question-background";
+import { quizPanelTransition } from "../../transitions/quiz-panel";
 
 export async function getStaticPaths() {
   const questions = await getCollection("question");
