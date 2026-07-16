@@ -152,7 +152,8 @@ const cover = new URL("/cover.jpg", Astro.site);
         const isIOSSceneExit =
           isIOS() &&
           (document.querySelector(".question") ||
-            document.querySelector("#result-message"));
+            document.querySelector("#result-message") ||
+            document.querySelector(".main"));
 
         if (isIOSSceneExit) {
           addIOSQuestionTransitionStyle(preparation.newDocument);
