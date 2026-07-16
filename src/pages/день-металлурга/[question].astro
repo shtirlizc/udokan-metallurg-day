@@ -202,6 +202,11 @@ const {
     overflow: hidden;
     margin-top: -15px;
 
+    &.loading {
+      cursor: progress;
+      pointer-events: none;
+    }
+
     /* desktop */
     @media (width >= 960px) {
       height: 100%;

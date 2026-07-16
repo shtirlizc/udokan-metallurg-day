@@ -64,6 +64,24 @@ const {
 
     quiz.dataset.initialized = "true";
 
+    nextLink.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        nextLink.classList.contains("disabled")
+      ) {
+        return;
+      }
+
+      quiz.closest(".quiz-panel")?.classList.add("loading");
+      nextLink.classList.add("loading");
+      nextLink.setAttribute("aria-busy", "true");
+    });
+
     const answers = quiz.querySelectorAll<HTMLButtonElement>("button");
     answers.forEach((answer) => {
       answer.addEventListener("click", () => {

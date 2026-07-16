@@ -13,6 +13,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
   class:list={["button", block && "block", disabled && "disabled"]}
 >
   <span><slot /></span>
+  <span class="button__loading-shine" aria-hidden="true"></span>
 </a>
 
 <style>
@@ -30,7 +31,9 @@ const { href = "", disabled = false, block = false } = Astro.props;
     line-height: 60px;
     padding: 0 89px;
     overflow: hidden;
-    transition: transform var(--transition-short);
+    transition:
+      transform var(--transition-short),
+      color var(--transition-short);
 
     &::before {
       content: "";
@@ -86,14 +89,62 @@ const { href = "", disabled = false, block = false } = Astro.props;
       }
     }
 
+    &.loading {
+      pointer-events: none;
+      cursor: progress;
+      color: rgba(255, 255, 255, 0.5);
+
+      .button__loading-shine {
+        opacity: 1;
+        animation: button-loading-shine 1.4s ease-in-out infinite;
+      }
+    }
+
     span {
       position: relative;
       z-index: 1;
     }
 
+    & .button__loading-shine {
+      position: absolute;
+      z-index: 2;
+      top: -50%;
+      left: 0;
+      width: 28%;
+      height: 200%;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgb(255 255 255 / 0.08) 30%,
+        rgb(255 255 255 / 0.52) 50%,
+        rgb(255 255 255 / 0.08) 70%,
+        transparent
+      );
+      transform: translateX(-180%) skewX(-18deg);
+    }
+
     &.block {
       width: 100%;
       padding: 0 20px;
+    }
+  }
+
+  @keyframes button-loading-shine {
+    from {
+      transform: translateX(-180%) skewX(-18deg);
+    }
+
+    to {
+      transform: translateX(520%) skewX(-18deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button.loading .button__loading-shine {
+      animation: none;
+      transform: translateX(180%) skewX(-18deg);
     }
   }
 </style>
