@@ -159,7 +159,7 @@ const cover = new URL("/cover.jpg", Astro.site);
 
           document
             .querySelectorAll<HTMLElement>(
-              ".question [data-astro-transition-scope], .main [data-astro-transition-scope]",
+              ".question [data-astro-transition-scope], .main[data-astro-transition-scope]",
             )
             .forEach((layer) => {
               layer.style.viewTransitionName = "none";

@@ -13,7 +13,11 @@ import { pageSlide } from "../transitions/page-slide";
       transition:name="page-content"
       transition:animate={pageSlide}
     >
-      <MainBg transition:persist="main-background" />
+      <MainBg
+        transition:name="main-background"
+        transition:animate="none"
+        transition:persist="main-background"
+      />
 
       <slot />
     </div>
