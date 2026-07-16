@@ -173,6 +173,19 @@ const cover = new URL("/cover.jpg", Astro.site);
     document.addEventListener("astro:after-swap", () => {
       debugTransition("after-swap");
     });
+
+    for (const eventName of ["animationstart", "animationend", "animationcancel"]) {
+      document.addEventListener(eventName, (event) => {
+        const animation = event as AnimationEvent;
+
+        if (!animation.pseudoElement.startsWith("::view-transition")) return;
+
+        debugTransition(eventName, {
+          animation: animation.animationName,
+          pseudoElement: animation.pseudoElement,
+        });
+      });
+    }
   </script>
   <ClientRouter />
 </head>
