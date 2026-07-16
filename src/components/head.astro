@@ -60,6 +60,8 @@ const cover = new URL("/cover.jpg", Astro.site);
       signal: AbortSignal;
     };
 
+    const imageLoadTimeout = 15_000;
+
     function waitForImage(image: HTMLImageElement, signal: AbortSignal) {
       return new Promise<void>((resolve) => {
         const preload = new Image();
@@ -71,10 +73,12 @@ const cover = new URL("/cover.jpg", Astro.site);
             )
           : undefined;
         let completed = false;
+        let timeout: ReturnType<typeof setTimeout> | undefined;
 
         const finish = () => {
           if (completed) return;
           completed = true;
+          if (timeout) clearTimeout(timeout);
           signal.removeEventListener("abort", finish);
           preload.onload = null;
           preload.onerror = null;
@@ -94,11 +98,20 @@ const cover = new URL("/cover.jpg", Astro.site);
         signal.addEventListener("abort", finish, { once: true });
         preload.onload = decode;
         preload.onerror = finish;
-        preload.sizes = source?.sizes || image.sizes;
-        preload.srcset = source?.srcset || image.srcset;
-        preload.src = image.src;
+        timeout = setTimeout(finish, imageLoadTimeout);
+
+        if (source) {
+          preload.sizes = source?.sizes || image.sizes;
+          preload.srcset = source?.srcset || image.srcset;
+          preload.src = image.src;
+        } else {
+          preload.sizes = image.sizes;
+          preload.srcset = image.srcset;
+          preload.src = image.currentSrc || image.src;
+        }
 
         if (preload.complete) void decode();
+        if (signal.aborted) finish();
       });
     }
 
