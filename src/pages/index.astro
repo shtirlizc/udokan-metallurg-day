@@ -1,6 +1,74 @@
 ---
-return Astro.redirect(
-  "/%D0%B4%D0%B5%D0%BD%D1%8C-%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D0%BB%D1%83%D1%80%D0%B3%D0%B0",
-  301,
-);
+import Footer from "../components/footer.astro";
+import Header from "../components/header.astro";
+import Link from "../components/link.astro";
+import MainLayout from "../layouts/main.astro";
 ---
+
+<MainLayout>
+  <Header />
+  <main class="content">
+    <h1>«Удокан — это вы</h1>
+    <p>
+      Мы на «Удокане» отмечаем профессиональный праздник — День металлурга.
+      <br />
+      Один из подарков — эта интерактивная игра. Погрузитесь в атмосферу металлургического
+      производства, пройдите задания, почувствуйте свою причастность к общему делу
+      и получите заслуженное признание. Потому что «Удокан» — это вы!
+    </p>
+    <div class="main__play">
+      <Link href="/1">Играть</Link>
+    </div>
+  </main>
+  <Footer />
+</MainLayout>
+
+<script>
+  function resetQuizStorageOnHomePage() {
+    const pathname = decodeURIComponent(window.location.pathname).replace(
+      /\/$/,
+      "",
+    );
+
+    if (pathname === "/день-металлурга") {
+      sessionStorage.removeItem("udokan_quiz");
+    }
+  }
+
+  resetQuizStorageOnHomePage();
+  document.addEventListener("astro:page-load", resetQuizStorageOnHomePage);
+</script>
+
+<style>
+  .content {
+    color: var(--color-white);
+    max-width: 714px;
+    margin-inline: auto;
+    padding: 6px var(--space8);
+    z-index: 1;
+
+    /* desktop */
+    @media (width >= 960px) {
+      text-align: center;
+      padding: 0;
+    }
+
+    h1 {
+      font: var(--font-title-1);
+    }
+
+    p {
+      margin-top: 14px;
+      font: var(--font-text-regular);
+    }
+
+    & .main__play {
+      margin-top: 25px;
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: 34px;
+      }
+    }
+  }
+</style>

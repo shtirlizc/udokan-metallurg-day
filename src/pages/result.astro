@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 
-import Header from "../../components/header.astro";
-import ResultMessage from "../../components/result-message.astro";
-import MainLayout from "../../layouts/main.astro";
+import Header from "../components/header.astro";
+import ResultMessage from "../components/result-message.astro";
+import MainLayout from "../layouts/main.astro";
 
 const questions = await getCollection("question");
 const questionsCount = questions.length;
