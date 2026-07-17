@@ -79,11 +79,10 @@ const cover = new URL("/cover.jpg", Astro.site);
       const rootTransition = isQuestionToQuestion
         ? `
         /*
-         * Keep the root snapshot dimensions fixed on iOS. WebKit can round the
-         * two independently moving snapshot edges to different device pixels.
-         * The incoming scene starts one CSS pixel closer to the viewport, so it
-         * always overlaps the outgoing scene instead of revealing the page
-         * background between them.
+         * WebKit can round the two independently moving snapshot edges to
+         * different device pixels. The incoming scene starts one CSS pixel
+         * closer to the viewport, so it overlaps the outgoing scene instead of
+         * revealing the page background between them.
          */
         @keyframes ios-question-root-out-forward {
           from {
@@ -165,14 +164,6 @@ const cover = new URL("/cover.jpg", Astro.site);
               transform: translateX(0);
             }
           }
-        }
-
-        ::view-transition-group(root) {
-          animation: none !important;
-        }
-
-        ::view-transition-image-pair(root) {
-          isolation: auto !important;
         }
 
         ::view-transition-old(root) {
