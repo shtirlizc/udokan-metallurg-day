@@ -70,12 +70,17 @@ const cover = new URL("/cover.jpg", Astro.site);
       );
     }
 
-    function addIOSQuestionTransitionStyle(newDocument: Document) {
+    function addIOSQuestionTransitionStyle(
+      newDocument: Document,
+      delayRootExit: boolean,
+    ) {
       const style = newDocument.createElement("style");
       style.dataset.iosQuestionTransitionStyle = "true";
+      const animationDelay = delayRootExit ? "75ms" : "0s";
       style.textContent = `
         ::view-transition-old(root) {
           animation: page-slide-out-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+          animation-delay: ${animationDelay} !important;
         }
 
         ::view-transition-new(root) {
@@ -154,9 +159,16 @@ const cover = new URL("/cover.jpg", Astro.site);
           (document.querySelector(".question") ||
             document.querySelector("#result-message") ||
             document.querySelector(".main"));
+        const isIOSQuestionToQuestion =
+          isIOSSceneExit &&
+          document.querySelector(".question") &&
+          preparation.newDocument.querySelector(".question");
 
         if (isIOSSceneExit) {
-          addIOSQuestionTransitionStyle(preparation.newDocument);
+          addIOSQuestionTransitionStyle(
+            preparation.newDocument,
+            Boolean(isIOSQuestionToQuestion),
+          );
 
           document
             .querySelectorAll<HTMLElement>(
