@@ -76,7 +76,7 @@ const cover = new URL("/cover.jpg", Astro.site);
     ) {
       const style = newDocument.createElement("style");
       style.dataset.iosQuestionTransitionStyle = "true";
-      const animationDelay = delayRootExit ? "32ms" : "0s";
+      const animationDelay = delayRootExit ? "48ms" : "0s";
       style.textContent = `
         ::view-transition-old(root) {
           animation: page-slide-out-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
