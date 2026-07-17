@@ -3,6 +3,7 @@ import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Head from "../../components/head.astro";
+import MetrikaNoscript from "../../components/metrika-noscript.astro";
 import Quiz from "../../components/quiz.astro";
 import { charsTransition } from "../../transitions/chars";
 import { questionBackgroundTransition } from "../../transitions/question-background";
@@ -54,6 +55,7 @@ const {
   <Head />
 
   <body>
+    <MetrikaNoscript />
     <div class="question">
       <div class="question__body">
         <div class="bg">
