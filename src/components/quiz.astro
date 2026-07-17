@@ -21,6 +21,7 @@ const {
 ---
 
 <div class="quiz" data-question-number={questionNumber}>
+  <span class="quiz__scroll-cue" aria-hidden="true"></span>
   <div class="quiz__head">
     <h2>Вопрос {questionNumber}</h2>
     <p>
@@ -266,6 +267,7 @@ const {
 
 <style>
   .quiz {
+    position: relative;
     background-color: var(--white-0);
     border-radius: var(--border-radius12) var(--border-radius12) 0 0;
     z-index: 1;
@@ -277,10 +279,52 @@ const {
     display: flex;
     flex-direction: column;
 
+    & .quiz__scroll-cue {
+      position: absolute;
+      top: var(--space8);
+      right: var(--space16);
+      z-index: 1;
+      width: 18px;
+      height: 24px;
+      pointer-events: none;
+      opacity: 0.7;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentcolor;
+        border-bottom: 2px solid currentcolor;
+        transform: rotate(45deg);
+      }
+
+      &::before {
+        top: 3px;
+      }
+
+      &::after {
+        top: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      & .quiz__scroll-cue {
+        animation: quiz-scroll-cue 1.6s ease-in-out infinite;
+        will-change: transform, opacity;
+      }
+    }
+
     /* desktop */
     @media (width >= 960px) {
       border-radius: 24px;
       padding: var(--space32);
+
+      & .quiz__scroll-cue {
+        display: none;
+      }
     }
 
     & .quiz__head {
@@ -317,6 +361,19 @@ const {
     & .quiz__next {
       margin-top: auto;
       margin-bottom: 0;
+    }
+  }
+
+  @keyframes quiz-scroll-cue {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.35;
+    }
+
+    45% {
+      transform: translateY(6px);
+      opacity: 0.85;
     }
   }
 </style>
