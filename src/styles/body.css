@@ -33,11 +33,11 @@ body {
 
 @keyframes page-slide-out-up {
   from {
-    transform: translateY(0);
+    transform: translateY(0) scaleX(1.012);
   }
 
   to {
-    transform: translateY(-100%);
+    transform: translateY(-100%) scaleX(1.012);
   }
 }
 
@@ -53,11 +53,11 @@ body {
 
 @keyframes page-slide-out-down {
   from {
-    transform: translateY(0);
+    transform: translateY(0) scaleX(1.012);
   }
 
   to {
-    transform: translateY(100%);
+    transform: translateY(100%) scaleX(1.012);
   }
 }
 
@@ -74,11 +74,11 @@ body {
 @media (max-width: 959px) {
   @keyframes page-slide-out-up {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scaleX(1.012);
     }
 
     to {
-      transform: translateX(-100%);
+      transform: translateX(-100%) scaleX(1.012);
     }
   }
 
@@ -94,11 +94,11 @@ body {
 
   @keyframes page-slide-out-down {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scaleX(1.012);
     }
 
     to {
-      transform: translateX(100%);
+      transform: translateX(100%) scaleX(1.012);
     }
   }
 
@@ -155,11 +155,11 @@ body {
 
 @keyframes question-background-old-forward {
   from {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scaleX(1.012);
   }
 
   to {
-    transform: translateY(-100%) scale(1);
+    transform: translateY(-100%) scaleX(1.012);
   }
 }
 
@@ -175,11 +175,11 @@ body {
 
 @keyframes question-background-old-back {
   from {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scaleX(1.012);
   }
 
   to {
-    transform: translateY(100%) scale(1);
+    transform: translateY(100%) scaleX(1.012);
   }
 }
 
@@ -205,11 +205,11 @@ body {
 
 @keyframes quiz-panel-leave {
   from {
-    transform: translateY(0);
+    transform: translateY(0) scaleX(1.012);
   }
 
   to {
-    transform: translateY(calc(-100vh - 50vh));
+    transform: translateY(calc(-100vh - 50vh)) scaleX(1.012);
   }
 }
 
@@ -225,11 +225,11 @@ body {
 
 @keyframes quiz-panel-leave-back {
   from {
-    transform: translateY(0);
+    transform: translateY(0) scaleX(1.012);
   }
 
   to {
-    transform: translateY(calc(100vh + 50vh));
+    transform: translateY(calc(100vh + 50vh)) scaleX(1.012);
   }
 }
 
@@ -276,11 +276,11 @@ body {
 
   @keyframes question-background-old-forward {
     from {
-      transform: translateX(0) scale(1);
+      transform: translateX(0) scaleX(1.012);
     }
 
     to {
-      transform: translateX(-100%) scale(1);
+      transform: translateX(-100%) scaleX(1.012);
     }
   }
 
@@ -296,11 +296,11 @@ body {
 
   @keyframes question-background-old-back {
     from {
-      transform: translateX(0) scale(1);
+      transform: translateX(0) scaleX(1.012);
     }
 
     to {
-      transform: translateX(100%) scale(1);
+      transform: translateX(100%) scaleX(1.012);
     }
   }
 
@@ -326,11 +326,11 @@ body {
 
   @keyframes quiz-panel-leave {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scaleX(1.012);
     }
 
     to {
-      transform: translateX(-100vw);
+      transform: translateX(-100vw) scaleX(1.012);
     }
   }
 
@@ -346,11 +346,11 @@ body {
 
   @keyframes quiz-panel-leave-back {
     from {
-      transform: translateX(0);
+      transform: translateX(0) scaleX(1.012);
     }
 
     to {
-      transform: translateX(100vw);
+      transform: translateX(100vw) scaleX(1.012);
     }
   }
 }
