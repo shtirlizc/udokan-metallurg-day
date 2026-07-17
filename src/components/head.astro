@@ -70,122 +70,10 @@ const cover = new URL("/cover.jpg", Astro.site);
       );
     }
 
-    function addIOSQuestionTransitionStyle(
-      newDocument: Document,
-      isQuestionToQuestion: boolean,
-    ) {
+    function addIOSQuestionTransitionStyle(newDocument: Document) {
       const style = newDocument.createElement("style");
       style.dataset.iosQuestionTransitionStyle = "true";
-      const rootTransition = isQuestionToQuestion
-        ? `
-        /*
-         * WebKit can round the two independently moving snapshot edges to
-         * different device pixels. The incoming scene starts one CSS pixel
-         * closer to the viewport, so it overlaps the outgoing scene instead of
-         * revealing the page background between them.
-         */
-        @keyframes ios-question-root-out-forward {
-          from {
-            transform: translateY(0);
-          }
-
-          to {
-            transform: translateY(-100%);
-          }
-        }
-
-        @keyframes ios-question-root-in-forward {
-          from {
-            transform: translateY(calc(100% - 1px));
-          }
-
-          to {
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes ios-question-root-out-back {
-          from {
-            transform: translateY(0);
-          }
-
-          to {
-            transform: translateY(100%);
-          }
-        }
-
-        @keyframes ios-question-root-in-back {
-          from {
-            transform: translateY(calc(-100% + 1px));
-          }
-
-          to {
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 959px) {
-          @keyframes ios-question-root-out-forward {
-            from {
-              transform: translateX(0);
-            }
-
-            to {
-              transform: translateX(-100%);
-            }
-          }
-
-          @keyframes ios-question-root-in-forward {
-            from {
-              transform: translateX(calc(100% - 1px));
-            }
-
-            to {
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes ios-question-root-out-back {
-            from {
-              transform: translateX(0);
-            }
-
-            to {
-              transform: translateX(100%);
-            }
-          }
-
-          @keyframes ios-question-root-in-back {
-            from {
-              transform: translateX(calc(-100% + 1px));
-            }
-
-            to {
-              transform: translateX(0);
-            }
-          }
-        }
-
-        ::view-transition-old(root) {
-          animation: ios-question-root-out-forward 1.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
-          mix-blend-mode: normal !important;
-        }
-
-        ::view-transition-new(root) {
-          animation: ios-question-root-in-forward 1.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
-          mix-blend-mode: normal !important;
-          opacity: 1 !important;
-        }
-
-        [data-astro-transition="back"]::view-transition-old(root) {
-          animation-name: ios-question-root-out-back !important;
-        }
-
-        [data-astro-transition="back"]::view-transition-new(root) {
-          animation-name: ios-question-root-in-back !important;
-        }
-      `
-        : `
+      style.textContent = `
         ::view-transition-old(root) {
           animation: page-slide-out-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
         }
@@ -266,16 +154,9 @@ const cover = new URL("/cover.jpg", Astro.site);
           (document.querySelector(".question") ||
             document.querySelector("#result-message") ||
             document.querySelector(".main"));
-        const isIOSQuestionToQuestion =
-          isIOSSceneExit &&
-          document.querySelector(".question") &&
-          preparation.newDocument.querySelector(".question");
 
         if (isIOSSceneExit) {
-          addIOSQuestionTransitionStyle(
-            preparation.newDocument,
-            Boolean(isIOSQuestionToQuestion),
-          );
+          addIOSQuestionTransitionStyle(preparation.newDocument);
 
           document
             .querySelectorAll<HTMLElement>(
