@@ -1,0 +1,75 @@
+---
+
+---
+
+<div class="hero">
+  <div class="ellipse ellipse-1"></div>
+  <div class="ellipse ellipse-2"></div>
+  <div class="ellipse ellipse-3"></div>
+  <div class="ellipse ellipse-4"></div>
+</div>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-color: #000000;
+
+    /* desktop */
+    @media (width >= 960px) {
+      min-height: 100vh;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(300px);
+    }
+
+    .ellipse {
+      position: absolute;
+      border-radius: 50%;
+
+      &.ellipse-1 {
+        left: -8.333%;
+        bottom: 0;
+        transform: translateY(50%);
+        width: 109.028%;
+        height: 181.459%;
+        background-color: #7b3d26;
+      }
+
+      &.ellipse-2 {
+        left: -5.556%;
+        bottom: 0;
+        transform: translateY(50%);
+        width: 68.681%;
+        height: 122.25%;
+        background-color: #b06c45;
+      }
+
+      &.ellipse-3 {
+        left: -2.778%;
+        bottom: 0;
+        transform: translateY(35%);
+        width: 37.222%;
+        height: 66.255%;
+        background-color: #eeb482;
+      }
+
+      &.ellipse-4 {
+        bottom: 0;
+        left: 5.347%;
+        transform: translateY(50%);
+        width: 28.125%;
+        height: 36.712%;
+        background-color: #fdf9d7;
+      }
+    }
+  }
+</style>
