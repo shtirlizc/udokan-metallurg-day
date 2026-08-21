@@ -1,6 +1,6 @@
 ---
 import Link from "./link.astro";
-import LogoIcon from "../assets/logo-icon.svg";
+import LogoIcon from "../../assets/logo-icon.svg";
 
 interface Props {
   questionsCount: number;
@@ -32,7 +32,7 @@ const { questionsCount } = Astro.props;
     <p class="message__text"></p>
   </div>
 
-  <Link href="/" block>Пройти ещё раз</Link>
+  <Link href="/день-металлурга/" block>Пройти ещё раз</Link>
 </div>
 
 <script>

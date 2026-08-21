@@ -1,8 +1,6 @@
 ---
 import Head from "../components/head.astro";
-import MainBg from "../components/main/main-bg.astro";
-import MetrikaNoscript from "../components/metrika-noscript.astro";
-import { pageSlide } from "../transitions/page-slide";
+import MetrikaNoscript from "../components/metallurgist-day/metrika-noscript.astro";
 ---
 
 <html lang="ru">
@@ -10,26 +8,7 @@ import { pageSlide } from "../transitions/page-slide";
 
   <body>
     <MetrikaNoscript />
-    <div
-      class="main"
-      transition:name="page-content"
-      transition:animate={pageSlide}
-    >
-      <MainBg
-        transition:name="main-background"
-        transition:animate="none"
-        transition:persist="main-background"
-      />
 
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
-
-<style>
-  .main {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    height: 100dvh;
-  }
-</style>

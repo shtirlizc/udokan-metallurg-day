@@ -2,12 +2,12 @@
 import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import Head from "../components/head.astro";
-import Quiz from "../components/quiz.astro";
-import { charsTransition } from "../transitions/chars";
-import { questionBackgroundTransition } from "../transitions/question-background";
-import { quizPanelTransition } from "../transitions/quiz-panel";
-import MetrikaNoscript from "../components/metrika-noscript.astro";
+import Head from "../../components/head.astro";
+import Quiz from "../../components/metallurgist-day/quiz.astro";
+import { charsTransition } from "../../transitions/chars";
+import { questionBackgroundTransition } from "../../transitions/question-background";
+import { quizPanelTransition } from "../../transitions/quiz-panel";
+import MetrikaNoscript from "../../components/metallurgist-day/metrika-noscript.astro";
 
 export async function getStaticPaths() {
   const questions = await getCollection("question");

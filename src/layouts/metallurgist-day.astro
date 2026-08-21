@@ -1,0 +1,22 @@
+---
+import MainBg from "../components/metallurgist-day/main/main-bg.astro";
+import { pageSlide } from "../transitions/page-slide";
+---
+
+<div class="main" transition:name="page-content" transition:animate={pageSlide}>
+  <MainBg
+    transition:name="main-background"
+    transition:animate="none"
+    transition:persist="main-background"
+  />
+
+  <slot />
+</div>
+
+<style>
+  .main {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100dvh;
+  }
+</style>
