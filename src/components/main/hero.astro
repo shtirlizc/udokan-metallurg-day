@@ -1,5 +1,6 @@
 ---
-
+import Logo from "../../assets/logo.svg";
+import LogoLarge from "./assets/logo-large.svg";
 ---
 
 <div class="hero">
@@ -7,6 +8,33 @@
   <div class="ellipse ellipse-2"></div>
   <div class="ellipse ellipse-3"></div>
   <div class="ellipse ellipse-4"></div>
+
+  <header class="hero__head">
+    <Logo />
+  </header>
+
+  <div class="hero__body">
+    <div class="hero__logo">
+      <LogoLarge />
+    </div>
+    <div class="swiper hero__title" aria-hidden="true">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <p class="hero__title-text">Удокан — это вы</p>
+        </div>
+        <div class="swiper-slide">
+          <p class="hero__title-text">Удокан — это вы</p>
+        </div>
+        <div class="swiper-slide">
+          <p class="hero__title-text">Удокан — это вы</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__foot">
+    <p>Поясняющий текст</p>
+  </div>
 </div>
 
 <style>
@@ -18,6 +46,8 @@
     background-repeat: no-repeat;
     overflow: hidden;
     background-color: #000000;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 
     /* desktop */
     @media (width >= 960px) {
@@ -34,6 +64,7 @@
     .ellipse {
       position: absolute;
       border-radius: 50%;
+      pointer-events: none;
 
       &.ellipse-1 {
         left: -8.333%;
@@ -71,5 +102,107 @@
         background-color: #fdf9d7;
       }
     }
+
+    & .hero__head,
+    & .hero__body,
+    & .hero__foot {
+      position: relative;
+      z-index: 1;
+    }
+
+    & .hero__head {
+      padding: var(--space20);
+      text-align: center;
+    }
+
+    & .hero__body {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      & .hero__logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      & .hero__title {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 241px;
+        overflow: hidden;
+
+        .swiper-wrapper {
+          transition-timing-function: linear !important;
+        }
+
+        .swiper-slide {
+          width: max-content;
+        }
+
+        .hero__title-text {
+          display: block;
+          padding-right: 120px;
+          color: transparent;
+          font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+          font-size: 230px;
+          font-weight: 700;
+          line-height: 105%;
+          text-transform: uppercase;
+          white-space: nowrap;
+          background: rgb(215 180 144 / 60%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-stroke: 1px rgb(255 238 217 / 30%);
+        }
+      }
+    }
+
+    & .hero__foot {
+      text-align: center;
+      padding: var(--space48) var(--space20);
+      font: var(--font-text-medium);
+      color: var(--color-white);
+    }
   }
 </style>
+
+<script>
+  import { Swiper } from "swiper";
+  import { Autoplay } from "swiper/modules";
+
+  let heroTitleSwiper: Swiper | undefined;
+
+  const initHeroTitleSwiper = () => {
+    const heroTitle = document.querySelector<HTMLElement>(".hero__title");
+
+    if (!heroTitle || heroTitleSwiper) return;
+
+    heroTitleSwiper = new Swiper(heroTitle, {
+      modules: [Autoplay],
+      slidesPerView: "auto",
+      loop: true,
+      speed: 20000,
+      allowTouchMove: false,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
+      },
+    });
+  };
+
+  const destroyHeroTitleSwiper = () => {
+    if (!heroTitleSwiper) return;
+
+    heroTitleSwiper.destroy(true, true);
+    heroTitleSwiper = undefined;
+  };
+
+  document.addEventListener("astro:page-load", initHeroTitleSwiper);
+  document.addEventListener("astro:before-swap", destroyHeroTitleSwiper);
+</script>
