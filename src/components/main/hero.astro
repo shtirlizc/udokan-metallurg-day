@@ -197,11 +197,12 @@ import HeroTexture from "./assets/hero-texture.jpg";
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, calc(-50% + 18px));
 
         @media (width < 960px) {
           width: 226px;
           height: 260px;
+          transform: translate(-50%, -50%);
 
           & svg {
             display: block;
@@ -293,9 +294,15 @@ import HeroTexture from "./assets/hero-texture.jpg";
 
     & .hero__foot {
       text-align: center;
-      padding: var(--space48) var(--space20);
+      padding: var(--space40) var(--space20);
       font: var(--font-text-medium);
+      font-size: 16px;
       color: var(--color-white);
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding: 52px var(--space20);
+      }
     }
   }
 </style>
