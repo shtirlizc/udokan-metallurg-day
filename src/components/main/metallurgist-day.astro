@@ -2,9 +2,110 @@
 
 ---
 
-<section class="root"></section>
+<section class="root">
+  <h2>
+    День
+    <br />
+    металлурга
+  </h2>
+
+  <div class="tag">Спецпроект</div>
+
+  <a href="/день-металлурга" class="link">День металлурга</a>
+</section>
 
 <style>
   .root {
+    position: relative;
+    aspect-ratio: 960 / 677;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    &:hover {
+      &::before {
+        transform: scale(1);
+      }
+
+      h2 {
+        letter-spacing: 4px;
+      }
+
+      .tag {
+        bottom: var(--space48);
+      }
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("./assets/bg.webp");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.1);
+      transition: transform var(--transition-long) ease-in-out;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(23, 29, 44, 0.3) 50.48%,
+        #171d2c 100%
+      );
+    }
+
+    h2 {
+      position: relative;
+      font-family: var(--font-bebas-neue-cyrillic), sans-serif;
+      font-weight: 700;
+      font-size: 140px;
+      line-height: 90%;
+      text-align: center;
+      text-transform: uppercase;
+      color: var(--color-white);
+      z-index: 1;
+      transition: letter-spacing var(--transition-long) ease-in-out;
+    }
+
+    .tag {
+      position: absolute;
+      bottom: var(--space24);
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 3%;
+      text-align: center;
+      text-transform: uppercase;
+      height: 50px;
+      line-height: 50px;
+      border-radius: 25px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space20);
+      color: #231a1a;
+      background-image: linear-gradient(180deg, #89ddf9 0%, #04a8dd 100%);
+      border: 1px solid #7dd9f6;
+      box-shadow:
+        0 14px 20px 0 #1a223f4d,
+        0 0 74px 0 #09aade4d;
+      z-index: 1;
+      transition: bottom var(--transition-long) ease-in-out;
+    }
+
+    .link {
+      position: absolute;
+      inset: 0;
+      font-size: 0;
+      z-index: 1;
+    }
   }
 </style>

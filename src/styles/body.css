@@ -28,7 +28,6 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100dvh;
-  overflow: hidden;
 }
 
 @keyframes page-slide-out-up {
