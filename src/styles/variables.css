@@ -1,6 +1,6 @@
 :root {
   --font-primary: var(--font-onest);
-  --font-bebas-neue-cyrillic: "Bebas Neue Cyrillic", "Arial Narrow", sans-serif;
+  --font-bebas-neue-cyrillic: "Bebas Neue Cyrillic", "Arial Narrow";
 
   --color-white: #ffffff;
 

@@ -20,13 +20,13 @@ import LogoLarge from "./assets/logo-large.svg";
     <div class="swiper hero__title" aria-hidden="true">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <p class="hero__title-text">Удокан — это вы</p>
+          <p class="hero__title-text">Удокан - это вы</p>
         </div>
         <div class="swiper-slide">
-          <p class="hero__title-text">Удокан — это вы</p>
+          <p class="hero__title-text">Удокан - это вы</p>
         </div>
         <div class="swiper-slide">
-          <p class="hero__title-text">Удокан — это вы</p>
+          <p class="hero__title-text">Удокан - это вы</p>
         </div>
       </div>
     </div>
@@ -136,6 +136,10 @@ import LogoLarge from "./assets/logo-large.svg";
         height: 241px;
         overflow: hidden;
 
+        @media (width >= 960px) {
+          transform: translateY(34.5px);
+        }
+
         .swiper-wrapper {
           transition-timing-function: linear !important;
         }
@@ -146,18 +150,35 @@ import LogoLarge from "./assets/logo-large.svg";
 
         .hero__title-text {
           display: block;
-          padding-right: 120px;
+          position: relative;
+          padding-right: 70px;
           color: transparent;
-          font-family: var(--font-bebas-neue-cyrillic);
+          font-family: var(--font-bebas-neue-cyrillic), sans-serif;
           font-size: 230px;
-          font-weight: 700;
+          font-weight: 400;
           line-height: 105%;
           text-transform: uppercase;
           white-space: nowrap;
-          background: rgb(215 180 144 / 60%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-stroke: 1px rgb(255 238 217 / 30%);
+          background: linear-gradient(
+            to top,
+            rgb(244 222 200 / 32%) 0%,
+            rgb(244 222 200 / 20%) 66%,
+            rgb(244 222 200 / 20%) 100%
+          );
+          backdrop-filter: blur(14px) saturate(95%) brightness(114%) contrast(96%);
+          -webkit-backdrop-filter: blur(14px) saturate(95%) brightness(114%) contrast(96%);
+          -webkit-mask: linear-gradient(#fff 0 0) text;
+          mask: linear-gradient(#fff 0 0) text;
+          -webkit-text-stroke: 1px rgb(255 238 217 / 48%);
+
+          @media (prefers-reduced-transparency: reduce) {
+            color: rgb(230 193 155);
+            background: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            -webkit-mask: none;
+            mask: none;
+          }
         }
       }
     }
