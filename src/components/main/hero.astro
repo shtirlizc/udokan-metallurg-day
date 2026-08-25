@@ -44,7 +44,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
 <style>
   .hero {
     position: relative;
-    min-height: 100dvh;
+    min-height: 100vh;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -52,11 +52,6 @@ import HeroTexture from "./assets/hero-texture.jpg";
     background-color: #110303;
     display: grid;
     grid-template-rows: auto 1fr auto;
-
-    /* desktop */
-    @media (width >= 960px) {
-      min-height: 100vh;
-    }
 
     &::after {
       content: "";
