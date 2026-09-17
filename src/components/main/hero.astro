@@ -3,6 +3,9 @@ import Logo from "../../assets/logo.svg";
 import LogoLarge from "./assets/logo-large.svg";
 import HeroTexture from "./assets/hero-texture.jpg";
 import HeroTitleMask from "./assets/hero-title-mask.svg?url";
+import HeroTitleEdge from "./assets/hero-title-edge.svg?url";
+
+const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
 ---
 
 <section class="hero" style={`--hero-title-mask: url("${HeroTitleMask}")`}>
@@ -31,18 +34,72 @@ import HeroTitleMask from "./assets/hero-title-mask.svg?url";
           <div class="hero__title-mark">
             <span class="hero__title-fill"></span>
             <span class="hero__title-highlight"></span>
+            <svg class="hero__title-edge" viewBox="0 0 1313 241">
+              <use
+                href={heroTitleShapeHref}
+                fill="none"
+                stroke="#35150d"
+                stroke-opacity="0.28"
+                stroke-width="1.15"
+                transform="translate(0.65 0.65)"
+                vector-effect="non-scaling-stroke"></use>
+              <use
+                href={heroTitleShapeHref}
+                fill="none"
+                stroke="#fff3e7"
+                stroke-opacity="0.56"
+                stroke-width="0.75"
+                transform="translate(-0.35 -0.35)"
+                vector-effect="non-scaling-stroke"></use>
+            </svg>
           </div>
         </div>
         <div class="hero__title-item">
           <div class="hero__title-mark">
             <span class="hero__title-fill"></span>
             <span class="hero__title-highlight"></span>
+            <svg class="hero__title-edge" viewBox="0 0 1313 241">
+              <use
+                href={heroTitleShapeHref}
+                fill="none"
+                stroke="#35150d"
+                stroke-opacity="0.28"
+                stroke-width="1.15"
+                transform="translate(0.65 0.65)"
+                vector-effect="non-scaling-stroke"></use>
+              <use
+                href={heroTitleShapeHref}
+                fill="none"
+                stroke="#fff3e7"
+                stroke-opacity="0.56"
+                stroke-width="0.75"
+                transform="translate(-0.35 -0.35)"
+                vector-effect="non-scaling-stroke"></use>
+            </svg>
           </div>
         </div>
         <div class="hero__title-item">
           <div class="hero__title-mark">
             <span class="hero__title-fill"></span>
             <span class="hero__title-highlight"></span>
+            <svg class="hero__title-edge" viewBox="0 0 1313 241">
+              <use
+                href={heroTitleShapeHref}
+                fill="none"
+                stroke="#35150d"
+                stroke-opacity="0.28"
+                stroke-width="1.15"
+                transform="translate(0.65 0.65)"
+                vector-effect="non-scaling-stroke"></use>
+              <use
+                href={heroTitleShapeHref}
+                fill="none"
+                stroke="#fff3e7"
+                stroke-opacity="0.56"
+                stroke-width="0.75"
+                transform="translate(-0.35 -0.35)"
+                vector-effect="non-scaling-stroke"></use>
+            </svg>
           </div>
         </div>
       </div>
@@ -356,6 +413,17 @@ import HeroTitleMask from "./assets/hero-title-mask.svg?url";
               rgb(48 13 6 / 8%) 100%
             );
             mix-blend-mode: soft-light;
+          }
+
+          & .hero__title-edge {
+            position: absolute;
+            z-index: 2;
+            inset: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
           }
 
           @media (prefers-reduced-transparency: reduce) {
