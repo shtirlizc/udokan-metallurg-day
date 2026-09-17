@@ -27,8 +27,8 @@ import charsImg from "./assets/presentation-chars.webp";
 <style>
   .presentation {
     position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
 
     & .presentation__bg {
@@ -79,6 +79,7 @@ import charsImg from "./assets/presentation-chars.webp";
     }
 
     & .presentation__chars {
+      flex-grow: 1;
       position: relative;
       z-index: 1;
       font-size: 0;
