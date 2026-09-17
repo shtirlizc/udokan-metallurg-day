@@ -2,13 +2,16 @@
 import Logo from "../../assets/logo.svg";
 import LogoLarge from "./assets/logo-large.svg";
 import HeroTexture from "./assets/hero-texture.jpg";
+import HeroTitleMask from "./assets/hero-title-mask.svg?url";
 ---
 
-<section class="hero">
-  <div class="ellipse ellipse-1"></div>
-  <div class="ellipse ellipse-2"></div>
-  <div class="ellipse ellipse-3"></div>
-  <div class="ellipse ellipse-4"></div>
+<section class="hero" style={`--hero-title-mask: url("${HeroTitleMask}")`}>
+  <div class="hero__lights" aria-hidden="true">
+    <div class="ellipse ellipse-1"></div>
+    <div class="ellipse ellipse-2"></div>
+    <div class="ellipse ellipse-3"></div>
+    <div class="ellipse ellipse-4"></div>
+  </div>
   <div class="hero__texture" aria-hidden="true">
     <img src={HeroTexture.src} alt="" />
   </div>
@@ -21,16 +24,26 @@ import HeroTexture from "./assets/hero-texture.jpg";
     <div class="hero__logo">
       <LogoLarge />
     </div>
-    <div class="swiper hero__title" aria-hidden="true">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <p class="hero__title-text">Удокан - это вы</p>
+    <div class="hero__title" aria-hidden="true">
+      <span class="hero__title-glass"></span>
+      <div class="hero__title-track">
+        <div class="hero__title-item">
+          <div class="hero__title-mark">
+            <span class="hero__title-fill"></span>
+            <span class="hero__title-highlight"></span>
+          </div>
         </div>
-        <div class="swiper-slide">
-          <p class="hero__title-text">Удокан - это вы</p>
+        <div class="hero__title-item">
+          <div class="hero__title-mark">
+            <span class="hero__title-fill"></span>
+            <span class="hero__title-highlight"></span>
+          </div>
         </div>
-        <div class="swiper-slide">
-          <p class="hero__title-text">Удокан - это вы</p>
+        <div class="hero__title-item">
+          <div class="hero__title-mark">
+            <span class="hero__title-fill"></span>
+            <span class="hero__title-highlight"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -38,8 +51,9 @@ import HeroTexture from "./assets/hero-texture.jpg";
 
   <div class="hero__foot">
     <p>
-      Проект по внедрению Ценностей и Кодекса Удокана, ведь они ценно — это
-      основа всего, что мы делаем.
+      Проект по внедрению Ценностей и Кодекса Удокана, ведь они ценно<br
+        class="hero__foot-break"
+      />— это основа всего, что мы делаем.
     </p>
   </div>
 </section>
@@ -59,55 +73,70 @@ import HeroTexture from "./assets/hero-texture.jpg";
     &::after {
       content: "";
       position: absolute;
+      z-index: 1;
       inset: 0;
-      background: transparent;
+      background: rgb(255 255 255 / 3%);
       backdrop-filter: blur(200px);
+      -webkit-backdrop-filter: blur(200px);
       pointer-events: none;
 
       /* desktop */
       @media (width >= 960px) {
-        backdrop-filter: blur(300px);
+        backdrop-filter: blur(max(13.8889vw, 24.6914vh));
+        -webkit-backdrop-filter: blur(max(13.8889vw, 24.6914vh));
       }
     }
 
-    .ellipse {
+    & .hero__lights {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+
+      /* Keep the 1440x810 Figma light composition and crop it like a cover image. */
+      @media (width >= 960px) {
+        top: 50%;
+        left: 50%;
+        width: max(100%, 177.7778vh);
+        height: auto;
+        aspect-ratio: 16 / 9;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    & .ellipse {
       position: absolute;
       border-radius: 50%;
       pointer-events: none;
 
       &.ellipse-1 {
-        left: -8.333%;
-        bottom: 0;
-        transform: translateY(50%);
+        top: 18.1481%;
+        left: -15.9028%;
         width: 109.028%;
-        height: 181.459%;
+        height: 181.235%;
         background-color: #7b3d26;
       }
 
       &.ellipse-2 {
-        left: -5.556%;
-        bottom: 0;
-        transform: translateY(50%);
+        top: 47.7778%;
+        left: -11.875%;
         width: 68.681%;
-        height: 122.25%;
+        height: 122.099%;
         background-color: #b06c45;
       }
 
       &.ellipse-3 {
-        left: -2.778%;
-        bottom: 0;
-        transform: translateY(35%);
+        top: 63.0864%;
+        left: -4.6528%;
         width: 37.222%;
-        height: 66.255%;
+        height: 66.173%;
         background-color: #eeb482;
       }
 
       &.ellipse-4 {
-        bottom: 0;
+        top: 81.6049%;
         left: 5.347%;
-        transform: translateY(50%);
         width: 28.125%;
-        height: 36.712%;
+        height: 36.667%;
         background-color: #fdf9d7;
       }
     }
@@ -115,6 +144,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
     @media (width < 960px) {
       .ellipse {
         &.ellipse-1 {
+          top: auto;
           left: -160%;
           bottom: 0;
           width: 1570px;
@@ -123,6 +153,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
         }
 
         &.ellipse-2 {
+          top: auto;
           left: -100%;
           bottom: 0;
           width: 989px;
@@ -131,6 +162,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
         }
 
         &.ellipse-3 {
+          top: auto;
           left: -100%;
           bottom: 0;
           width: 536px;
@@ -139,6 +171,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
         }
 
         &.ellipse-4 {
+          top: auto;
           left: -100%;
           bottom: 0;
           width: 405px;
@@ -150,7 +183,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
 
     & .hero__texture {
       position: absolute;
-      z-index: 1;
+      z-index: 2;
       top: 0;
       left: 50%;
       display: block;
@@ -164,11 +197,11 @@ import HeroTexture from "./assets/hero-texture.jpg";
 
       & img {
         position: absolute;
-        top: -0.09%;
-        left: 0;
+        inset: 0;
         width: 100%;
-        height: 143.11%;
+        height: 100%;
         max-width: none;
+        object-fit: cover;
       }
     }
 
@@ -176,7 +209,7 @@ import HeroTexture from "./assets/hero-texture.jpg";
     & .hero__body,
     & .hero__foot {
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
     & .hero__head {
@@ -191,11 +224,16 @@ import HeroTexture from "./assets/hero-texture.jpg";
       align-items: center;
       overflow: hidden;
 
+      @media (width >= 960px) {
+        position: absolute;
+        inset: 0;
+      }
+
       & .hero__logo {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, calc(-50% + 18px));
+        transform: translate(-50%, -50%);
 
         @media (width < 960px) {
           width: 226px;
@@ -211,14 +249,21 @@ import HeroTexture from "./assets/hero-texture.jpg";
       }
 
       & .hero__title {
+        --hero-title-step: 1313px;
+        --hero-title-height: 241px;
+
         position: relative;
         z-index: 1;
         width: 100%;
         height: 241px;
         overflow: hidden;
         pointer-events: none;
+        animation: hero-title-shift 20s linear infinite;
 
         @media (width < 960px) {
+          --hero-title-step: 399.65px;
+          --hero-title-height: 73.35px;
+
           position: absolute;
           top: calc(50% + 14px);
           left: 0;
@@ -227,64 +272,102 @@ import HeroTexture from "./assets/hero-texture.jpg";
         }
 
         @media (width >= 960px) {
-          transform: translateY(34.5px);
+          position: absolute;
+          top: calc(50% + 19.5px);
+          left: 0;
+          transform: translateY(-50%);
         }
 
-        .swiper-wrapper {
-          transition-timing-function: linear !important;
-        }
-
-        .swiper-slide {
-          width: max-content;
-        }
-
-        .hero__title-text {
+        & > .hero__title-glass {
+          position: absolute;
+          z-index: 0;
+          inset: 0;
           display: block;
-          position: relative;
-          padding-right: 70px;
-          color: transparent;
-          font-family: var(--font-bebas-neue-cyrillic), sans-serif;
-          font-size: 230px;
-          font-weight: 700;
-          line-height: 105%;
-          text-transform: uppercase;
-          white-space: nowrap;
           background: linear-gradient(
             to top,
-            rgb(244 222 200 / 32%) 0%,
-            rgb(244 222 200 / 20%) 66%,
-            rgb(244 222 200 / 20%) 100%
+            rgb(215 180 144 / 9%) 0%,
+            rgb(215 180 144 / 2%) 100%
           );
-          backdrop-filter: blur(14px) saturate(95%) brightness(114%)
-            contrast(96%);
-          -webkit-backdrop-filter: blur(14px) saturate(95%) brightness(114%)
-            contrast(96%);
-          -webkit-mask: linear-gradient(#fff 0 0) text;
-          mask: linear-gradient(#fff 0 0) text;
-          -webkit-text-stroke: 1px rgb(255 238 217 / 48%);
+          backdrop-filter: blur(24px) saturate(105%) contrast(98%);
+          mask-image: var(--hero-title-mask);
+          mask-position: var(--hero-title-offset) 0;
+          mask-repeat: repeat-x;
+          mask-size: var(--hero-title-step) var(--hero-title-height);
+          -webkit-backdrop-filter: blur(24px) saturate(105%) contrast(98%);
+          -webkit-mask-image: var(--hero-title-mask);
+          -webkit-mask-position: var(--hero-title-offset) 0;
+          -webkit-mask-repeat: repeat-x;
+          -webkit-mask-size: var(--hero-title-step) var(--hero-title-height);
+        }
 
-          @media (width < 960px) {
-            padding-right: 40px;
-            font-size: 70px;
+        .hero__title-track {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          width: max-content;
+          transform: translateX(var(--hero-title-offset));
+        }
+
+        .hero__title-item {
+          flex: 0 0 var(--hero-title-step);
+          width: var(--hero-title-step);
+          height: var(--hero-title-height);
+        }
+
+        .hero__title-mark {
+          position: relative;
+          width: var(--hero-title-step);
+          height: var(--hero-title-height);
+          pointer-events: none;
+
+          & > span {
+            position: absolute;
+            inset: 0;
+            display: block;
+            mask-image: var(--hero-title-mask);
+            mask-position: 0 0;
+            mask-repeat: no-repeat;
+            mask-size: var(--hero-title-step) var(--hero-title-height);
+            -webkit-mask-image: var(--hero-title-mask);
+            -webkit-mask-position: 0 0;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-size: var(--hero-title-step) var(--hero-title-height);
+            pointer-events: none;
+          }
+
+          & .hero__title-fill {
             background: linear-gradient(
               to top,
-              rgb(215 180 144 / 60%) 16.998%,
+              rgb(215 180 144 / 68%) 16.998%,
               rgb(215 180 144 / 0%) 100%
             );
-            backdrop-filter: blur(14px) saturate(100%) brightness(100%)
-              contrast(100%);
-            -webkit-backdrop-filter: blur(14px) saturate(100%) brightness(100%)
-              contrast(100%);
-            -webkit-text-stroke-color: rgb(255 238 217 / 30%);
+            filter: drop-shadow(1px 0 0 rgb(255 238 217 / 18%))
+              drop-shadow(-1px 0 0 rgb(255 238 217 / 18%))
+              drop-shadow(0 1px 0 rgb(55 15 7 / 10%))
+              drop-shadow(0 -1px 0 rgb(255 246 235 / 14%));
+          }
+
+          & .hero__title-highlight {
+            background: linear-gradient(
+              135deg,
+              rgb(255 248 239 / 8%) 0%,
+              rgb(255 238 217 / 2%) 26%,
+              transparent 50%,
+              rgb(48 13 6 / 8%) 100%
+            );
+            mix-blend-mode: soft-light;
           }
 
           @media (prefers-reduced-transparency: reduce) {
-            color: rgb(230 193 155);
-            background: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            -webkit-mask: none;
-            mask: none;
+            & .hero__title-fill {
+              background: rgb(230 193 155);
+            }
+          }
+        }
+
+        @media (prefers-reduced-transparency: reduce) {
+          & > .hero__title-glass {
+            display: none;
           }
         }
       }
@@ -299,46 +382,35 @@ import HeroTexture from "./assets/hero-texture.jpg";
       max-width: 555px;
       margin-inline: auto;
 
+      & .hero__foot-break {
+        display: none;
+      }
+
       /* desktop */
       @media (width >= 960px) {
-        padding: 52px var(--space20);
+        position: absolute;
+        bottom: 72px;
+        left: 50%;
+        width: 555px;
+        padding: 0;
+        transform: translate(-50%, 100%);
+
+        & .hero__foot-break {
+          display: block;
+        }
       }
     }
   }
+
+  @property --hero-title-offset {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+  }
+
+  @keyframes hero-title-shift {
+    to {
+      --hero-title-offset: calc(0px - var(--hero-title-step));
+    }
+  }
 </style>
-
-<script>
-  import { Swiper } from "swiper";
-  import { Autoplay } from "swiper/modules";
-
-  let heroTitleSwiper: Swiper | undefined;
-
-  const initHeroTitleSwiper = () => {
-    const heroTitle = document.querySelector<HTMLElement>(".hero__title");
-
-    if (!heroTitle || heroTitleSwiper) return;
-
-    heroTitleSwiper = new Swiper(heroTitle, {
-      modules: [Autoplay],
-      slidesPerView: "auto",
-      loop: true,
-      speed: 20000,
-      allowTouchMove: false,
-      autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: false,
-      },
-    });
-  };
-
-  const destroyHeroTitleSwiper = () => {
-    if (!heroTitleSwiper) return;
-
-    heroTitleSwiper.destroy(true, true);
-    heroTitleSwiper = undefined;
-  };
-
-  document.addEventListener("astro:page-load", initHeroTitleSwiper);
-  document.addEventListener("astro:before-swap", destroyHeroTitleSwiper);
-</script>
