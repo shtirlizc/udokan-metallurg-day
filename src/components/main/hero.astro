@@ -134,13 +134,11 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
       inset: 0;
       background: rgb(255 255 255 / 3%);
       backdrop-filter: blur(200px);
-      -webkit-backdrop-filter: blur(200px);
       pointer-events: none;
 
       /* desktop */
       @media (width >= 960px) {
         backdrop-filter: blur(max(13.8889vw, 24.6914vh));
-        -webkit-backdrop-filter: blur(max(13.8889vw, 24.6914vh));
       }
     }
 
@@ -352,7 +350,6 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
           mask-position: var(--hero-title-offset) 0;
           mask-repeat: repeat-x;
           mask-size: var(--hero-title-step) var(--hero-title-height);
-          -webkit-backdrop-filter: blur(24px) saturate(105%) contrast(98%);
           -webkit-mask-image: var(--hero-title-mask);
           -webkit-mask-position: var(--hero-title-offset) 0;
           -webkit-mask-repeat: repeat-x;
