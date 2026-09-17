@@ -2,26 +2,33 @@
 import Hexagon from "../assets/hexagon.svg";
 
 interface Props {
-  href: string;
-  isTargetBlank?: boolean;
+  id?: string;
+  popoverTarget?: string;
 }
 
-const { href, isTargetBlank } = Astro.props;
+const { id, popoverTarget } = Astro.props;
 ---
 
-<a href={href} target={isTargetBlank ? "_blank" : undefined} class="link">
+<button id={id} type="button" class="btn" popovertarget={popoverTarget}>
   <Hexagon />
   <span>
     <slot />
   </span>
-</a>
+</button>
 
 <style>
-  .link {
+  .btn {
     --side: 150px;
 
     position: relative;
     display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
 
     /* desktop */
     @media (width >= 960px) {
