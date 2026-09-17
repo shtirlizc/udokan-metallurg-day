@@ -39,7 +39,12 @@ import Hexagonal from "../hexagonal.astro";
     </button>
 
     <video playsinline preload="metadata">
-      <source src="/video/congratulation.mp4" type="video/mp4" />
+      <source
+        src="/video/congratulation-desktop.mp4"
+        type="video/mp4"
+        media="(min-width: 960px)"
+      />
+      <source src="/video/congratulation-mobile.mp4" type="video/mp4" />
       Ваш браузер не поддерживает воспроизведение видео.
     </video>
 
@@ -224,9 +229,16 @@ import Hexagonal from "../hexagonal.astro";
   }
 
   .video-popover {
+    --video-aspect-ratio: 5 / 4;
+    --video-height-constrained-width: calc(125dvh - 40px);
+
     position: fixed;
     inset: 0;
-    width: min(1200px, calc(100vw - 32px), calc(125dvh - 40px));
+    width: min(
+      1200px,
+      calc(100vw - 32px),
+      var(--video-height-constrained-width)
+    );
     height: fit-content;
     margin: auto;
     padding: 0;
@@ -240,6 +252,11 @@ import Hexagonal from "../hexagonal.astro";
       transform var(--transition-long) var(--transition-f),
       overlay var(--transition-long) var(--transition-f) allow-discrete,
       display var(--transition-long) var(--transition-f) allow-discrete;
+
+    @media (width >= 960px) {
+      --video-aspect-ratio: 16 / 9;
+      --video-height-constrained-width: calc(177.7778dvh - 56.8889px);
+    }
 
     &:popover-open {
       opacity: 1;
@@ -275,7 +292,7 @@ import Hexagonal from "../hexagonal.astro";
   .video-popover__wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 5 / 4;
+    aspect-ratio: var(--video-aspect-ratio);
     overflow: hidden;
     border-radius: var(--border-radius12);
     background: #000;
@@ -285,7 +302,7 @@ import Hexagonal from "../hexagonal.astro";
       display: block;
       width: 100%;
       height: 100%;
-      aspect-ratio: 5 / 4;
+      aspect-ratio: var(--video-aspect-ratio);
       object-fit: contain;
     }
   }
