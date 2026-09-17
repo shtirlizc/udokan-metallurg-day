@@ -21,7 +21,9 @@ import charsImg from "./assets/presentation-chars.webp";
     <Image src={charsImg} alt="" />
   </div>
 
-  <a href="#">Проект по внедрению Ценностей и Кодекса компании</a>
+  <a href="/pdf/presentation.pdf" target="_blank">
+    Проект по внедрению Ценностей и Кодекса компании
+  </a>
 </section>
 
 <style>
@@ -30,6 +32,12 @@ import charsImg from "./assets/presentation-chars.webp";
     display: flex;
     flex-direction: column;
     overflow: hidden;
+
+    &:hover {
+      .presentation__chars {
+        transform: scale(0.95);
+      }
+    }
 
     & .presentation__bg {
       position: absolute;
@@ -86,6 +94,9 @@ import charsImg from "./assets/presentation-chars.webp";
       display: flex;
       justify-content: center;
       align-items: flex-end;
+      transform: scale(1);
+      transition: transform var(--transition-long) ease-in-out;
+      transform-origin: center bottom;
 
       img {
         width: 100%;

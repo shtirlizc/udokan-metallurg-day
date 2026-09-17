@@ -30,6 +30,12 @@ import charsImg from "./assets/metallurgist-day-chars.webp";
     flex-direction: column;
     overflow: hidden;
 
+    &:hover {
+      .root__bg {
+        transform: scale(1);
+      }
+    }
+
     &::before {
       content: "";
       position: absolute;
@@ -53,6 +59,8 @@ import charsImg from "./assets/metallurgist-day-chars.webp";
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      transform: scale(1.1);
+      transition: transform var(--transition-long) ease-in-out;
     }
 
     & .root__head {
