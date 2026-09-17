@@ -1,0 +1,54 @@
+---
+import Hexagon from "../assets/hexagon.svg";
+
+interface Props {
+  href: string;
+  isTargetBlank?: boolean;
+}
+
+const { href, isTargetBlank } = Astro.props;
+---
+
+<a href={href} target={isTargetBlank ? "_blank" : undefined} class="link">
+  <Hexagon />
+  <span>
+    <slot />
+  </span>
+</a>
+
+<style>
+  .link {
+    --side: 150px;
+
+    position: relative;
+    display: inline-block;
+
+    /* desktop */
+    @media (width >= 960px) {
+      --side: 270px;
+    }
+
+    &:hover svg {
+      transform: rotate(60deg);
+    }
+
+    svg {
+      width: var(--side);
+      height: var(--side);
+      transition: transform var(--transition-long) ease-in-out;
+    }
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 140%;
+      text-align: center;
+      text-transform: uppercase;
+      color: var(--color-white);
+    }
+  }
+</style>

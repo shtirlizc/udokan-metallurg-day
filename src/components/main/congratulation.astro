@@ -1,19 +1,73 @@
 ---
-
+import Hexagonal from "../hexagonal.astro";
 ---
 
 <section class="congratulation">
-  <h2>congratulation</h2>
+  <h2>
+    Анимационный ролик
+    <br />
+    ко Дню Металлурга
+  </h2>
+
+  <Hexagonal href="#">Смотреть</Hexagonal>
 </section>
 
 <style>
   .congratulation {
-    border: 2px dashed green;
+    position: relative;
     min-height: 100dvh;
+    overflow: hidden;
+    background-image: url("./assets/congratulation-mobile.webp");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     /* desktop */
     @media (width >= 960px) {
       min-height: 100vh;
+      background-image: url("./assets/congratulation-desktop.webp");
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        #171d2c 0%,
+        rgba(23, 29, 44, 0.3) 50.48%,
+        rgba(255, 255, 255, 0) 100%
+      );
+
+      /* desktop */
+      @media (width >= 960px) {
+        height: 40%;
+      }
+    }
+
+    h2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 105%;
+      text-align: center;
+      padding: var(--space20);
+      color: var(--color-white);
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding: var(--space40);
+        font-size: 27px;
+      }
     }
   }
 </style>
