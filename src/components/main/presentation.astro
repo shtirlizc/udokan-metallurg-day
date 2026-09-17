@@ -5,7 +5,7 @@ import Tag from "../tag.astro";
 import charsImg from "./assets/presentation-chars.webp";
 ---
 
-<section class="presentation">
+<section class="presentation" data-chars-reveal>
   <div class="presentation__bg"></div>
 
   <div class="presentation__head">
@@ -26,6 +26,34 @@ import charsImg from "./assets/presentation-chars.webp";
   </a>
 </section>
 
+<script>
+  function initPresentationCharsReveal() {
+    const sections = document.querySelectorAll<HTMLElement>(
+      ".presentation[data-chars-reveal]",
+    );
+
+    sections.forEach((section) => {
+      if (section.dataset.revealInitialized) return;
+
+      section.dataset.revealInitialized = "true";
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting || entry.intersectionRatio < 0.8) return;
+
+          section.classList.add("is-chars-visible");
+          observer.unobserve(section);
+        },
+        { threshold: 0.8 },
+      );
+
+      observer.observe(section);
+    });
+  }
+
+  document.addEventListener("astro:page-load", initPresentationCharsReveal);
+</script>
+
 <style>
   .presentation {
     position: relative;
@@ -35,8 +63,14 @@ import charsImg from "./assets/presentation-chars.webp";
 
     &:hover {
       .presentation__chars {
-        transform: scale(0.95);
+        --chars-scale: 0.95;
       }
+    }
+
+    &.is-chars-visible .presentation__chars {
+      --chars-translate-y: 0px;
+
+      opacity: 1;
     }
 
     & .presentation__bg {
@@ -87,6 +121,9 @@ import charsImg from "./assets/presentation-chars.webp";
     }
 
     & .presentation__chars {
+      --chars-translate-y: clamp(48px, 8vw, 120px);
+      --chars-scale: 1;
+
       flex-grow: 1;
       position: relative;
       z-index: 1;
@@ -94,14 +131,23 @@ import charsImg from "./assets/presentation-chars.webp";
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      transform: scale(1);
-      transition: transform var(--transition-long) ease-in-out;
+      opacity: 0;
+      transform: translateY(var(--chars-translate-y)) scale(var(--chars-scale));
+      transition:
+        opacity calc(1.5 * var(--transition-long)) var(--transition-f),
+        transform calc(1.5 * var(--transition-long)) var(--transition-f);
       transform-origin: center bottom;
 
       img {
         width: 100%;
         height: auto;
         object-fit: contain;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+        transition: none;
       }
     }
 
