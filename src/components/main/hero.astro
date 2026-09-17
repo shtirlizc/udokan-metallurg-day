@@ -4,7 +4,7 @@ import LogoLarge from "./assets/logo-large.svg";
 import HeroTexture from "./assets/hero-texture.jpg";
 ---
 
-<div class="hero">
+<section class="hero">
   <div class="ellipse ellipse-1"></div>
   <div class="ellipse ellipse-2"></div>
   <div class="ellipse ellipse-3"></div>
@@ -37,9 +37,12 @@ import HeroTexture from "./assets/hero-texture.jpg";
   </div>
 
   <div class="hero__foot">
-    <p>Поясняющий текст</p>
+    <p>
+      Проект по внедрению Ценностей и Кодекса Удокана, ведь они ценно — это
+      основа всего, что мы делаем.
+    </p>
   </div>
-</div>
+</section>
 
 <style>
   .hero {
@@ -293,6 +296,8 @@ import HeroTexture from "./assets/hero-texture.jpg";
       font: var(--font-text-medium);
       font-size: 16px;
       color: var(--color-white);
+      max-width: 555px;
+      margin-inline: auto;
 
       /* desktop */
       @media (width >= 960px) {

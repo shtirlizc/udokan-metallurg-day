@@ -2,9 +2,34 @@
 import Hero from "../components/main/hero.astro";
 import MainLayout from "../layouts/main.astro";
 import MetallurgistDay from "../components/main/metallurgist-day.astro";
+import Congratulation from "../components/main/congratulation.astro";
+import Presentation from "../components/main/presentation.astro";
 ---
 
 <MainLayout>
-  <Hero />
-  <MetallurgistDay />
+  <div class="grid">
+    <Hero />
+
+    <div class="grid__cols">
+      <Presentation />
+      <MetallurgistDay />
+    </div>
+
+    <Congratulation />
+  </div>
 </MainLayout>
+
+<style>
+  .grid {
+    & .grid__cols {
+      min-height: 100dvh;
+
+      /* desktop */
+      @media (width >= 960px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 100vh;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+interface Props {
+  color: string;
+  textColor?: "light" | "dark";
+}
+
+const { color, textColor = "dark" } = Astro.props;
+---
+
+<li class:list={["tag", textColor]} style={`background-color: ${color}`}>
+  <slot />
+</li>
+
+<style>
+  .tag {
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    padding: 0 10px;
+
+    &.light {
+      color: var(--color-white);
+    }
+
+    &.dark {
+      color: var(--black-100);
+    }
+  }
+</style>
