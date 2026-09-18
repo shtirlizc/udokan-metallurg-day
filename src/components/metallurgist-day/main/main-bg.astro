@@ -56,8 +56,8 @@ const [mobileBackground, desktopBackground] = await Promise.all([
     let frame: number | undefined;
 
     const moveForest = (event: PointerEvent) => {
-      const x = ((event.clientX / window.innerWidth) - 0.5) * -16;
-      const y = ((event.clientY / window.innerHeight) - 0.5) * -10;
+      const x = (event.clientX / window.innerWidth - 0.5) * -16;
+      const y = (event.clientY / window.innerHeight - 0.5) * -10;
 
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
@@ -78,6 +78,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([
   .bg {
     position: absolute;
     inset: 0;
+    overflow: hidden;
     pointer-events: none;
 
     .bg__image {

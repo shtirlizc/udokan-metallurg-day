@@ -10,7 +10,7 @@ const { questionsCount } = Astro.props;
 ---
 
 <div class="message" id="result-message" data-questions-count={questionsCount}>
-  <div>
+  <div class="message__body">
     <div class="message__result">
       <ul class="message__result-chart">
         {
@@ -218,7 +218,6 @@ const { questionsCount } = Astro.props;
 
 <style>
   .message {
-    aspect-ratio: 359 / 285;
     display: grid;
     grid-template-rows: 1fr auto;
     text-align: center;
@@ -264,12 +263,20 @@ const { questionsCount } = Astro.props;
     }
   }
 
+  .message__body {
+    margin-bottom: var(--space40);
+  }
+
   .message__result {
     & .message__result-chart {
       list-style: none;
       padding: 0;
       display: flex;
       justify-content: center;
+
+      @media (width < 390px) {
+        margin-bottom: var(--space16);
+      }
 
       li {
         width: var(--space48);
@@ -278,6 +285,11 @@ const { questionsCount } = Astro.props;
         display: flex;
         justify-content: center;
         align-items: center;
+
+        @media (width < 390px) {
+          width: var(--space36);
+          height: var(--space36);
+        }
       }
     }
 
