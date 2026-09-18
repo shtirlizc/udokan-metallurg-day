@@ -1,6 +1,8 @@
 ---
 import Logo from "../../assets/logo.svg";
 import LogoLarge from "./assets/logo-large.svg";
+import HeroBackgroundDesktop from "./assets/hero-bg-desktop.webp";
+import HeroBackgroundMobile from "./assets/hero-bg-mobile.webp";
 import HeroTexture from "./assets/hero-texture.jpg";
 import HeroTitleMask from "./assets/hero-title-mask.svg?url";
 import HeroTitleEdge from "./assets/hero-title-edge.svg?url";
@@ -9,12 +11,10 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
 ---
 
 <section class="hero" style={`--hero-title-mask: url("${HeroTitleMask}")`}>
-  <div class="hero__lights" aria-hidden="true">
-    <div class="ellipse ellipse-1"></div>
-    <div class="ellipse ellipse-2"></div>
-    <div class="ellipse ellipse-3"></div>
-    <div class="ellipse ellipse-4"></div>
-  </div>
+  <picture class="hero__background" aria-hidden="true">
+    <source media="(orientation: portrait)" srcset={HeroBackgroundMobile.src} />
+    <img src={HeroBackgroundDesktop.src} alt="" />
+  </picture>
   <div class="hero__texture" aria-hidden="true">
     <img src={HeroTexture.src} alt="" />
   </div>
@@ -126,113 +126,19 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
     display: grid;
     grid-template-rows: auto 1fr auto;
 
-    &::after {
-      content: "";
-      position: absolute;
-      z-index: 1;
-      inset: 0;
-      background: rgb(255 255 255 / 3%);
-      backdrop-filter: blur(200px);
-      pointer-events: none;
-
-      /* desktop */
-      @media (width >= 960px) {
-        min-height: 100vh;
-        backdrop-filter: blur(max(13.8889vw, 24.6914vh));
-      }
-    }
-
-    & .hero__lights {
+    & .hero__background {
       position: absolute;
       inset: 0;
+      display: block;
       pointer-events: none;
 
-      /* Keep the 1440x810 Figma light composition and crop it like a cover image. */
-      @media (width >= 960px) {
-        top: 50%;
-        left: 50%;
-        width: max(100%, 177.7778vh);
-        height: auto;
-        aspect-ratio: 16 / 9;
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    & .ellipse {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-
-      &.ellipse-1 {
-        top: 18.1481%;
-        left: -15.9028%;
-        width: 109.028%;
-        height: 181.235%;
-        background-color: #7b3d26;
-      }
-
-      &.ellipse-2 {
-        top: 47.7778%;
-        left: -11.875%;
-        width: 68.681%;
-        height: 122.099%;
-        background-color: #b06c45;
-      }
-
-      &.ellipse-3 {
-        top: 63.0864%;
-        left: -4.6528%;
-        width: 37.222%;
-        height: 66.173%;
-        background-color: #eeb482;
-      }
-
-      &.ellipse-4 {
-        top: 81.6049%;
-        left: 5.347%;
-        width: 28.125%;
-        height: 36.667%;
-        background-color: #fdf9d7;
-      }
-    }
-
-    @media (width < 960px) {
-      .ellipse {
-        &.ellipse-1 {
-          top: auto;
-          left: -160%;
-          bottom: 0;
-          width: 1570px;
-          height: 1468px;
-          transform: translateY(50%);
-        }
-
-        &.ellipse-2 {
-          top: auto;
-          left: -100%;
-          bottom: 0;
-          width: 989px;
-          height: 989px;
-          transform: translateY(80%);
-        }
-
-        &.ellipse-3 {
-          top: auto;
-          left: -100%;
-          bottom: 0;
-          width: 536px;
-          height: 536px;
-          transform: translateY(100%);
-        }
-
-        &.ellipse-4 {
-          top: auto;
-          left: -100%;
-          bottom: 0;
-          width: 405px;
-          height: 297px;
-          transform: translateY(100%);
-        }
+      & img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        object-position: center;
       }
     }
 
