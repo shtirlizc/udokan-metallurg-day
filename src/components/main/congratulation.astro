@@ -9,28 +9,18 @@ import Hexagonal from "../hexagonal.astro";
     ко Дню Металлурга
   </h2>
 
-  <Hexagonal
-    id="congratulation-video-trigger"
-    popoverTarget="congratulation-video"
-  >
-    Смотреть
-  </Hexagonal>
+  <Hexagonal id="congratulation-video-trigger"> Смотреть </Hexagonal>
 </section>
 
-<div
+<dialog
   id="congratulation-video"
-  class="video-popover"
-  popover="auto"
-  role="dialog"
-  aria-modal="true"
+  class="video-dialog"
   aria-label="Анимационный ролик ко Дню Металлурга"
 >
-  <div class="video-popover__wrap is-paused">
+  <div class="video-dialog__wrap is-paused">
     <button
       type="button"
-      class="video-popover__close"
-      popovertarget="congratulation-video"
-      popovertargetaction="hide"
+      class="video-dialog__close"
       aria-label="Закрыть видео"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -50,17 +40,17 @@ import Hexagonal from "../hexagonal.astro";
 
     <button
       type="button"
-      class="video-popover__toggle"
+      class="video-dialog__toggle"
       aria-label="Продолжить воспроизведение"
     >
-      <span class="video-popover__play" aria-hidden="true">
+      <span class="video-dialog__play" aria-hidden="true">
         <svg viewBox="0 0 64 64">
           <path d="M52 32 20 51V13l32 19Z"></path>
         </svg>
       </span>
     </button>
   </div>
-</div>
+</dialog>
 
 <style>
   .congratulation {
@@ -128,7 +118,7 @@ import Hexagonal from "../hexagonal.astro";
     }
   }
 
-  .video-popover {
+  .video-dialog {
     --video-aspect-ratio: 5 / 4;
     --video-height-constrained-width: calc(125dvh - 40px);
 
@@ -149,47 +139,51 @@ import Hexagonal from "../hexagonal.astro";
     transform: scale(0.85);
     transition:
       opacity var(--transition-long) var(--transition-f),
-      transform var(--transition-long) var(--transition-f),
-      overlay var(--transition-long) var(--transition-f) allow-discrete,
-      display var(--transition-long) var(--transition-f) allow-discrete;
+      transform var(--transition-long) var(--transition-f);
 
     @media (width >= 960px) {
       --video-aspect-ratio: 16 / 9;
       --video-height-constrained-width: calc(177.7778dvh - 56.8889px);
     }
 
-    &:popover-open {
+    &[open] {
       opacity: 1;
       transform: scale(1);
+    }
+
+    &[open].is-closing {
+      opacity: 0;
+      transform: scale(0.85);
     }
 
     &::backdrop {
       background-color: rgb(0 0 0 / 72%);
       opacity: 0;
       backdrop-filter: blur(6px);
-      transition:
-        opacity var(--transition-long) var(--transition-f),
-        overlay var(--transition-long) var(--transition-f) allow-discrete,
-        display var(--transition-long) var(--transition-f) allow-discrete;
+      transition: opacity var(--transition-long) var(--transition-f);
     }
 
-    &:popover-open::backdrop {
+    &[open]::backdrop {
       opacity: 1;
+    }
+
+    &[open].is-closing::backdrop {
+      opacity: 0;
     }
   }
 
   @starting-style {
-    .video-popover:popover-open {
+    .video-dialog[open] {
       opacity: 0;
       transform: scale(0.85);
     }
 
-    .video-popover:popover-open::backdrop {
+    .video-dialog[open]::backdrop {
       opacity: 0;
     }
   }
 
-  .video-popover__wrap {
+  .video-dialog__wrap {
     position: relative;
     width: 100%;
     aspect-ratio: var(--video-aspect-ratio);
@@ -207,7 +201,7 @@ import Hexagonal from "../hexagonal.astro";
     }
   }
 
-  .video-popover__close {
+  .video-dialog__close {
     position: absolute;
     z-index: 3;
     top: 10px;
@@ -247,7 +241,7 @@ import Hexagonal from "../hexagonal.astro";
     }
   }
 
-  .video-popover__toggle {
+  .video-dialog__toggle {
     position: absolute;
     z-index: 2;
     inset: 0;
@@ -267,7 +261,7 @@ import Hexagonal from "../hexagonal.astro";
     }
   }
 
-  .video-popover__play {
+  .video-dialog__play {
     opacity: 0;
     transform: scale(0.5);
     pointer-events: none;
@@ -284,12 +278,12 @@ import Hexagonal from "../hexagonal.astro";
     }
   }
 
-  .video-popover__wrap.is-paused .video-popover__play {
+  .video-dialog__wrap.is-paused .video-dialog__play {
     opacity: 1;
     transform: scale(1);
   }
 
-  .video-popover__wrap.is-closing .video-popover__play {
+  .video-dialog__wrap.is-closing .video-dialog__play {
     opacity: 0;
     transform: scale(0.5);
   }
@@ -298,56 +292,42 @@ import Hexagonal from "../hexagonal.astro";
 <script>
   function initCongratulationVideo() {
     const trigger = document.getElementById("congratulation-video-trigger");
-    const popover = document.getElementById("congratulation-video");
-    const videoWrap = popover?.querySelector<HTMLElement>(
-      ".video-popover__wrap",
+    const dialog = document.querySelector<HTMLDialogElement>(
+      "#congratulation-video",
     );
-    const video = popover?.querySelector<HTMLVideoElement>("video");
-    const toggle = popover?.querySelector<HTMLButtonElement>(
-      ".video-popover__toggle",
+    const videoWrap = dialog?.querySelector<HTMLElement>(".video-dialog__wrap");
+    const video = dialog?.querySelector<HTMLVideoElement>("video");
+    const toggle = dialog?.querySelector<HTMLButtonElement>(
+      ".video-dialog__toggle",
+    );
+    const closeButton = dialog?.querySelector<HTMLButtonElement>(
+      ".video-dialog__close",
     );
 
     if (
       !trigger ||
-      !popover ||
+      !dialog ||
       !videoWrap ||
       !video ||
       !toggle ||
-      popover.dataset.initialized
+      !closeButton ||
+      dialog.dataset.initialized
     )
       return;
 
-    popover.dataset.initialized = "true";
+    dialog.dataset.initialized = "true";
 
-    let resetFallback: number | undefined;
-    let resetOnTransitionEnd: ((event: TransitionEvent) => void) | undefined;
+    let closeFallback: number | undefined;
+    let closeOnTransitionEnd: ((event: TransitionEvent) => void) | undefined;
 
-    const cancelPendingReset = () => {
-      if (resetFallback) window.clearTimeout(resetFallback);
-      if (resetOnTransitionEnd) {
-        popover.removeEventListener("transitionend", resetOnTransitionEnd);
+    const cancelPendingClose = () => {
+      if (closeFallback) window.clearTimeout(closeFallback);
+      if (closeOnTransitionEnd) {
+        dialog.removeEventListener("transitionend", closeOnTransitionEnd);
       }
 
-      resetFallback = undefined;
-      resetOnTransitionEnd = undefined;
-    };
-
-    const resetVideoAfterClosing = () => {
-      cancelPendingReset();
-
-      const resetVideo = () => {
-        if (!popover.matches(":popover-open")) video.currentTime = 0;
-        cancelPendingReset();
-      };
-
-      resetOnTransitionEnd = (event) => {
-        if (event.target === popover && event.propertyName === "opacity") {
-          resetVideo();
-        }
-      };
-
-      popover.addEventListener("transitionend", resetOnTransitionEnd);
-      resetFallback = window.setTimeout(resetVideo, 600);
+      closeFallback = undefined;
+      closeOnTransitionEnd = undefined;
     };
 
     const updatePlaybackState = () => {
@@ -361,12 +341,55 @@ import Hexagonal from "../hexagonal.astro";
     };
 
     const playVideo = () => {
-      cancelPendingReset();
+      cancelPendingClose();
       if (video.ended) video.currentTime = 0;
       void video.play().catch(updatePlaybackState);
     };
 
-    trigger.addEventListener("click", playVideo);
+    const finishClose = () => {
+      cancelPendingClose();
+      if (dialog.open) dialog.close();
+      dialog.classList.remove("is-closing");
+      videoWrap.classList.remove("is-closing");
+      video.currentTime = 0;
+    };
+
+    const closeDialog = () => {
+      if (!dialog.open || dialog.classList.contains("is-closing")) return;
+
+      video.pause();
+      updatePlaybackState();
+      dialog.classList.add("is-closing");
+      videoWrap.classList.add("is-closing");
+
+      closeOnTransitionEnd = (event) => {
+        if (event.target === dialog && event.propertyName === "opacity") {
+          finishClose();
+        }
+      };
+
+      dialog.addEventListener("transitionend", closeOnTransitionEnd);
+      closeFallback = window.setTimeout(finishClose, 600);
+    };
+
+    trigger.addEventListener("click", () => {
+      cancelPendingClose();
+      dialog.classList.remove("is-closing");
+      videoWrap.classList.remove("is-closing");
+      if (!dialog.open) dialog.showModal();
+      playVideo();
+    });
+
+    closeButton.addEventListener("click", closeDialog);
+
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeDialog();
+    });
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) closeDialog();
+    });
 
     toggle.addEventListener("click", () => {
       if (video.paused || video.ended) {
@@ -379,24 +402,6 @@ import Hexagonal from "../hexagonal.astro";
     video.addEventListener("play", updatePlaybackState);
     video.addEventListener("pause", updatePlaybackState);
     video.addEventListener("ended", updatePlaybackState);
-
-    popover.addEventListener("beforetoggle", (event) => {
-      videoWrap.classList.toggle(
-        "is-closing",
-        (event as ToggleEvent).newState === "closed",
-      );
-    });
-
-    popover.addEventListener("toggle", (event) => {
-      if ((event as ToggleEvent).newState === "open") {
-        if (video.paused) void video.play().catch(() => {});
-        return;
-      }
-
-      video.pause();
-      updatePlaybackState();
-      resetVideoAfterClosing();
-    });
   }
 
   document.addEventListener("astro:page-load", initCongratulationVideo);

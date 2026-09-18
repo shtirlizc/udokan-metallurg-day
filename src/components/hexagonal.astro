@@ -3,13 +3,12 @@ import Hexagon from "../assets/hexagon.svg";
 
 interface Props {
   id?: string;
-  popoverTarget?: string;
 }
 
-const { id, popoverTarget } = Astro.props;
+const { id } = Astro.props;
 ---
 
-<button id={id} type="button" class="btn" popovertarget={popoverTarget}>
+<button id={id} type="button" class="btn">
   <Hexagon />
   <span>
     <slot />
