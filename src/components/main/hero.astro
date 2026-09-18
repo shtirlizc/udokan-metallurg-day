@@ -126,6 +126,10 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
     display: grid;
     grid-template-rows: auto 1fr auto;
 
+    @media (width >= 960px) {
+      min-height: 100vh;
+    }
+
     & .hero__background {
       position: absolute;
       inset: 0;
