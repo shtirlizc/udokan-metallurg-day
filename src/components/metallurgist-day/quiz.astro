@@ -121,11 +121,11 @@ const {
   document.addEventListener("astro:page-load", initQuiz);
 
   function hasSavedAnswer(questionId: string) {
-    const savedAnswers = sessionStorage.getItem("udokan_quiz");
-
-    if (!savedAnswers) return false;
-
     try {
+      const savedAnswers = sessionStorage.getItem("udokan_quiz");
+
+      if (!savedAnswers) return false;
+
       const answers: unknown = JSON.parse(savedAnswers);
 
       return (
@@ -141,28 +141,31 @@ const {
 
   function saveToStorage(questionId: string, answerType: AnswerType) {
     const KEY = "udokan_quiz";
-    const savedAnswers = sessionStorage.getItem(KEY);
+    try {
+      const savedAnswers = sessionStorage.getItem(KEY);
+      let answers: Record<string, AnswerType> = {};
 
-    let answers: Record<string, AnswerType> = {};
+      if (savedAnswers) {
+        try {
+          const parsedAnswers = JSON.parse(savedAnswers);
 
-    if (savedAnswers) {
-      try {
-        const parsedAnswers = JSON.parse(savedAnswers);
-
-        if (
-          parsedAnswers &&
-          typeof parsedAnswers === "object" &&
-          !Array.isArray(parsedAnswers)
-        ) {
-          answers = parsedAnswers;
+          if (
+            parsedAnswers &&
+            typeof parsedAnswers === "object" &&
+            !Array.isArray(parsedAnswers)
+          ) {
+            answers = parsedAnswers;
+          }
+        } catch {
+          answers = {};
         }
-      } catch {
-        answers = {};
       }
-    }
 
-    answers[questionId] = answerType;
-    sessionStorage.setItem(KEY, JSON.stringify(answers));
+      answers[questionId] = answerType;
+      sessionStorage.setItem(KEY, JSON.stringify(answers));
+    } catch {
+      // Continue the quiz when storage is unavailable.
+    }
   }
 
   function disableAnswerButtons(answers: NodeListOf<HTMLButtonElement>) {

@@ -36,7 +36,11 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
     );
 
     if (pathname === "/день-металлурга") {
-      sessionStorage.removeItem("udokan_quiz");
+      try {
+        sessionStorage.removeItem("udokan_quiz");
+      } catch {
+        // Storage can be unavailable because of the browser's privacy settings.
+      }
     }
   }
 

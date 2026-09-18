@@ -68,7 +68,7 @@ const { questionsCount } = Astro.props;
 
   function initResultMessage(resultMessage: HTMLElement) {
     const questionsCount = Number(resultMessage.dataset.questionsCount);
-    const savedResult = sessionStorage.getItem("udokan_quiz");
+    const savedResult = getSavedResult();
     const restartLink = resultMessage.querySelector<HTMLAnchorElement>("a");
 
     restartLink?.addEventListener("click", (event) => {
@@ -130,7 +130,15 @@ const { questionsCount } = Astro.props;
     }
 
     function goHome() {
-      navigate("/день-металлурга");
+      navigate("/день-металлурга", { history: "replace" });
+    }
+
+    function getSavedResult() {
+      try {
+        return sessionStorage.getItem("udokan_quiz");
+      } catch {
+        return null;
+      }
     }
 
     function validateResults(answers: unknown) {
