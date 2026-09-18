@@ -39,6 +39,12 @@ const { id, text, comment } = answer;
     width: 100%;
     padding: 0;
 
+    &:focus-visible {
+      outline: 2px solid var(--black-100);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
     &:not(:disabled) {
       cursor: pointer;
 
