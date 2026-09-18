@@ -42,7 +42,7 @@ import Hexagonal from "../hexagonal.astro";
       <source
         src="/video/congratulation-desktop.mp4"
         type="video/mp4"
-        media="(min-width: 960px)"
+        media="(min-width: 768px)"
       />
       <source src="/video/congratulation-mobile.mp4" type="video/mp4" />
       Ваш браузер не поддерживает воспроизведение видео.
@@ -80,6 +80,12 @@ import Hexagonal from "../hexagonal.astro";
     @media (width >= 960px) {
       min-height: 100vh;
       background-image: url("./assets/congratulation-desktop.webp");
+      background-position: left;
+    }
+
+    /* widescreen */
+    @media (width >= 1200px) {
+      background-position: center;
     }
 
     &::before {

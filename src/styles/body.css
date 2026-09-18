@@ -30,6 +30,15 @@ body {
   min-height: 100dvh;
 }
 
+html:has(*:popover-open) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+body:has(*:popover-open) {
+  overflow: hidden;
+}
+
 @keyframes page-slide-out-up {
   from {
     transform: translateY(0);
