@@ -62,113 +62,6 @@ import Hexagonal from "../hexagonal.astro";
   </div>
 </div>
 
-<script>
-  function initCongratulationVideo() {
-    const trigger = document.getElementById("congratulation-video-trigger");
-    const popover = document.getElementById("congratulation-video");
-    const videoWrap = popover?.querySelector<HTMLElement>(
-      ".video-popover__wrap",
-    );
-    const video = popover?.querySelector<HTMLVideoElement>("video");
-    const toggle = popover?.querySelector<HTMLButtonElement>(
-      ".video-popover__toggle",
-    );
-
-    if (
-      !trigger ||
-      !popover ||
-      !videoWrap ||
-      !video ||
-      !toggle ||
-      popover.dataset.initialized
-    )
-      return;
-
-    popover.dataset.initialized = "true";
-
-    let resetFallback: number | undefined;
-    let resetOnTransitionEnd: ((event: TransitionEvent) => void) | undefined;
-
-    const cancelPendingReset = () => {
-      if (resetFallback) window.clearTimeout(resetFallback);
-      if (resetOnTransitionEnd) {
-        popover.removeEventListener("transitionend", resetOnTransitionEnd);
-      }
-
-      resetFallback = undefined;
-      resetOnTransitionEnd = undefined;
-    };
-
-    const resetVideoAfterClosing = () => {
-      cancelPendingReset();
-
-      const resetVideo = () => {
-        if (!popover.matches(":popover-open")) video.currentTime = 0;
-        cancelPendingReset();
-      };
-
-      resetOnTransitionEnd = (event) => {
-        if (event.target === popover && event.propertyName === "opacity") {
-          resetVideo();
-        }
-      };
-
-      popover.addEventListener("transitionend", resetOnTransitionEnd);
-      resetFallback = window.setTimeout(resetVideo, 600);
-    };
-
-    const updatePlaybackState = () => {
-      const isPaused = video.paused || video.ended;
-
-      videoWrap.classList.toggle("is-paused", isPaused);
-      toggle.setAttribute(
-        "aria-label",
-        isPaused ? "Продолжить воспроизведение" : "Поставить на паузу",
-      );
-    };
-
-    const playVideo = () => {
-      cancelPendingReset();
-      if (video.ended) video.currentTime = 0;
-      void video.play().catch(updatePlaybackState);
-    };
-
-    trigger.addEventListener("click", playVideo);
-
-    toggle.addEventListener("click", () => {
-      if (video.paused || video.ended) {
-        playVideo();
-      } else {
-        video.pause();
-      }
-    });
-
-    video.addEventListener("play", updatePlaybackState);
-    video.addEventListener("pause", updatePlaybackState);
-    video.addEventListener("ended", updatePlaybackState);
-
-    popover.addEventListener("beforetoggle", (event) => {
-      videoWrap.classList.toggle(
-        "is-closing",
-        (event as ToggleEvent).newState === "closed",
-      );
-    });
-
-    popover.addEventListener("toggle", (event) => {
-      if ((event as ToggleEvent).newState === "open") {
-        if (video.paused) void video.play().catch(() => {});
-        return;
-      }
-
-      video.pause();
-      updatePlaybackState();
-      resetVideoAfterClosing();
-    });
-  }
-
-  document.addEventListener("astro:page-load", initCongratulationVideo);
-</script>
-
 <style>
   .congratulation {
     position: relative;
@@ -181,6 +74,7 @@ import Hexagonal from "../hexagonal.astro";
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: var(--space8);
 
     /* desktop */
     @media (width >= 960px) {
@@ -394,3 +288,110 @@ import Hexagonal from "../hexagonal.astro";
     transform: scale(0.5);
   }
 </style>
+
+<script>
+  function initCongratulationVideo() {
+    const trigger = document.getElementById("congratulation-video-trigger");
+    const popover = document.getElementById("congratulation-video");
+    const videoWrap = popover?.querySelector<HTMLElement>(
+      ".video-popover__wrap",
+    );
+    const video = popover?.querySelector<HTMLVideoElement>("video");
+    const toggle = popover?.querySelector<HTMLButtonElement>(
+      ".video-popover__toggle",
+    );
+
+    if (
+      !trigger ||
+      !popover ||
+      !videoWrap ||
+      !video ||
+      !toggle ||
+      popover.dataset.initialized
+    )
+      return;
+
+    popover.dataset.initialized = "true";
+
+    let resetFallback: number | undefined;
+    let resetOnTransitionEnd: ((event: TransitionEvent) => void) | undefined;
+
+    const cancelPendingReset = () => {
+      if (resetFallback) window.clearTimeout(resetFallback);
+      if (resetOnTransitionEnd) {
+        popover.removeEventListener("transitionend", resetOnTransitionEnd);
+      }
+
+      resetFallback = undefined;
+      resetOnTransitionEnd = undefined;
+    };
+
+    const resetVideoAfterClosing = () => {
+      cancelPendingReset();
+
+      const resetVideo = () => {
+        if (!popover.matches(":popover-open")) video.currentTime = 0;
+        cancelPendingReset();
+      };
+
+      resetOnTransitionEnd = (event) => {
+        if (event.target === popover && event.propertyName === "opacity") {
+          resetVideo();
+        }
+      };
+
+      popover.addEventListener("transitionend", resetOnTransitionEnd);
+      resetFallback = window.setTimeout(resetVideo, 600);
+    };
+
+    const updatePlaybackState = () => {
+      const isPaused = video.paused || video.ended;
+
+      videoWrap.classList.toggle("is-paused", isPaused);
+      toggle.setAttribute(
+        "aria-label",
+        isPaused ? "Продолжить воспроизведение" : "Поставить на паузу",
+      );
+    };
+
+    const playVideo = () => {
+      cancelPendingReset();
+      if (video.ended) video.currentTime = 0;
+      void video.play().catch(updatePlaybackState);
+    };
+
+    trigger.addEventListener("click", playVideo);
+
+    toggle.addEventListener("click", () => {
+      if (video.paused || video.ended) {
+        playVideo();
+      } else {
+        video.pause();
+      }
+    });
+
+    video.addEventListener("play", updatePlaybackState);
+    video.addEventListener("pause", updatePlaybackState);
+    video.addEventListener("ended", updatePlaybackState);
+
+    popover.addEventListener("beforetoggle", (event) => {
+      videoWrap.classList.toggle(
+        "is-closing",
+        (event as ToggleEvent).newState === "closed",
+      );
+    });
+
+    popover.addEventListener("toggle", (event) => {
+      if ((event as ToggleEvent).newState === "open") {
+        if (video.paused) void video.play().catch(() => {});
+        return;
+      }
+
+      video.pause();
+      updatePlaybackState();
+      resetVideoAfterClosing();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initCongratulationVideo);
+</script>

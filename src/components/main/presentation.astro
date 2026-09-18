@@ -14,7 +14,7 @@ import charsImg from "./assets/presentation-chars.webp";
       <Tag color="#E88EED">Презентация</Tag>
     </ul>
 
-    <h2>Проект по внедрению Ценностей и Кодекса компании</h2>
+    <h2>Проект по внедрению<br />Ценностей и Кодекса компании</h2>
   </div>
 
   <div class="presentation__chars">
@@ -108,7 +108,7 @@ import charsImg from "./assets/presentation-chars.webp";
       font-family: var(--font-bebas-neue-cyrillic), sans-serif;
       font-weight: 700;
       font-size: 35px;
-      line-height: 90%;
+      line-height: 88%;
       text-transform: uppercase;
       color: var(--color-white);
 
@@ -116,7 +116,6 @@ import charsImg from "./assets/presentation-chars.webp";
       @media (width >= 960px) {
         font-size: 40px;
         line-height: 105%;
-        text-transform: none;
       }
     }
 
@@ -131,6 +130,7 @@ import charsImg from "./assets/presentation-chars.webp";
       display: flex;
       justify-content: center;
       align-items: flex-end;
+      margin-top: -10vw;
       opacity: 0;
       transform: translateY(var(--chars-translate-y)) scale(var(--chars-scale));
       transition:
@@ -138,10 +138,21 @@ import charsImg from "./assets/presentation-chars.webp";
         transform calc(1.5 * var(--transition-long)) var(--transition-f);
       transform-origin: center bottom;
 
+      /* tablet */
+      @media (width >= 768px) {
+        margin-top: -10vw;
+      }
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: 0;
+      }
+
       img {
         width: 100%;
         height: auto;
         object-fit: contain;
+        max-width: 460px;
       }
 
       @media (prefers-reduced-motion: reduce) {
