@@ -2,12 +2,11 @@
 import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import Head from "../../components/head.astro";
 import Quiz from "../../components/metallurgist-day/quiz.astro";
+import MainLayout from "../../layouts/main.astro";
 import { charsTransition } from "../../transitions/chars";
 import { questionBackgroundTransition } from "../../transitions/question-background";
 import { quizPanelTransition } from "../../transitions/quiz-panel";
-import MetrikaNoscript from "../../components/metallurgist-day/metrika-noscript.astro";
 
 export async function getStaticPaths() {
   const questions = await getCollection("question");
@@ -51,73 +50,68 @@ const {
   Do not also snapshot this wrapper: on Safari that creates an additional
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
-<html lang="ru">
-  <Head />
+<MainLayout>
+  <div class="question">
+    <div class="question__body">
+      <div class="bg">
+        <div
+          class="bg-images"
+          transition:name="question-background"
+          transition:animate={questionBackgroundTransition}
+        >
+          <picture class="bg__image" data-transition-image>
+            <source
+              media="(min-width: 960px)"
+              srcset={desktopBackground.src}
+              width="1440"
+              height="810"
+              type="image/webp"
+            />
+            <img
+              src={mobileBackground.src}
+              alt=""
+              loading="eager"
+              decoding="sync"
+              fetchpriority="high"
+              {...mobileBackgroundAttributes}
+            />
+          </picture>
+        </div>
 
-  <body>
-    <MetrikaNoscript />
-    <div class="question">
-      <div class="question__body">
-        <div class="bg">
-          <div
-            class="bg-images"
-            transition:name="question-background"
-            transition:animate={questionBackgroundTransition}
-          >
-            <picture class="bg__image" data-transition-image>
-              <source
-                media="(min-width: 960px)"
-                srcset={desktopBackground.src}
-                width="1440"
-                height="810"
-                type="image/webp"
-              />
-              <img
-                src={mobileBackground.src}
-                alt=""
-                loading="eager"
-                decoding="sync"
-                fetchpriority="high"
-                {...mobileBackgroundAttributes}
-              />
-            </picture>
-          </div>
-
-          <div
-            class="bg-chars"
-            transition:name="chars"
-            transition:animate={charsTransition}
-          >
-            <picture data-transition-image>
-              <source
-                media="(min-width: 960px)"
-                srcset={desktopChars.src}
-                width="1440"
-                height="810"
-                type="image/webp"
-              />
-              <img
-                src={mobileChars.src}
-                alt=""
-                loading="eager"
-                decoding="sync"
-                fetchpriority="high"
-                {...mobileCharsAttributes}
-              />
-            </picture>
-          </div>
+        <div
+          class="bg-chars"
+          transition:name="chars"
+          transition:animate={charsTransition}
+        >
+          <picture data-transition-image>
+            <source
+              media="(min-width: 960px)"
+              srcset={desktopChars.src}
+              width="1440"
+              height="810"
+              type="image/webp"
+            />
+            <img
+              src={mobileChars.src}
+              alt=""
+              loading="eager"
+              decoding="sync"
+              fetchpriority="high"
+              {...mobileCharsAttributes}
+            />
+          </picture>
         </div>
       </div>
-      <div
-        class="quiz-panel"
-        transition:name="quiz-panel"
-        transition:animate={quizPanelTransition}
-      >
-        <Quiz question={question} />
-      </div>
     </div>
-  </body>
-</html>
+    <div
+      class="quiz-panel"
+      transition:name="quiz-panel"
+      transition:animate={quizPanelTransition}
+    >
+      <Quiz question={question} />
+    </div>
+  </div>
+</MainLayout>
 
 <style>
   .question {
