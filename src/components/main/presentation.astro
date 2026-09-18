@@ -26,34 +26,6 @@ import charsImg from "./assets/presentation-chars.webp";
   </a>
 </section>
 
-<script>
-  function initPresentationCharsReveal() {
-    const sections = document.querySelectorAll<HTMLElement>(
-      ".presentation[data-chars-reveal]",
-    );
-
-    sections.forEach((section) => {
-      if (section.dataset.revealInitialized) return;
-
-      section.dataset.revealInitialized = "true";
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry?.isIntersecting || entry.intersectionRatio < 0.8) return;
-
-          section.classList.add("is-chars-visible");
-          observer.unobserve(section);
-        },
-        { threshold: 0.8 },
-      );
-
-      observer.observe(section);
-    });
-  }
-
-  document.addEventListener("astro:page-load", initPresentationCharsReveal);
-</script>
-
 <style>
   .presentation {
     position: relative;
@@ -145,14 +117,19 @@ import charsImg from "./assets/presentation-chars.webp";
 
       /* desktop */
       @media (width >= 960px) {
-        margin-top: 0;
+        margin-top: -2vw;
       }
 
       img {
         width: 100%;
         height: auto;
         object-fit: contain;
-        max-width: 460px;
+        max-width: 480px;
+
+        /* desktop */
+        @media (width >= 960px) {
+          max-width: none;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -170,3 +147,54 @@ import charsImg from "./assets/presentation-chars.webp";
     }
   }
 </style>
+
+<script>
+  function initPresentationCharsReveal() {
+    const sections = document.querySelectorAll<HTMLElement>(
+      ".presentation[data-chars-reveal]",
+    );
+
+    sections.forEach((section) => {
+      if (section.dataset.revealInitialized) return;
+
+      section.dataset.revealInitialized = "true";
+      let frameId: number | undefined;
+
+      const cleanup = () => {
+        window.removeEventListener("scroll", queueRevealCheck);
+        window.removeEventListener("resize", queueRevealCheck);
+        document.removeEventListener("astro:before-swap", cleanup);
+        if (frameId) window.cancelAnimationFrame(frameId);
+      };
+
+      const revealIfVisible = () => {
+        frameId = undefined;
+
+        const rect = section.getBoundingClientRect();
+        const visibleHeight = Math.max(
+          0,
+          Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0),
+        );
+        const requiredVisibleHeight =
+          Math.min(rect.height, window.innerHeight) * 0.8;
+
+        if (visibleHeight < requiredVisibleHeight) return;
+
+        section.classList.add("is-chars-visible");
+        cleanup();
+      };
+
+      function queueRevealCheck() {
+        if (frameId) return;
+        frameId = window.requestAnimationFrame(revealIfVisible);
+      }
+
+      window.addEventListener("scroll", queueRevealCheck, { passive: true });
+      window.addEventListener("resize", queueRevealCheck);
+      document.addEventListener("astro:before-swap", cleanup, { once: true });
+      queueRevealCheck();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initPresentationCharsReveal);
+</script>

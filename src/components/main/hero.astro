@@ -108,9 +108,8 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
 
   <div class="hero__foot">
     <p>
-      Проект по внедрению Ценностей и «Кодекса Удокана», ведь они<br
-        class="hero__foot-break"
-      /> — это основа всего, что мы делаем.
+      Проект по внедрению Ценностей и «Кодекса Удокана», ведь они — это основа
+      всего, что мы делаем.
     </p>
   </div>
 </section>
@@ -447,25 +446,18 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
       font: var(--font-text-medium);
       font-size: 16px;
       color: var(--color-white);
-      max-width: 555px;
+      max-width: 550px;
       margin-inline: auto;
-
-      & .hero__foot-break {
-        display: none;
-      }
 
       /* desktop */
       @media (width >= 960px) {
         position: absolute;
+        line-height: 140%;
         bottom: 72px;
         left: 50%;
         width: 555px;
         padding: 0;
         transform: translate(-50%, 100%);
-
-        & .hero__foot-break {
-          display: block;
-        }
       }
     }
   }
