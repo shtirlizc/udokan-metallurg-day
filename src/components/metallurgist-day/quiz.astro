@@ -186,7 +186,8 @@ const {
     if (!window.matchMedia("(max-width: 959px)").matches) return;
 
     requestAnimationFrame(() => {
-      const scrollContainer = document.querySelector<HTMLElement>(".quiz");
+      const scrollContainer =
+        document.querySelector<HTMLElement>(".quiz-panel");
 
       scrollContainer?.scrollTo({
         top: scrollContainer.scrollHeight,
@@ -279,11 +280,8 @@ const {
     background-color: var(--white-0);
     border-radius: var(--border-radius12) var(--border-radius12) 0 0;
     z-index: 1;
-    height: 100%;
-    min-height: 0;
+    min-height: 100%;
     padding: var(--space20) var(--space16);
-    overflow-x: hidden;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
 
@@ -323,6 +321,11 @@ const {
         animation: quiz-scroll-cue 1.6s ease-in-out infinite;
         will-change: transform, opacity;
       }
+    }
+
+    /* mobile landscape */
+    @media (width < 960px) and (orientation: landscape) {
+      border-radius: var(--border-radius12);
     }
 
     /* desktop */
