@@ -67,7 +67,8 @@ const {
     // On browser back/forward Astro can preserve the previous DOM, so this
     // check must run before the initialization guard on every page load.
     if (hasSavedAnswer(questionNumber)) {
-      navigate(nextLink.href, { history: "replace" });
+      const nextHref = nextLink.dataset.href ?? nextLink.href;
+      navigate(nextHref, { history: "replace" });
       return;
     }
 
@@ -83,7 +84,7 @@ const {
         event.ctrlKey ||
         event.shiftKey ||
         event.altKey ||
-        nextLink.classList.contains("disabled")
+        !nextLink.hasAttribute("href")
       ) {
         return;
       }
@@ -171,7 +172,11 @@ const {
   }
 
   function activateNextLink(nextLink: HTMLAnchorElement) {
-    nextLink.classList.remove("disabled");
+    const href = nextLink.dataset.href;
+
+    if (!href) return;
+
+    nextLink.setAttribute("href", href);
   }
 
   function scrollToQuizBottom() {

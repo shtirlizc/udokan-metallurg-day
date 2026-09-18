@@ -9,8 +9,9 @@ const { href = "", disabled = false, block = false } = Astro.props;
 ---
 
 <a
-  href={href}
-  class:list={["button", block && "block", disabled && "disabled"]}
+  href={disabled ? undefined : href}
+  data-href={disabled ? href : undefined}
+  class:list={["button", block && "block"]}
 >
   <span><slot /></span>
   <span class="button__loading-shine" aria-hidden="true"></span>
@@ -65,7 +66,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
       transition: opacity var(--transition) var(--transition-f);
     }
 
-    &:not(.disabled) {
+    &[href] {
       @media (hover: hover) {
         cursor: pointer;
 
@@ -81,7 +82,7 @@ const { href = "", disabled = false, block = false } = Astro.props;
       }
     }
 
-    &.disabled {
+    &:not([href]) {
       pointer-events: none;
 
       &::after {
