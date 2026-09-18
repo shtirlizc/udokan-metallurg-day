@@ -1,5 +1,5 @@
 ---
-import Logo from "../../assets/logo.svg";
+import Logo from "../logo.astro";
 import LogoLarge from "./assets/logo-large.svg";
 import HeroBackgroundDesktop from "./assets/hero-bg-desktop.webp";
 import HeroBackgroundMobile from "./assets/hero-bg-mobile.webp";
@@ -178,8 +178,10 @@ const heroTitleShapeHref = `${HeroTitleEdge}#hero-title-shape`;
     }
 
     & .hero__head {
+      position: relative;
       padding: var(--space20);
       text-align: center;
+      z-index: 10;
     }
 
     & .hero__body {
