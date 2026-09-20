@@ -4,21 +4,21 @@ export const questionBackgroundTransition = {
   forwards: {
     old: {
       ...transitionTiming,
-      name: "metallurgist-day-background-old-forward",
+      name: "question-background-old-forward",
     },
     new: {
       ...transitionTiming,
-      name: "metallurgist-day-background-new-forward",
+      name: "question-background-new-forward",
     },
   },
   backwards: {
     old: {
       ...transitionTiming,
-      name: "metallurgist-day-background-old-back",
+      name: "question-background-old-back",
     },
     new: {
       ...transitionTiming,
-      name: "metallurgist-day-background-new-back",
+      name: "question-background-new-back",
     },
   },
 };

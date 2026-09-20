@@ -203,13 +203,13 @@ const cover = new URL("/cover.jpg", Astro.site);
         await loadPage();
         const isIOSSceneExit =
           isIOS() &&
-          (document.querySelector(".metallurgist-day") ||
+          (document.querySelector(".question") ||
             document.querySelector("#result-message") ||
             document.querySelector(".main"));
         const isIOSQuestionToQuestion =
           isIOSSceneExit &&
-          document.querySelector(".metallurgist-day") &&
-          preparation.newDocument.querySelector(".metallurgist-day");
+          document.querySelector(".question") &&
+          preparation.newDocument.querySelector(".question");
 
         if (isIOSSceneExit) {
           addIOSQuestionTransitionStyle(
@@ -219,7 +219,7 @@ const cover = new URL("/cover.jpg", Astro.site);
 
           document
             .querySelectorAll<HTMLElement>(
-              ".metallurgist-day [data-astro-transition-scope], .main[data-astro-transition-scope]",
+              ".question [data-astro-transition-scope], .main[data-astro-transition-scope]",
             )
             .forEach((layer) => {
               layer.style.viewTransitionName = "none";

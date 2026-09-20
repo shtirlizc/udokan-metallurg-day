@@ -395,7 +395,7 @@ body:has(dialog[open]) {
 }
 
 /*
- * The result page has no matching named metallurgist-day layers. Without an explicit
+ * The result page has no matching named question layers. Without an explicit
  * old-snapshot animation, the browser falls back to fading those layers out.
  */
 ::view-transition-old(question-background) {
