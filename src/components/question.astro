@@ -1,0 +1,218 @@
+---
+import { questionBackgroundTransition } from "../transitions/question-background.ts";
+import { charsTransition } from "../transitions/chars.ts";
+import { quizPanelTransition } from "../transitions/quiz-panel.ts";
+import type { getImage } from "astro:assets";
+
+type ImageResult = Awaited<ReturnType<typeof getImage>>;
+
+interface Props {
+  desktopBackgroundSrc: ImageResult["src"];
+  mobileBackgroundSrc: ImageResult["src"];
+  desktopCharsSrc: ImageResult["src"];
+  mobileCharsSrc: ImageResult["src"];
+  mobileBackgroundAttributes: ImageResult["attributes"];
+  mobileCharsAttributes: ImageResult["attributes"];
+}
+
+const {
+  desktopBackgroundSrc,
+  mobileBackgroundSrc,
+  desktopCharsSrc,
+  mobileCharsSrc,
+  mobileBackgroundAttributes,
+  mobileCharsAttributes,
+} = Astro.props;
+---
+
+<!--
+  The question scene owns three independently animated View Transition layers.
+  Do not also snapshot this wrapper: on Safari that creates an additional
+  full-viewport old snapshot and the first outgoing scene can be dropped.
+-->
+<div class="question">
+  <div class="question__body">
+    <div class="bg">
+      <div
+        class="bg-images"
+        transition:name="question-background"
+        transition:animate={questionBackgroundTransition}
+      >
+        <picture class="bg__image" data-transition-image>
+          <source
+            media="(min-width: 960px), (orientation: landscape)"
+            srcset={desktopBackgroundSrc}
+            width="1440"
+            height="810"
+            type="image/webp"
+          />
+          <img
+            src={mobileBackgroundSrc}
+            alt=""
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+            {...mobileBackgroundAttributes}
+          />
+        </picture>
+      </div>
+
+      <div
+        class="bg-chars"
+        transition:name="chars"
+        transition:animate={charsTransition}
+      >
+        <picture data-transition-image>
+          <source
+            media="(min-width: 960px), (orientation: landscape)"
+            srcset={desktopCharsSrc}
+            width="1440"
+            height="810"
+            type="image/webp"
+          />
+          <img
+            src={mobileCharsSrc}
+            alt=""
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+            {...mobileCharsAttributes}
+          />
+        </picture>
+      </div>
+    </div>
+  </div>
+  <div
+    class="quiz-panel"
+    transition:name="quiz-panel"
+    transition:animate={quizPanelTransition}
+  >
+    <slot />
+  </div>
+</div>
+
+<style>
+  .question {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+
+    /* mobile landscape */
+    @media (width < 960px) and (orientation: landscape) {
+      grid-template-rows: none;
+      grid-template-columns: clamp(300px, 45vw, 400px) 1fr;
+      padding: var(--space8);
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      height: 100vh;
+      grid-template-rows: none;
+      grid-template-columns: 473px 1fr;
+      overflow: hidden;
+      padding: 10px;
+    }
+
+    & .question__body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      aspect-ratio: 1;
+
+      /* mobile landscape */
+      @media (width < 960px) and (orientation: landscape) {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+      }
+
+      /* desktop */
+      @media (width >= 960px) {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+      }
+    }
+
+    .bg {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      .bg-images {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        transform: scale(1);
+        transform-origin: center;
+      }
+
+      .bg-chars {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        transform: scale(1);
+        transform-origin: center;
+      }
+
+      .bg__image,
+      .bg-chars picture {
+        position: absolute;
+        inset: 0;
+        display: block;
+      }
+
+      .bg__image img,
+      .bg-chars img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .bg-chars {
+        picture {
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .quiz-panel {
+    position: relative;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    margin-top: -15px;
+
+    /* mobile landscape */
+    @media (width < 960px) and (orientation: landscape) {
+      height: 100%;
+      margin-top: 0;
+    }
+
+    &.loading {
+      cursor: progress;
+      pointer-events: none;
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      height: 100%;
+      border-radius: 0;
+      padding: 0;
+      background-color: transparent;
+      margin-top: 0;
+    }
+  }
+</style>

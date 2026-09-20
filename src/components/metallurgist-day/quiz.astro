@@ -1,13 +1,11 @@
 ---
 import Link from "./link.astro";
-import type { CollectionEntry } from "astro:content";
+import type { QuizAnswer, QuizQuestion } from "../../types/quiz";
 import Answer from "./answer.astro";
 
 interface Props {
-  question: CollectionEntry<"metallurgistQuestions">;
+  question: QuizQuestion;
 }
-
-type QuestionAnswer = CollectionEntry<"metallurgistQuestions">["data"]["answers"][number];
 
 const { question } = Astro.props;
 const {
@@ -18,6 +16,11 @@ const {
   nextPage,
   isLast = false,
 } = question.data;
+const quizBasePaths: Record<QuizQuestion["collection"], string> = {
+  metallurgistQuestions: "/день-металлурга",
+  safetyQuestions: "/безопасность",
+};
+const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
 ---
 
 <div class="quiz" data-question-number={questionNumber}>
@@ -31,7 +34,7 @@ const {
 
   <ul class="quiz__body">
     {
-      answers.map((answer: QuestionAnswer) => {
+      answers.map((answer: QuizAnswer) => {
         return (
           <li>
             <Answer answer={answer} correctAnswerId={correctAnswerId} />
@@ -42,7 +45,7 @@ const {
   </ul>
 
   <div class="quiz__next">
-    <Link href={`/день-металлурга/${nextPage}`} block disabled>
+    <Link href={nextPageHref} block disabled>
       {isLast ? "Получить результаты" : "Следующий вопрос"}
     </Link>
   </div>

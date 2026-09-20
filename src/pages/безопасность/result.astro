@@ -5,9 +5,10 @@ import Header from "../../components/metallurgist-day/header.astro";
 import ResultMessage from "../../components/metallurgist-day/result-message.astro";
 import MainLayout from "../../layouts/main.astro";
 import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
+import SafetyLayout from "../../layouts/safety-layout.astro";
 
 const questions = await getCollection("safetyQuestions");
 const questionsCount = questions.length;
 ---
 
-<MainLayout>789</MainLayout>
+<MainLayout><SafetyLayout>Result message</SafetyLayout></MainLayout>

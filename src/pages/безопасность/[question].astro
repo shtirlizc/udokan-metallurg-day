@@ -4,6 +4,9 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
 import MainLayout from "../../layouts/main.astro";
+import SafetyLayout from "../../layouts/safety-layout.astro";
+import Question from "../../components/question.astro";
+import Quiz from "../../components/metallurgist-day/quiz.astro";
 
 export async function getStaticPaths() {
   const questions = await getCollection("safetyQuestions");
@@ -47,4 +50,17 @@ const {
   Do not also snapshot this wrapper: on Safari that creates an additional
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
-<MainLayout> 456 </MainLayout>
+<MainLayout>
+  <SafetyLayout>
+    <Question
+      desktopBackgroundSrc={desktopBackground.src}
+      mobileBackgroundSrc={mobileBackground.src}
+      desktopCharsSrc={desktopChars.src}
+      mobileCharsSrc={mobileChars.src}
+      mobileBackgroundAttributes={mobileBackgroundAttributes}
+      mobileCharsAttributes={mobileCharsAttributes}
+    >
+      <Quiz question={question} />
+    </Question>
+  </SafetyLayout>
+</MainLayout>

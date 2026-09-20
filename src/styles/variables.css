@@ -62,6 +62,8 @@
   --scrollbar-color: var(--yellow-orange-accent);
   --scrollbar-side: var(--space8);
 
+  --link-bg: linear-gradient(180deg, #ffc037 0%, #f83833 50%, #ffc037 100%);
+
   /* widescreen */
   @media (width >= 1200px) {
     --font-title-1: normal 500 50px / 105% var(--font-primary), sans-serif;
