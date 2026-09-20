@@ -97,6 +97,7 @@ const {
     width: 100%;
     height: 100dvh;
     display: grid;
+    padding: var(--question-padding);
     grid-template-rows: auto 1fr;
     overflow: hidden;
 
@@ -104,7 +105,6 @@ const {
     @media (width < 960px) and (orientation: landscape) {
       grid-template-rows: none;
       grid-template-columns: clamp(300px, 45vw, 400px) 1fr;
-      padding: var(--space8);
     }
 
     /* desktop */
@@ -113,7 +113,6 @@ const {
       grid-template-rows: none;
       grid-template-columns: 473px 1fr;
       overflow: hidden;
-      padding: 10px;
     }
 
     & .question__body {

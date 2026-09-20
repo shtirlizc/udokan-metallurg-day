@@ -1,5 +1,5 @@
 ---
-import Link from "./link.astro";
+import Link from "../link.astro";
 import type { QuizStorageKey } from "../../config/quizzes";
 import type { QuizAnswer, QuizQuestion } from "../../types/quiz";
 import Answer from "./answer.astro";
@@ -7,9 +7,10 @@ import Answer from "./answer.astro";
 interface Props {
   question: QuizQuestion;
   storageKey: QuizStorageKey;
+  nextLinkView?: "default" | "rect";
 }
 
-const { question, storageKey } = Astro.props;
+const { question, storageKey, nextLinkView = "default" } = Astro.props;
 const {
   questionNumber,
   questionText,
@@ -51,11 +52,126 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
   </ul>
 
   <div class="quiz__next">
-    <Link href={nextPageHref} block disabled>
+    <Link href={nextPageHref} block disabled view={nextLinkView}>
       {isLast ? "Получить результаты" : "Следующий вопрос"}
     </Link>
   </div>
 </div>
+
+<style>
+  .quiz {
+    position: relative;
+    background-color: var(--white-0);
+    border-radius: var(--quiz-border-radius);
+    z-index: 1;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    @media (prefers-reduced-motion: no-preference) {
+      & .quiz__scroll-cue {
+        animation: quiz-scroll-cue 1.6s ease-in-out infinite;
+        will-change: transform, opacity;
+      }
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      & .quiz__scroll-cue {
+        display: none;
+      }
+    }
+
+    & .quiz__scroll-cue {
+      position: absolute;
+      top: var(--space8);
+      right: var(--space16);
+      z-index: 1;
+      width: 18px;
+      height: 24px;
+      pointer-events: none;
+      opacity: 0.7;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentcolor;
+        border-bottom: 2px solid currentcolor;
+        transform: rotate(45deg);
+      }
+
+      &::before {
+        top: 3px;
+      }
+
+      &::after {
+        top: 10px;
+      }
+    }
+
+    & .quiz__head {
+      padding: var(--space20) var(--space16) 0;
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding: var(--space32) var(--space32) 0;
+      }
+
+      h2 {
+        font: var(--font-title-2);
+      }
+
+      p {
+        margin-top: var(--space16);
+        font: var(--font-text-medium);
+
+        /* desktop */
+        @media (width >= 960px) {
+          margin-top: var(--space32);
+        }
+      }
+    }
+
+    & .quiz__body {
+      margin-top: var(--space12);
+      margin-bottom: var(--space40);
+      list-style: none;
+      display: grid;
+      gap: var(--space);
+      padding: 0 var(--space16);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: var(--space24);
+        gap: var(--space8);
+        padding: 0 var(--space32);
+      }
+    }
+
+    & .quiz__next {
+      margin-top: auto;
+      margin-bottom: 0;
+      padding: var(--quiz-next-padding);
+    }
+  }
+
+  @keyframes quiz-scroll-cue {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.35;
+    }
+
+    45% {
+      transform: translateY(6px);
+      opacity: 0.85;
+    }
+  }
+</style>
 
 <script>
   import { gsap } from "gsap";
@@ -286,118 +402,3 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
     );
   }
 </script>
-
-<style>
-  .quiz {
-    position: relative;
-    background-color: var(--white-0);
-    border-radius: var(--border-radius12) var(--border-radius12) 0 0;
-    z-index: 1;
-    min-height: 100%;
-    padding: var(--space20) var(--space16);
-    display: flex;
-    flex-direction: column;
-
-    & .quiz__scroll-cue {
-      position: absolute;
-      top: var(--space8);
-      right: var(--space16);
-      z-index: 1;
-      width: 18px;
-      height: 24px;
-      pointer-events: none;
-      opacity: 0.7;
-
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        left: 5px;
-        width: 8px;
-        height: 8px;
-        border-right: 2px solid currentcolor;
-        border-bottom: 2px solid currentcolor;
-        transform: rotate(45deg);
-      }
-
-      &::before {
-        top: 3px;
-      }
-
-      &::after {
-        top: 10px;
-      }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      & .quiz__scroll-cue {
-        animation: quiz-scroll-cue 1.6s ease-in-out infinite;
-        will-change: transform, opacity;
-      }
-    }
-
-    /* mobile landscape */
-    @media (width < 960px) and (orientation: landscape) {
-      border-radius: var(--border-radius12);
-    }
-
-    /* desktop */
-    @media (width >= 960px) {
-      border-radius: 24px;
-      padding: var(--space32);
-
-      & .quiz__scroll-cue {
-        display: none;
-      }
-    }
-
-    & .quiz__head {
-      h2 {
-        font: var(--font-title-2);
-      }
-
-      p {
-        margin-top: var(--space16);
-        font: var(--font-text-medium);
-
-        /* desktop */
-        @media (width >= 960px) {
-          margin-top: var(--space32);
-        }
-      }
-    }
-
-    & .quiz__body {
-      margin-top: var(--space12);
-      margin-bottom: var(--space40);
-      list-style: none;
-      padding: 0;
-      display: grid;
-      gap: var(--space);
-
-      /* desktop */
-      @media (width >= 960px) {
-        margin-top: var(--space24);
-        gap: var(--space8);
-      }
-    }
-
-    & .quiz__next {
-      margin-top: auto;
-      margin-bottom: 0;
-    }
-  }
-
-  @keyframes quiz-scroll-cue {
-    0%,
-    100% {
-      transform: translateY(0);
-      opacity: 0.35;
-    }
-
-    45% {
-      transform: translateY(6px);
-      opacity: 0.85;
-    }
-  }
-</style>

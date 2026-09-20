@@ -63,6 +63,22 @@
   --scrollbar-side: var(--space8);
 
   --link-bg: linear-gradient(180deg, #ffc037 0%, #f83833 50%, #ffc037 100%);
+  --question-padding: 0;
+  --quiz-border-radius: var(--border-radius12) var(--border-radius12) 0 0;
+  --quiz-next-padding: var(--space20) var(--space16);
+
+  /* mobile landscape */
+  @media (width < 960px) and (orientation: landscape) {
+    --question-padding: var(--space8);
+    --quiz-border-radius: var(--border-radius12);
+  }
+
+  /* desktop */
+  @media (width >= 960px) {
+    --question-padding: 10px;
+    --quiz-border-radius: 24px;
+    --quiz-next-padding: var(--space32);
+  }
 
   /* widescreen */
   @media (width >= 1200px) {

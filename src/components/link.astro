@@ -3,7 +3,7 @@ interface Props {
   href: string;
   disabled?: boolean;
   block?: boolean;
-  view?: "default" | "react" | "round";
+  view?: "default" | "rect" | "round";
 }
 
 const {
@@ -42,9 +42,7 @@ const {
     line-height: 60px;
     padding: 0 89px;
     overflow: hidden;
-    transition:
-      transform var(--transition-short),
-      color var(--transition-short);
+    transition: color var(--transition-short);
 
     &::before {
       content: "";
@@ -80,10 +78,6 @@ const {
             transform: translateY(-50%);
           }
         }
-      }
-
-      &:active {
-        transform: translateY(1px);
       }
     }
 

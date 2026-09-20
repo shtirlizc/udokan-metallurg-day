@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 import Quiz from "../../components/metallurgist-day/quiz.astro";
 import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 import MainLayout from "../../layouts/main.astro";
-import Question from "../../components/question.astro";
+import QuestionComponent from "../../components/question.astro";
 
 export async function getStaticPaths() {
   const questions = await getCollection("metallurgistQuestions");
@@ -52,7 +52,7 @@ const {
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
 <MainLayout>
-  <Question
+  <QuestionComponent
     desktopBackgroundSrc={desktopBackground.src}
     mobileBackgroundSrc={mobileBackground.src}
     desktopCharsSrc={desktopChars.src}
@@ -60,9 +60,6 @@ const {
     mobileBackgroundAttributes={mobileBackgroundAttributes}
     mobileCharsAttributes={mobileCharsAttributes}
   >
-    <Quiz
-      question={question}
-      storageKey={QUIZ_STORAGE_KEYS.metallurgistDay}
-    />
-  </Question>
+    <Quiz question={question} storageKey={QUIZ_STORAGE_KEYS.metallurgistDay} />
+  </QuestionComponent>
 </MainLayout>

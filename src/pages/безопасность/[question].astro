@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
-import Question from "../../components/question.astro";
+import QuestionComponent from "../../components/question.astro";
 import Quiz from "../../components/metallurgist-day/quiz.astro";
 import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 
@@ -53,7 +53,7 @@ const {
 -->
 <MainLayout>
   <SafetyLayout>
-    <Question
+    <QuestionComponent
       desktopBackgroundSrc={desktopBackground.src}
       mobileBackgroundSrc={mobileBackground.src}
       desktopCharsSrc={desktopChars.src}
@@ -61,7 +61,11 @@ const {
       mobileBackgroundAttributes={mobileBackgroundAttributes}
       mobileCharsAttributes={mobileCharsAttributes}
     >
-      <Quiz question={question} storageKey={QUIZ_STORAGE_KEYS.safety} />
-    </Question>
+      <Quiz
+        question={question}
+        storageKey={QUIZ_STORAGE_KEYS.safety}
+        nextLinkView="rect"
+      />
+    </QuestionComponent>
   </SafetyLayout>
 </MainLayout>
