@@ -1,0 +1,50 @@
+---
+import { getImage } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+import MainLayout from "../../layouts/main.astro";
+
+export async function getStaticPaths() {
+  const questions = await getCollection("safetyQuestions");
+
+  return questions.map((question: CollectionEntry<"safetyQuestions">) => ({
+    params: { question: question.id },
+    props: { question },
+  }));
+}
+
+interface Props {
+  question: CollectionEntry<"safetyQuestions">;
+}
+
+const { question } = Astro.props;
+const { backgrounds } = question.data;
+const { mobile, desktop, charsMobile, charsDesktop } = backgrounds;
+const [mobileBackground, desktopBackground, mobileChars, desktopChars] =
+  await Promise.all([
+    getImage({ src: mobile, format: "webp", quality: 100 }),
+    getImage({ src: desktop, format: "webp", quality: 100 }),
+    charsMobile && getImage({ src: charsMobile, format: "webp", quality: 100 }),
+    charsDesktop &&
+      getImage({ src: charsDesktop, format: "webp", quality: 100 }),
+  ]);
+
+const {
+  loading: _mobileBackgroundLoading,
+  decoding: _mobileBackgroundDecoding,
+  ...mobileBackgroundAttributes
+} = mobileBackground.attributes;
+const {
+  loading: _mobileCharsLoading,
+  decoding: _mobileCharsDecoding,
+  ...mobileCharsAttributes
+} = mobileChars.attributes;
+---
+
+<!--
+  The question scene owns three independently animated View Transition layers.
+  Do not also snapshot this wrapper: on Safari that creates an additional
+  full-viewport old snapshot and the first outgoing scene can be dropped.
+-->
+<MainLayout> 456 </MainLayout>
