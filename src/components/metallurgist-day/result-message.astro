@@ -40,6 +40,7 @@ const { questionsCount, storageKey } = Astro.props;
 <script>
   import { gsap } from "gsap";
   import { navigate } from "astro:transitions/client";
+  import { readStoredQuizResult } from "../../scripts/quiz-result";
 
   const RESULT_C =
     "Всё начинается с первого шага — рады, что вы с нами! Вместе у нас всё получится!";
@@ -75,7 +76,7 @@ const { questionsCount, storageKey } = Astro.props;
 
     if (!storageKey) return;
 
-    const savedResult = getSavedResult(storageKey);
+    const result = readStoredQuizResult(storageKey, questionsCount);
 
     restartLink?.addEventListener("click", (event) => {
       const isIOS =
@@ -110,68 +111,19 @@ const { questionsCount, storageKey } = Astro.props;
       fallback = window.setTimeout(restart, 500);
     });
 
-    if (!Number.isFinite(questionsCount) || questionsCount <= 0) {
+    if (!result) {
       goHome();
       return;
     }
 
-    if (savedResult) {
-      try {
-        const parsedAnswers = JSON.parse(savedResult);
-        const isValid = validateResults(parsedAnswers);
-
-        if (isValid) {
-          calcResult(parsedAnswers);
-        } else {
-          goHome();
-          return;
-        }
-      } catch {
-        goHome();
-        return;
-      }
-    } else {
-      goHome();
-      return;
-    }
+    showResult(
+      result.correctAnswersCount,
+      `${result.correctAnswersCount}/${result.totalAnswers} правильных ответов`,
+      messageTexts.get(result.correctAnswersCount) ?? RESULT_C,
+    );
 
     function goHome() {
       navigate("/день-металлурга", { history: "replace" });
-    }
-
-    function getSavedResult(storageKey: string) {
-      try {
-        return sessionStorage.getItem(storageKey);
-      } catch {
-        return null;
-      }
-    }
-
-    function validateResults(answers: unknown) {
-      if (!answers || typeof answers !== "object" || Array.isArray(answers)) {
-        return false;
-      }
-
-      const values = Object.values(answers);
-
-      return (
-        values.length === questionsCount &&
-        values.every((value) => value === "success" || value === "fail")
-      );
-    }
-
-    function calcResult(result: Record<string, "success" | "fail">) {
-      const answers = Object.values(result);
-      const total = answers.length;
-      const correctAnswersLength = answers.filter(
-        (_) => _ === "success",
-      ).length;
-
-      showResult(
-        correctAnswersLength,
-        `${correctAnswersLength}/${total} правильных ответов`,
-        messageTexts.get(correctAnswersLength) ?? RESULT_C,
-      );
     }
 
     function showResult(

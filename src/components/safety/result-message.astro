@@ -1,0 +1,59 @@
+---
+import Link from "../link.astro";
+import type { QuizStorageKey } from "../../config/quizzes.ts";
+
+interface Props {
+  questionsCount: number;
+  storageKey: QuizStorageKey;
+}
+
+const { questionsCount, storageKey } = Astro.props;
+---
+
+<div
+  data-quiz-result
+  data-questions-count={questionsCount}
+  data-quiz-storage-key={storageKey}
+>
+  <Link href="/безопасность/" view="round">Пройти ещё раз</Link>
+</div>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+  import { readStoredQuizResult } from "../../scripts/quiz-result";
+
+  function initSafetyQuizResult() {
+    const resultElement = document.querySelector<HTMLElement>(
+      "[data-quiz-result]",
+    );
+
+    if (!resultElement || resultElement.dataset.initialized === "true") return;
+
+    const questionsCount = Number(resultElement.dataset.questionsCount);
+    const storageKey = resultElement.dataset.quizStorageKey;
+
+    if (!storageKey) {
+      goHome();
+      return;
+    }
+
+    const result = readStoredQuizResult(storageKey, questionsCount);
+
+    if (!result) {
+      goHome();
+      return;
+    }
+
+    resultElement.dataset.initialized = "true";
+    resultElement.dataset.correctAnswersCount = String(
+      result.correctAnswersCount,
+    );
+    resultElement.dataset.totalAnswers = String(result.totalAnswers);
+  }
+
+  function goHome() {
+    navigate("/безопасность", { history: "replace" });
+  }
+
+  document.addEventListener("astro:page-load", initSafetyQuizResult);
+</script>

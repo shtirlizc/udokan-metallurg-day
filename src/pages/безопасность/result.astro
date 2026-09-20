@@ -1,14 +1,20 @@
 ---
 import { getCollection } from "astro:content";
 
-import Header from "../../components/metallurgist-day/header.astro";
-import ResultMessage from "../../components/metallurgist-day/result-message.astro";
+import ResultMessage from "../../components/safety/result-message.astro";
 import MainLayout from "../../layouts/main.astro";
-import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
+import { QUIZ_STORAGE_KEYS } from "../../config/quizzes.ts";
 
 const questions = await getCollection("safetyQuestions");
 const questionsCount = questions.length;
 ---
 
-<MainLayout><SafetyLayout>Result message</SafetyLayout></MainLayout>
+<MainLayout>
+  <SafetyLayout>
+    <ResultMessage
+      questionsCount={questionsCount}
+      storageKey={QUIZ_STORAGE_KEYS.safety}
+    />
+  </SafetyLayout>
+</MainLayout>
