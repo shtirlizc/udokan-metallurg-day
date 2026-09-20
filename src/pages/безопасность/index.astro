@@ -2,10 +2,20 @@
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import Link from "../../components/metallurgist-day/link.astro";
+import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 ---
 
 <MainLayout>
   <SafetyLayout>
-    <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>
+    <div
+      data-quiz-home="/безопасность"
+      data-quiz-storage-key={QUIZ_STORAGE_KEYS.safety}
+    >
+      <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>
+    </div>
   </SafetyLayout>
 </MainLayout>
+
+<script>
+  import "../../scripts/quiz-home";
+</script>

@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 
 import Header from "../../components/metallurgist-day/header.astro";
 import ResultMessage from "../../components/metallurgist-day/result-message.astro";
+import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 import MainLayout from "../../layouts/main.astro";
 import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 
@@ -14,7 +15,10 @@ const questionsCount = questions.length;
   <MetallurgistDayLayout>
     <Header isCentered />
     <main class="content">
-      <ResultMessage questionsCount={questionsCount} />
+      <ResultMessage
+        questionsCount={questionsCount}
+        storageKey={QUIZ_STORAGE_KEYS.metallurgistDay}
+      />
     </main>
     <div></div>
   </MetallurgistDayLayout>

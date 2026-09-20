@@ -7,6 +7,7 @@ import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import Question from "../../components/question.astro";
 import Quiz from "../../components/metallurgist-day/quiz.astro";
+import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 
 export async function getStaticPaths() {
   const questions = await getCollection("safetyQuestions");
@@ -60,7 +61,7 @@ const {
       mobileBackgroundAttributes={mobileBackgroundAttributes}
       mobileCharsAttributes={mobileCharsAttributes}
     >
-      <Quiz question={question} />
+      <Quiz question={question} storageKey={QUIZ_STORAGE_KEYS.safety} />
     </Question>
   </SafetyLayout>
 </MainLayout>

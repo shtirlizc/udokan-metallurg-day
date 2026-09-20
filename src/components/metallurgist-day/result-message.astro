@@ -1,15 +1,22 @@
 ---
 import Link from "./link.astro";
 import LogoIcon from "../../assets/logo-icon.svg";
+import type { QuizStorageKey } from "../../config/quizzes";
 
 interface Props {
   questionsCount: number;
+  storageKey: QuizStorageKey;
 }
 
-const { questionsCount } = Astro.props;
+const { questionsCount, storageKey } = Astro.props;
 ---
 
-<div class="message" id="result-message" data-questions-count={questionsCount}>
+<div
+  class="message"
+  id="result-message"
+  data-questions-count={questionsCount}
+  data-quiz-storage-key={storageKey}
+>
   <div class="message__body">
     <div class="message__result">
       <ul class="message__result-chart">
@@ -63,8 +70,12 @@ const { questionsCount } = Astro.props;
 
   function initResultMessage(resultMessage: HTMLElement) {
     const questionsCount = Number(resultMessage.dataset.questionsCount);
-    const savedResult = getSavedResult();
+    const storageKey = resultMessage.dataset.quizStorageKey;
     const restartLink = resultMessage.querySelector<HTMLAnchorElement>("a");
+
+    if (!storageKey) return;
+
+    const savedResult = getSavedResult(storageKey);
 
     restartLink?.addEventListener("click", (event) => {
       const isIOS =
@@ -128,9 +139,9 @@ const { questionsCount } = Astro.props;
       navigate("/день-металлурга", { history: "replace" });
     }
 
-    function getSavedResult() {
+    function getSavedResult(storageKey: string) {
       try {
-        return sessionStorage.getItem("udokan_quiz");
+        return sessionStorage.getItem(storageKey);
       } catch {
         return null;
       }

@@ -3,6 +3,7 @@ import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Quiz from "../../components/metallurgist-day/quiz.astro";
+import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 import MainLayout from "../../layouts/main.astro";
 import Question from "../../components/question.astro";
 
@@ -59,6 +60,9 @@ const {
     mobileBackgroundAttributes={mobileBackgroundAttributes}
     mobileCharsAttributes={mobileCharsAttributes}
   >
-    <Quiz question={question} />
+    <Quiz
+      question={question}
+      storageKey={QUIZ_STORAGE_KEYS.metallurgistDay}
+    />
   </Question>
 </MainLayout>

@@ -1,13 +1,15 @@
 ---
 import Link from "./link.astro";
+import type { QuizStorageKey } from "../../config/quizzes";
 import type { QuizAnswer, QuizQuestion } from "../../types/quiz";
 import Answer from "./answer.astro";
 
 interface Props {
   question: QuizQuestion;
+  storageKey: QuizStorageKey;
 }
 
-const { question } = Astro.props;
+const { question, storageKey } = Astro.props;
 const {
   questionNumber,
   questionText,
@@ -23,7 +25,11 @@ const quizBasePaths: Record<QuizQuestion["collection"], string> = {
 const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
 ---
 
-<div class="quiz" data-question-number={questionNumber}>
+<div
+  class="quiz"
+  data-question-number={questionNumber}
+  data-quiz-storage-key={storageKey}
+>
   <span class="quiz__scroll-cue" aria-hidden="true"></span>
   <div class="quiz__head">
     <h2>Вопрос {questionNumber}</h2>
@@ -63,13 +69,14 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
     if (!quiz) return;
 
     const questionNumber = quiz.dataset.questionNumber;
+    const storageKey = quiz.dataset.quizStorageKey;
     const nextLink = quiz.querySelector<HTMLAnchorElement>("a");
 
-    if (!nextLink || !questionNumber) return;
+    if (!nextLink || !questionNumber || !storageKey) return;
 
     // On browser back/forward Astro can preserve the previous DOM, so this
     // check must run before the initialization guard on every page load.
-    if (hasSavedAnswer(questionNumber)) {
+    if (hasSavedAnswer(storageKey, questionNumber)) {
       const nextHref = nextLink.dataset.href ?? nextLink.href;
       navigate(nextHref, { history: "replace" });
       return;
@@ -112,7 +119,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
           answerId === correctAnswerId ? "success" : "fail";
 
         answer.classList.add(answerType);
-        saveToStorage(questionNumber, answerType);
+        saveToStorage(storageKey, questionNumber, answerType);
         disableAnswerButtons(answers);
         activateNextLink(nextLink);
         showComment(answer).eventCallback("onComplete", scrollToQuizBottom);
@@ -123,9 +130,9 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
 
   document.addEventListener("astro:page-load", initQuiz);
 
-  function hasSavedAnswer(questionId: string) {
+  function hasSavedAnswer(storageKey: string, questionId: string) {
     try {
-      const savedAnswers = sessionStorage.getItem("udokan_quiz");
+      const savedAnswers = sessionStorage.getItem(storageKey);
 
       if (!savedAnswers) return false;
 
@@ -142,10 +149,13 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
     }
   }
 
-  function saveToStorage(questionId: string, answerType: AnswerType) {
-    const KEY = "udokan_quiz";
+  function saveToStorage(
+    storageKey: string,
+    questionId: string,
+    answerType: AnswerType,
+  ) {
     try {
-      const savedAnswers = sessionStorage.getItem(KEY);
+      const savedAnswers = sessionStorage.getItem(storageKey);
       let answers: Record<string, AnswerType> = {};
 
       if (savedAnswers) {
@@ -165,7 +175,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
       }
 
       answers[questionId] = answerType;
-      sessionStorage.setItem(KEY, JSON.stringify(answers));
+      sessionStorage.setItem(storageKey, JSON.stringify(answers));
     } catch {
       // Continue the quiz when storage is unavailable.
     }

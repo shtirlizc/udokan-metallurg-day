@@ -2,6 +2,7 @@
 import Footer from "../../components/metallurgist-day/footer.astro";
 import Header from "../../components/metallurgist-day/header.astro";
 import Link from "../../components/metallurgist-day/link.astro";
+import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 import MainLayout from "../../layouts/main.astro";
 import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 ---
@@ -10,7 +11,11 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
   <MetallurgistDayLayout>
     <Header />
 
-    <main class="content">
+    <main
+      class="content"
+      data-quiz-home="/день-металлурга"
+      data-quiz-storage-key={QUIZ_STORAGE_KEYS.metallurgistDay}
+    >
       <h1>«Удокан — это вы»</h1>
       <p>
         Мы на «Удокане» отмечаем профессиональный праздник — День металлурга.
@@ -29,23 +34,7 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 </MainLayout>
 
 <script>
-  function resetQuizStorageOnHomePage() {
-    const pathname = decodeURIComponent(window.location.pathname).replace(
-      /\/$/,
-      "",
-    );
-
-    if (pathname === "/день-металлурга") {
-      try {
-        sessionStorage.removeItem("udokan_quiz");
-      } catch {
-        // Storage can be unavailable because of the browser's privacy settings.
-      }
-    }
-  }
-
-  resetQuizStorageOnHomePage();
-  document.addEventListener("astro:page-load", resetQuizStorageOnHomePage);
+  import "../../scripts/quiz-home";
 </script>
 
 <style>
