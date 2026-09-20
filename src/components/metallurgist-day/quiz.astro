@@ -4,10 +4,10 @@ import type { CollectionEntry } from "astro:content";
 import Answer from "./answer.astro";
 
 interface Props {
-  question: CollectionEntry<"question">;
+  question: CollectionEntry<"metallurgistQuestions">;
 }
 
-type QuestionAnswer = CollectionEntry<"question">["data"]["answers"][number];
+type QuestionAnswer = CollectionEntry<"metallurgistQuestions">["data"]["answers"][number];
 
 const { question } = Astro.props;
 const {

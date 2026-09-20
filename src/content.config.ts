@@ -2,9 +2,9 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
-const question = defineCollection({
+const metallurgistQuestions = defineCollection({
   loader: glob({
-    base: "./src/content/question",
+    base: "./src/content/metallurgist-day",
     pattern: "**/index.json",
     generateId: ({ entry }) => entry.split("/")[0],
   }),
@@ -31,4 +31,4 @@ const question = defineCollection({
     }),
 });
 
-export const collections = { question };
+export const collections = { metallurgistQuestions };

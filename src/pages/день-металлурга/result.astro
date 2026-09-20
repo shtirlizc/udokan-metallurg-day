@@ -6,7 +6,7 @@ import ResultMessage from "../../components/metallurgist-day/result-message.astr
 import MainLayout from "../../layouts/main.astro";
 import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 
-const questions = await getCollection("question");
+const questions = await getCollection("metallurgistQuestions");
 const questionsCount = questions.length;
 ---
 
