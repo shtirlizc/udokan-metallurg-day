@@ -31,8 +31,11 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
 
 <section
   class="video-block"
+  data-bg-reveal
   style={`--video-block-background-mobile: url("${bg.mobile}"); --video-block-background-desktop: url("${bg.desktop}")`}
 >
+  <div class="video-block__bg" aria-hidden="true"></div>
+
   {
     charts && (
       <div class="video-block__charts">
@@ -115,25 +118,55 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
     position: relative;
     min-height: 100dvh;
     overflow: hidden;
-    background-image: var(--video-block-background-mobile);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    isolation: isolate;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: var(--space8);
 
-    /* desktop */
-    @media (width >= 960px) {
-      min-height: 100vh;
-      background-image: var(--video-block-background-desktop);
-      background-position: left;
+    &.is-bg-visible .video-block__bg {
+      transform: scale(1);
     }
 
-    /* widescreen */
-    @media (width >= 1200px) {
+    &.is-bg-visible .video-block__charts {
+      .left,
+      .right {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    & .video-block__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--video-block-background-mobile);
       background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      transform: scale(1.2);
+      transition: transform calc(1.5 * var(--transition-long))
+        var(--transition-f);
+
+      /* desktop */
+      @media (width >= 960px) {
+        background-image: var(--video-block-background-desktop);
+        background-position: left;
+      }
+
+      /* widescreen */
+      @media (width >= 1200px) {
+        background-position: center;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: scale(1);
+        transition: none;
+      }
+    }
+
+    & > :not(.video-block__bg) {
+      z-index: 2;
     }
 
     &::before {
@@ -143,6 +176,7 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
       left: 0;
       width: 100%;
       height: 100%;
+      z-index: 1;
       background: linear-gradient(
         180deg,
         #171d2c 0%,
@@ -179,6 +213,8 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
     }
 
     & .video-block__charts {
+      position: absolute;
+      inset: 0;
       pointer-events: none;
 
       picture {
@@ -187,11 +223,18 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
       }
 
       .left {
+        --charts-translate-x: clamp(-120px, -8vw, -48px);
+
         position: absolute;
         left: 0;
         bottom: 0;
         max-width: 64%;
         max-height: 75%;
+        opacity: 0;
+        transform: translateX(var(--charts-translate-x));
+        transition:
+          opacity calc(1.5 * var(--transition-long)) var(--transition-f),
+          transform calc(1.5 * var(--transition-long)) var(--transition-f);
 
         /* desktop */
         @media (width >= 960px) {
@@ -207,11 +250,18 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
       }
 
       .right {
+        --charts-translate-x: clamp(48px, 8vw, 120px);
+
         position: absolute;
         right: 0;
         bottom: 0;
         max-width: 58.5%;
         max-height: 80%;
+        opacity: 0;
+        transform: translateX(var(--charts-translate-x));
+        transition:
+          opacity calc(1.5 * var(--transition-long)) var(--transition-f),
+          transform calc(1.5 * var(--transition-long)) var(--transition-f);
 
         /* desktop */
         @media (width >= 960px) {
@@ -222,6 +272,15 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
         img {
           width: 100%;
           height: auto;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .left,
+        .right {
+          opacity: 1;
+          transform: none;
+          transition: none;
         }
       }
     }
@@ -491,6 +550,57 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
     }
   }
 </style>
+
+<script>
+  function initVideoBlockBackgroundReveal() {
+    const blocks = document.querySelectorAll<HTMLElement>(
+      ".video-block[data-bg-reveal]",
+    );
+
+    blocks.forEach((block) => {
+      if (block.dataset.revealInitialized) return;
+
+      block.dataset.revealInitialized = "true";
+      let frameId: number | undefined;
+
+      const cleanup = () => {
+        window.removeEventListener("scroll", queueRevealCheck);
+        window.removeEventListener("resize", queueRevealCheck);
+        document.removeEventListener("astro:before-swap", cleanup);
+        if (frameId) window.cancelAnimationFrame(frameId);
+      };
+
+      const revealIfVisible = () => {
+        frameId = undefined;
+
+        const rect = block.getBoundingClientRect();
+        const visibleHeight = Math.max(
+          0,
+          Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0),
+        );
+        const requiredVisibleHeight =
+          Math.min(rect.height, window.innerHeight) * 0.8;
+
+        if (visibleHeight < requiredVisibleHeight) return;
+
+        block.classList.add("is-bg-visible");
+        cleanup();
+      };
+
+      function queueRevealCheck() {
+        if (frameId) return;
+        frameId = window.requestAnimationFrame(revealIfVisible);
+      }
+
+      window.addEventListener("scroll", queueRevealCheck, { passive: true });
+      window.addEventListener("resize", queueRevealCheck);
+      document.addEventListener("astro:before-swap", cleanup, { once: true });
+      queueRevealCheck();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initVideoBlockBackgroundReveal);
+</script>
 
 <script>
   function initVideoBlock(dialog: HTMLDialogElement) {

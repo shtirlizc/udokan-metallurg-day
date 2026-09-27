@@ -45,6 +45,10 @@ import charsImg from "./assets/presentation-chars.webp";
       opacity: 1;
     }
 
+    &.is-chars-visible .presentation__bg {
+      transform: scale(1);
+    }
+
     & .presentation__bg {
       position: absolute;
       inset: 0;
@@ -52,6 +56,13 @@ import charsImg from "./assets/presentation-chars.webp";
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      transform: scale(1.2);
+      transition: transform calc(1.5 * var(--transition-long)) var(--transition-f);
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: scale(1);
+        transition: none;
+      }
     }
 
     & .presentation__head {
