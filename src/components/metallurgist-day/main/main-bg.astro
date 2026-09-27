@@ -53,16 +53,20 @@ const [mobileBackground, desktopBackground] = await Promise.all([
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (forest && !reducedMotion.matches) {
-    let frame: number | undefined;
+    let frame: number | null = null;
 
     const moveForest = (event: PointerEvent) => {
       const x = (event.clientX / window.innerWidth - 0.5) * -16;
       const y = (event.clientY / window.innerHeight - 0.5) * -10;
 
-      cancelAnimationFrame(frame);
+      if (frame !== null) {
+        cancelAnimationFrame(frame);
+      }
+
       frame = requestAnimationFrame(() => {
         forest.style.setProperty("--forest-x", `${x}px`);
         forest.style.setProperty("--forest-y", `${y}px`);
+        frame = null;
       });
     };
 
