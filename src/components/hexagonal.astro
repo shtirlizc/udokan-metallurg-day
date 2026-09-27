@@ -34,8 +34,14 @@ const { id } = Astro.props;
       --side: 270px;
     }
 
-    &:hover svg {
-      transform: rotate(60deg);
+    &:hover {
+      svg {
+        transform: rotate(60deg);
+      }
+
+      span {
+        letter-spacing: 2px;
+      }
     }
 
     svg {
@@ -55,6 +61,7 @@ const { id } = Astro.props;
       text-align: center;
       text-transform: uppercase;
       color: var(--color-white);
+      transition: letter-spacing var(--transition-long) ease-in-out;
     }
   }
 </style>

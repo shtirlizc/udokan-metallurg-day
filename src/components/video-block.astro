@@ -22,16 +22,16 @@ const { id, title, video, dialogLabel, bg } = Astro.props;
   class="video-block"
   style={`--video-block-background-mobile: url("${bg.mobile}"); --video-block-background-desktop: url("${bg.desktop}")`}
 >
+  <ul class="video-block__tags">
+    <slot name="tags" />
+  </ul>
+
   <h2>{title}</h2>
 
   <Hexagonal id={`${id}-video-trigger`}>Смотреть</Hexagonal>
 </section>
 
-<dialog
-  id={`${id}-video`}
-  class="video-dialog"
-  aria-label={dialogLabel}
->
+<dialog id={`${id}-video`} class="video-dialog" aria-label={dialogLabel}>
   <div class="video-dialog__wrap is-paused">
     <button
       type="button"
@@ -44,11 +44,7 @@ const { id, title, video, dialogLabel, bg } = Astro.props;
     </button>
 
     <video playsinline preload="metadata">
-      <source
-        src={video.desktop}
-        type="video/mp4"
-        media="(min-width: 768px)"
-      />
+      <source src={video.desktop} type="video/mp4" media="(min-width: 768px)" />
       <source src={video.mobile} type="video/mp4" />
       Ваш браузер не поддерживает воспроизведение видео.
     </video>
@@ -113,6 +109,17 @@ const { id, title, video, dialogLabel, bg } = Astro.props;
       }
     }
 
+    & .video-block__tags {
+      padding: 0;
+      position: absolute;
+      top: var(--space20);
+      left: var(--space24);
+
+      &:empty {
+        display: none;
+      }
+    }
+
     h2 {
       position: absolute;
       top: 0;
@@ -130,6 +137,9 @@ const { id, title, video, dialogLabel, bg } = Astro.props;
       @media (width >= 960px) {
         padding: var(--space40);
         font-size: 27px;
+        max-width: 50vw;
+        left: 50%;
+        transform: translate(-50%);
       }
     }
   }

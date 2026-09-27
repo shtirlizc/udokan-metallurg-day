@@ -1,3 +1,24 @@
 ---
-
+import VideoBlock from "../video-block.astro";
+import desktopBackground from "./assets/values-desktop.webp";
+import mobileBackground from "./assets/values-mobile.webp";
+import Tag from "../tag.astro";
 ---
+
+<VideoBlock
+  id="values"
+  title={`Анимационный ролик\nНаши Ценности: от руды до меди!`}
+  video={{
+    mobile: "/video/congratulation-mobile.mp4",
+    desktop: "/video/congratulation-desktop.mp4",
+  }}
+  dialogLabel="Анимационный ролик о наших ценностях"
+  bg={{
+    mobile: mobileBackground.src,
+    desktop: desktopBackground.src,
+  }}
+>
+  <Fragment slot="tags">
+    <Tag color="#FF4400" textColor="light">Новинка</Tag>
+  </Fragment>
+</VideoBlock>
