@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Hexagonal from "./hexagonal.astro";
 
 interface Props {
@@ -13,15 +14,50 @@ interface Props {
     mobile: string;
     desktop: string;
   };
+  charts?: {
+    left: {
+      mobile: ImageMetadata;
+      desktop: ImageMetadata;
+    };
+    right: {
+      mobile: ImageMetadata;
+      desktop: ImageMetadata;
+    };
+  };
 }
 
-const { id, title, video, dialogLabel, bg } = Astro.props;
+const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
 ---
 
 <section
   class="video-block"
   style={`--video-block-background-mobile: url("${bg.mobile}"); --video-block-background-desktop: url("${bg.desktop}")`}
 >
+  {
+    charts && (
+      <div class="video-block__charts">
+        <div class="left">
+          <picture>
+            <source
+              media="(min-width: 960px)"
+              srcset={charts.left.desktop.src}
+            />
+            <Image src={charts.left.mobile} alt="" />
+          </picture>
+        </div>
+        <div class="right">
+          <picture>
+            <source
+              media="(min-width: 960px)"
+              srcset={charts.right.desktop.src}
+            />
+            <Image src={charts.right.mobile} alt="" />
+          </picture>
+        </div>
+      </div>
+    )
+  }
+
   <ul class="video-block__tags">
     <slot name="tags" />
   </ul>
@@ -122,19 +158,77 @@ const { id, title, video, dialogLabel, bg } = Astro.props;
 
     & .video-block__tags {
       padding: 0;
+      display: flex;
+      gap: 5px;
       position: absolute;
-      top: var(--space20);
-      left: var(--space24);
+      bottom: var(--space16);
+      left: 50%;
+      transform: translate(-50%);
+
+      /* desktop */
+      @media (width >= 960px) {
+        bottom: auto;
+        top: var(--space20);
+        left: var(--space24);
+        transform: translate(0);
+      }
 
       &:empty {
         display: none;
       }
     }
 
+    & .video-block__charts {
+      pointer-events: none;
+
+      picture {
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .left {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        max-width: 64%;
+        max-height: 75%;
+
+        /* desktop */
+        @media (width >= 960px) {
+          max-width: 510px;
+          left: 25px;
+          max-height: 85%;
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .right {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        max-width: 58.5%;
+        max-height: 80%;
+
+        /* desktop */
+        @media (width >= 960px) {
+          max-width: 560px;
+          max-height: 90%;
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
     h2 {
       position: absolute;
       top: 0;
-      left: 0;
       width: 100%;
       font-weight: 700;
       font-size: 20px;
@@ -143,14 +237,15 @@ const { id, title, video, dialogLabel, bg } = Astro.props;
       white-space: pre-line;
       padding: var(--space20);
       color: var(--color-white);
+      max-width: 70vw;
+      left: 50%;
+      transform: translate(-50%);
 
       /* desktop */
       @media (width >= 960px) {
         padding: var(--space40);
         font-size: 27px;
         max-width: 50vw;
-        left: 50%;
-        transform: translate(-50%);
       }
     }
   }

@@ -1,13 +1,18 @@
 ---
+import Tag from "../tag.astro";
 import VideoBlock from "../video-block.astro";
+
 import desktopBackground from "./assets/values-desktop.webp";
 import mobileBackground from "./assets/values-mobile.webp";
-import Tag from "../tag.astro";
+import leftChart from "./assets/values-chart-1.webp";
+import leftMobileChart from "./assets/values-mobile-chart-1.webp";
+import rightChart from "./assets/values-chart-2.webp";
+import rightMobileChart from "./assets/values-mobile-chart-2.webp";
 ---
 
 <VideoBlock
   id="values"
-  title={`Анимационный ролик\nНаши Ценности: от руды до меди!`}
+  title={`Анимационный ролик\nНаши Ценности: от\u00A0руды до\u00A0меди!`}
   video={{
     mobile: "/video/congratulation-mobile.mp4",
     desktop: "/video/congratulation-desktop.mp4",
@@ -16,6 +21,16 @@ import Tag from "../tag.astro";
   bg={{
     mobile: mobileBackground.src,
     desktop: desktopBackground.src,
+  }}
+  charts={{
+    left: {
+      mobile: leftMobileChart,
+      desktop: leftChart,
+    },
+    right: {
+      mobile: rightMobileChart,
+      desktop: rightChart,
+    },
   }}
 >
   <Fragment slot="tags">
