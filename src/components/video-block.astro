@@ -67,7 +67,9 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
 
   <h2>{title}</h2>
 
-  <Hexagonal id={`${id}-video-trigger`}>Смотреть</Hexagonal>
+  <div class="video-block__action">
+    <Hexagonal id={`${id}-video-trigger`}>Смотреть</Hexagonal>
+  </div>
 </section>
 
 <dialog id={`${id}-video`} class="video-dialog" aria-label={dialogLabel}>
@@ -390,6 +392,10 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
       aspect-ratio: var(--video-aspect-ratio);
       object-fit: contain;
     }
+  }
+
+  .video-block__action {
+    z-index: 10;
   }
 
   .video-dialog__close {
