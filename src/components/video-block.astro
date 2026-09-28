@@ -118,13 +118,19 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
 <style>
   .video-block {
     position: relative;
-    min-height: 100dvh;
+    aspect-ratio: 375 / 528;
     overflow: hidden;
     isolation: isolate;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: var(--space8);
+
+    /* desktop */
+    @media (width >= 960px) {
+      aspect-ratio: auto;
+      min-height: 100vh;
+    }
 
     &.is-bg-visible .video-block__bg {
       transform: scale(1);
@@ -230,8 +236,7 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
         position: absolute;
         left: 0;
         bottom: 0;
-        max-width: 64%;
-        max-height: 75%;
+        max-width: 65%;
         opacity: 0;
         transform: translateX(var(--charts-translate-x));
         transition:
@@ -240,7 +245,7 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
 
         /* desktop */
         @media (width >= 960px) {
-          max-width: 510px;
+          max-width: 35vw;
           left: 25px;
           max-height: 85%;
         }
@@ -257,8 +262,7 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
         position: absolute;
         right: 0;
         bottom: 0;
-        max-width: 58.5%;
-        max-height: 80%;
+        max-width: 59%;
         opacity: 0;
         transform: translateX(var(--charts-translate-x));
         transition:
@@ -267,7 +271,7 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
 
         /* desktop */
         @media (width >= 960px) {
-          max-width: 560px;
+          max-width: 39vw;
           max-height: 90%;
         }
 
