@@ -35,7 +35,9 @@ import charsImg from "./assets/presentation-chars.webp";
 
     &:hover {
       .presentation__chars {
-        --chars-scale: 0.95;
+        --chars-scale: 1.05;
+
+        transition: transform var(--transition-long);
       }
     }
 
@@ -57,7 +59,8 @@ import charsImg from "./assets/presentation-chars.webp";
       background-repeat: no-repeat;
       background-size: cover;
       transform: scale(1.2);
-      transition: transform calc(1.5 * var(--transition-long)) var(--transition-f);
+      transition: transform calc(1.5 * var(--transition-long))
+        var(--transition-f);
 
       @media (prefers-reduced-motion: reduce) {
         transform: scale(1);
