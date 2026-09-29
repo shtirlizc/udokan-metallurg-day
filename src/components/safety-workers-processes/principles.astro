@@ -1,0 +1,113 @@
+---
+---
+
+<section class="principles" aria-label="Принципы безопасности">
+  <div class="principles__inner">
+    <article>
+      <span class="principles__number">01</span>
+      <div>
+        <h2>Ставим безопасность жизни и здоровья на первое место</h2>
+        <p>Безопасность — приоритет при принятии каждого рабочего решения.</p>
+        <blockquote>
+          «Я с первых дней заметил, что компания реально делает всё возможное,
+          вкладывает много средств в меры защиты и контроль».
+        </blockquote>
+        <p class="principles__amount">386,5 <span>млн руб.</span></p>
+        <p class="principles__note">Расходы на мероприятия по охране труда</p>
+      </div>
+    </article>
+    <article>
+      <span class="principles__number">02</span>
+      <div>
+        <h2>Соблюдаем правила охраны труда как норму жизни</h2>
+        <p>
+          Регламенты и процедуры помогают управлять рисками и создавать
+          безопасную рабочую среду.
+        </p>
+      </div>
+    </article>
+    <p class="principles__summary">
+      Безопасность — это отработанная привычка принимать правильные решения и
+      не допускать рискованных действий.
+    </p>
+  </div>
+</section>
+
+<style>
+  .principles {
+    padding: 72px 20px;
+    background-color: #102b42;
+    background-image: linear-gradient(#ffffff0b 1px, transparent 1px),
+      linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--color-white);
+  }
+
+  .principles__inner {
+    display: grid;
+    gap: 52px;
+    width: min(100%, 760px);
+    margin-inline: auto;
+  }
+
+  article {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+  }
+
+  .principles__number {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ff641e;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  h2 {
+    max-width: 560px;
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.08;
+  }
+
+  p,
+  blockquote {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  blockquote {
+    margin: 24px 0;
+    color: #d7e0e7;
+  }
+
+  .principles__amount {
+    margin: 20px 0 0;
+    color: #ffc037;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 0.95;
+
+    span {
+      display: block;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+  }
+
+  .principles__note {
+    font-size: 11px;
+  }
+
+  .principles__summary {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #d7e0e7;
+    text-align: center;
+  }
+</style>

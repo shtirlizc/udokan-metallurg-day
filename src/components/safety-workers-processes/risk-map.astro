@@ -1,0 +1,70 @@
+---
+const riskPoints = ["01", "02", "03", "04"];
+---
+
+<section class="risk-map" aria-labelledby="risk-map-title">
+  <aside>
+    <h2 id="risk-map-title">Что не так с безопасностью на промплощадке?</h2>
+    <p>Найдите опасные ситуации и обсудите, как их предотвратить.</p>
+  </aside>
+  <div class="risk-map__scene" aria-label="Иллюстрация промплощадки с отмеченными рисками">
+    {riskPoints.map((point) => <span>{point}</span>)}
+  </div>
+</section>
+
+<style>
+  .risk-map {
+    display: grid;
+    background: #e4edff;
+
+    aside {
+      padding: 28px 20px;
+    }
+
+    h2 {
+      max-width: 300px;
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.08;
+    }
+
+    p {
+      max-width: 320px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    @media (width >= 760px) {
+      grid-template-columns: minmax(230px, 1fr) 2fr;
+
+      aside {
+        padding: 40px max(24px, calc((100vw - 1120px) / 2));
+      }
+    }
+  }
+
+  .risk-map__scene {
+    position: relative;
+    min-height: 260px;
+    background: #b6c4ce;
+
+    span {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      aspect-ratio: 1;
+      border: 2px solid var(--color-white);
+      border-radius: 50%;
+      background: #ff641e;
+      color: var(--color-white);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    span:nth-child(1) { top: 20%; left: 24%; }
+    span:nth-child(2) { top: 42%; left: 68%; }
+    span:nth-child(3) { top: 70%; left: 45%; }
+    span:nth-child(4) { top: 25%; left: 84%; }
+  }
+</style>

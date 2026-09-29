@@ -1,0 +1,89 @@
+---
+const stats = [
+  { value: "85", label: "показатель 1 из макета" },
+  { value: "69", label: "показатель 2 из макета" },
+  { value: "10", label: "показатель 3 из макета" },
+  { value: "≈300", label: "показатель 4 из макета" },
+];
+---
+
+<section class="traffic-stats" aria-labelledby="traffic-stats-title">
+  <div class="traffic-stats__inner">
+    <h2 id="traffic-stats-title">«Видеоаналитика ПДД»</h2>
+    <p>Специальные системы помогают отслеживать соблюдение правил.</p>
+    <ul>
+      {stats.map((stat) => (
+        <li>
+          <strong>{stat.value}</strong>
+          <span>{stat.label}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="traffic-stats__total">1066</p>
+    <p class="traffic-stats__caption">Всего зафиксированных событий</p>
+  </div>
+</section>
+
+<style>
+  .traffic-stats {
+    padding: 56px 20px 72px;
+    background: #173751;
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  .traffic-stats__inner {
+    width: min(100%, 1000px);
+    margin-inline: auto;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 32px;
+  }
+
+  .traffic-stats__inner > p:not(.traffic-stats__total, .traffic-stats__caption) {
+    font-size: 13px;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+    padding: 0;
+    list-style: none;
+
+    @media (width >= 760px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  li {
+    display: grid;
+    gap: 8px;
+
+    strong {
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    span {
+      color: #d6e1e8;
+      font-size: 11px;
+    }
+  }
+
+  .traffic-stats__total {
+    margin: 0;
+    font-size: 90px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .traffic-stats__caption {
+    margin: 8px 0 0;
+    color: #d6e1e8;
+    font-size: 12px;
+  }
+</style>

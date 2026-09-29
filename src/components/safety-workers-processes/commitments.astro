@@ -1,0 +1,78 @@
+---
+const commitments = [1, 2, 3, 4, 5, 6, 7];
+---
+
+<section class="commitments" id="commitments" aria-labelledby="commitments-title">
+  <div class="commitments__inner">
+    <h2 id="commitments-title">Кто помогает создавать безопасную среду</h2>
+    <p>Каждый из нас может поддерживать безопасность конкретными действиями.</p>
+    <ol>
+      {commitments.map((item) => (
+        <li>
+          <span>{String(item).padStart(2, "0")}</span>
+          <p>Пункт личной ответственности будет добавлен.</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .commitments {
+    padding: 72px 20px;
+    background-color: #102b42;
+    background-image: linear-gradient(#ffffff0b 1px, transparent 1px),
+      linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--color-white);
+  }
+
+  .commitments__inner {
+    width: min(100%, 760px);
+    margin-inline: auto;
+  }
+
+  h2 {
+    max-width: 560px;
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.08;
+  }
+
+  .commitments__inner > p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  ol {
+    display: grid;
+    gap: 8px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    align-items: center;
+    min-height: 48px;
+    background: #f4f7fa;
+    color: var(--black-100);
+
+    span {
+      display: grid;
+      align-self: stretch;
+      place-items: center;
+      background: #cbd7df;
+      font-size: 12px;
+    }
+
+    p {
+      margin: 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+  }
+</style>

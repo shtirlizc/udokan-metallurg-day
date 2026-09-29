@@ -1,0 +1,87 @@
+---
+const responsibilities = [
+  "Обучаем основам безопасного поведения на производстве",
+  "Обучаем и контролируем выполнение требований охраны труда",
+  "Проверяем условия труда и выявляем потенциально опасные ситуации",
+  "Помогаем коллегам соблюдать правила охраны труда",
+];
+---
+
+<section class="team-support" aria-labelledby="team-support-title">
+  <div class="team-support__intro">
+    <h2 id="team-support-title">Кто помогает создавать безопасную среду</h2>
+    <p>
+      Формирование культуры безопасности — общая задача работников и
+      руководителей.
+    </p>
+  </div>
+  <div class="team-support__people" aria-hidden="true"></div>
+  <div class="team-support__tasks">
+    <h3>Задачи команды</h3>
+    <ul>
+      {responsibilities.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .team-support {
+    padding: 64px 20px 0;
+    background: #173751;
+    color: var(--color-white);
+  }
+
+  .team-support__intro,
+  .team-support__tasks {
+    width: min(100%, 760px);
+    margin-inline: auto;
+  }
+
+  h2 {
+    max-width: 540px;
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.08;
+  }
+
+  .team-support__intro p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .team-support__people {
+    min-height: 240px;
+    margin: 28px -20px 0;
+    background: #24445c;
+
+    @media (width >= 960px) {
+      min-height: 360px;
+    }
+  }
+
+  .team-support__tasks {
+    padding-block: 30px 50px;
+    color: var(--black-100);
+
+    h3 {
+      margin: 0 0 12px;
+      color: var(--color-white);
+      font-size: 20px;
+    }
+
+    ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      padding: 12px 16px;
+      background: #e5edf2;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+  }
+</style>

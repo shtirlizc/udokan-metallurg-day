@@ -1,0 +1,104 @@
+---
+const values = [
+  "Постоянное совершенствование",
+  "Командная работа",
+  "Честность",
+  "Уважение",
+  "Бережливость",
+];
+---
+
+<section class="values" id="values" aria-labelledby="values-title">
+  <div class="values__inner">
+    <div class="values__intro">
+      <h2 id="values-title">Безопасность — наш безусловный приоритет</h2>
+      <p>
+        Ценность «Безопасность» задаёт подход к работе и помогает принимать
+        решения, которые сохраняют жизнь и здоровье сотрудников.
+      </p>
+    </div>
+    <div class="values__diagram">
+      <div class="values__core">Безопасность</div>
+      <ul>
+        {values.map((value) => <li>{value}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .values {
+    padding: 72px 20px;
+    background: var(--white-0);
+  }
+
+  .values__inner {
+    width: min(100%, 960px);
+    margin-inline: auto;
+  }
+
+  .values__intro {
+    max-width: 540px;
+    margin: 0 auto 40px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  p {
+    margin: 16px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .values__diagram {
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li,
+    .values__core {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1.12;
+      padding: 18px;
+      clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+      background: #c98d70;
+      color: var(--color-white);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .values__core {
+      width: min(65%, 300px);
+      aspect-ratio: 1.12;
+      background: #a95a2d;
+      font-size: 18px;
+    }
+
+    @media (width >= 720px) {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: center;
+
+      ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  }
+</style>

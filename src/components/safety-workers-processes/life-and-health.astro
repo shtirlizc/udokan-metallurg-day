@@ -1,0 +1,60 @@
+---
+---
+
+<section class="life-health" aria-labelledby="life-health-title">
+  <div class="life-health__inner">
+    <h2 id="life-health-title">Жизнь и здоровье всегда перевешивают</h2>
+    <div class="life-health__visual" aria-hidden="true"></div>
+    <div class="life-health__copy">
+      <p>
+        Жизнь и здоровье сотрудников важнее скорости, удобства, объёма добычи,
+        производственных и финансовых показателей.
+      </p>
+      <p>Ни одна задача не оправдывает риск для человека.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .life-health {
+    padding: 64px 20px 80px;
+    background: #0b2439;
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  .life-health__inner {
+    width: min(100%, 980px);
+    margin-inline: auto;
+  }
+
+  h2 {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.08;
+  }
+
+  .life-health__visual {
+    min-height: 260px;
+    margin: 36px 0;
+    background: #173751;
+
+    @media (width >= 960px) {
+      min-height: 420px;
+    }
+  }
+
+  .life-health__copy {
+    max-width: 640px;
+    margin-inline: auto;
+    text-align: left;
+
+    p {
+      margin: 14px 0 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  }
+</style>
