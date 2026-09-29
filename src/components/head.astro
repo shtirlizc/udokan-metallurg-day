@@ -83,11 +83,11 @@ const cover = new URL("/cover.jpg", Astro.site);
       window,
       document,
       "script",
-      "https://mc.yandex.ru/metrika/tag.js?id=110817186",
+      "https://mc.yandex.ru/metrika/tag.js?id=113155978",
       "ym",
     );
 
-    ym(110817186, "init", {
+    ym(113155978, "init", {
       ssr: true,
       webvisor: true,
       clickmap: true,
@@ -101,7 +101,7 @@ const cover = new URL("/cover.jpg", Astro.site);
 
     document.addEventListener("astro:page-load", () => {
       const currentUrl = location.href;
-      ym(110817186, "hit", currentUrl, { referer: previousUrl });
+      ym(113155978, "hit", currentUrl, { referer: previousUrl });
       previousUrl = currentUrl;
     });
   </script>
