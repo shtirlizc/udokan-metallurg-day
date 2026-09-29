@@ -84,7 +84,7 @@ const { id, title, video, dialogLabel, bg, charts = null } = Astro.props;
       </svg>
     </button>
 
-    <video playsinline preload="metadata">
+    <video playsinline preload="none">
       <source src={video.desktop} type="video/mp4" media="(min-width: 768px)" />
       <source src={video.mobile} type="video/mp4" />
       Ваш браузер не поддерживает воспроизведение видео.
