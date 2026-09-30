@@ -1,51 +1,56 @@
 ---
-import Logo from "./logo.astro";
+import Logo from './logo.astro';
 ---
 
-<header class="article-header">
-  <div class="article-header__logo">
-    <Logo />
-  </div>
-  <nav aria-label="Навигация по статье">
-    <a href="#values">Приоритет</a>
-    <a href="#practices">На практике</a>
-    <a href="#road-safety">На дороге</a>
-    <a href="#commitments">Чек-лист</a>
-  </nav>
+<header class='article-header'>
+	<div class='article-header__logo'>
+		<Logo />
+	</div>
+	<nav class='article-header__nav' aria-label='Навигация по статье'>
+		<a href='#values'>Приоритет</a>
+		<a href='#practices'>На практике</a>
+		<a href='#road-safety'>На дороге</a>
+		<a href='#commitments'>Чек-лист</a>
+	</nav>
 </header>
 
 <style>
-  .article-header {
-    min-height: 56px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 8px max(20px, calc((100% - 1120px) / 2));
-    background: var(--white-0);
+	.article-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		min-height: 69px;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 18px max(20px, calc((100% - 1240px) / 2)) 12px;
+		background: var(--white-0);
+		border-bottom: 1px solid rgba(206, 208, 219, 0.7);
+		z-index: 10;
 
-    nav {
-      display: flex;
-      gap: clamp(12px, 3vw, 36px);
-      overflow-x: auto;
-      font-size: 12px;
-      white-space: nowrap;
-    }
+		@media (width < 600px) {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+	.article-header__nav {
+		display: grid;
+		grid-auto-flow: column;
+		gap: 42px;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 21%;
 
-    @media (width < 600px) {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
-
-  .article-header__logo :global(.logo svg) {
-    width: 116px;
-    height: auto;
-  }
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+	.article-header__logo :global(.logo svg) {
+		width: 101px;
+		height: auto;
+	}
 </style>
