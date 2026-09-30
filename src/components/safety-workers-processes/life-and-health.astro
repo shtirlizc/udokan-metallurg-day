@@ -1,60 +1,120 @@
 ---
+import { getImage } from 'astro:assets';
+import LHImgDesktop from './assets/lh-img-desktop.webp';
+import LHImgMobile from './assets/lh-img-desktop.webp';
+
+const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: LHImgMobile }), getImage({ src: LHImgDesktop })]);
 ---
 
-<section class="life-health" aria-labelledby="life-health-title">
-  <div class="life-health__inner">
-    <h2 id="life-health-title">Жизнь и здоровье всегда перевешивают</h2>
-    <div class="life-health__visual" aria-hidden="true"></div>
-    <div class="life-health__copy">
-      <p>
-        Жизнь и здоровье сотрудников важнее скорости, удобства, объёма добычи,
-        производственных и финансовых показателей.
-      </p>
-      <p>Ни одна задача не оправдывает риск для человека.</p>
-    </div>
-  </div>
+<section class='life-health'>
+	<div class='life-health__decor life-health__decor_top'>
+		<svg width='1440' height='52' viewBox='0 0 1440 52' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 0H0V51.1484L720 0Z' fill='#FDFAF9'></path>
+			<path d='M1440 0H720L1440 51.1484V0Z' fill='#FDFAF9'></path>
+		</svg>
+	</div>
+	<div class='life-health__inner'>
+		<h2 class='life-health__title'>Жизнь и здоровье всегда перевешивают</h2>
+		<picture class='life-health__img'>
+			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+			<img src={mobileBackground.src} alt='' />
+		</picture>
+		<div class='life-health__text'>
+			<p>
+				Жизнь и здоровье сотрудников Удокана всегда стоят выше скорости, удобства, объема добычи, любых производственных и финансовых показателей.
+			</p>
+			<p
+				>На производстве невозможно полностью исключить риск, но реально снизить вероятность его возникновения. Наша общая задача — свести риск
+				к минимуму и сделать его максимально управляемым. На это в значительной мере влияют решения, которые каждый из нас ежедневно принимает
+				непосредственно на рабочем месте или по пути к нему.</p
+			>
+		</div>
+	</div>
+	<div class='life-health__decor life-health__decor_bottom'>
+		<svg width='1440' height='51' viewBox='0 0 1440 51' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 51.1484H0V0L720 51.1484Z' fill='#FDFAF9'></path>
+			<path d='M1440 51.1484H720L1440 0V51.1484Z' fill='#FDFAF9'></path>
+		</svg>
+	</div>
 </section>
 
 <style>
-  .life-health {
-    padding: 64px 20px 80px;
-    background: #0b2439;
-    color: var(--color-white);
+	.life-health {
+		position: relative;
+		background: #0b2439;
+		color: var(--color-white);
+	}
+
+	.life-health__inner {
+		padding: 194px 0 161px;
+		width: 100%;
+		max-width: 1440px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.life-health__title {
+		max-width: 900px;
+		margin: 0 auto;
+		font-size: 70px;
+		font-weight: 600;
+		line-height: 1;
     text-align: center;
-  }
+	}
 
-  .life-health__inner {
-    width: min(100%, 980px);
-    margin-inline: auto;
-  }
+	.life-health__img {
+		margin-top: 36px;
+		width: 100%;
+		display: flex;
+		picture,
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
 
-  h2 {
-    max-width: 720px;
-    margin: 0 auto;
-    font-size: 34px;
-    font-weight: 600;
-    line-height: 1.08;
-  }
+	.life-health__text {
+		margin-top: 80px;
+		max-width: 780px;
+		font-size: 20px;
+		line-height: 140%;
+		p + p {
+			margin-top: 22px;
+		}
+	}
 
-  .life-health__visual {
-    min-height: 260px;
-    margin: 36px 0;
-    background: #173751;
-
-    @media (width >= 960px) {
-      min-height: 420px;
-    }
-  }
-
-  .life-health__copy {
-    max-width: 640px;
-    margin-inline: auto;
-    text-align: left;
-
-    p {
-      margin: 14px 0 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-  }
+	.life-health__decor {
+		position: absolute;
+		display: flex;
+		left: 50%;
+		transform: translate(-50%);
+		width: 100%;
+		max-width: 1440px;
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.life-health__decor_top {
+		top: -1px;
+	}
+	.life-health__decor_bottom {
+		bottom: -1px;
+	}
+	.life-health__decor::after,
+	.life-health__decor::before {
+		position: absolute;
+		content: '';
+		bottom: 0;
+		background: var(--white-0);
+		height: 100%;
+		width: calc((100vw - 1438px) / 2);
+	}
+	.life-health__decor::after {
+		right: calc(100% - 1px);
+	}
+	.life-health__decor::before {
+		left: calc(100% - 1px);
+	}
 </style>
