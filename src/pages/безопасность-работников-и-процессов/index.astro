@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../../layouts/main.astro";
 import ArticleHeader from "../../components/safety-workers-processes/header.astro";
+import Progress from "../../components/safety-workers-processes/progress.astro";
 import Hero from "../../components/safety-workers-processes/hero.astro";
 import Values from "../../components/safety-workers-processes/values.astro";
 import LifeAndHealth from "../../components/safety-workers-processes/life-and-health.astro";
@@ -22,6 +23,7 @@ const description =
 ---
 
 <MainLayout title={title} description={description}>
+  <Progress />
   <main class="safety-article">
     <ArticleHeader />
     <Hero title={title} />
