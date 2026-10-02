@@ -1,70 +1,237 @@
 ---
-const riskPoints = ["01", "02", "03", "04"];
+import { getImage } from 'astro:assets';
+import RiskMapDesktop from './assets/risk-map-desktop.webp';
+import RiskMapMobile from './assets/risk-map-mobile.webp';
+const riskPoints = [
+	{
+		title: 'Человек в зоне действия экскаватора.',
+		text: 'Например, водитель выходит из кабины, кто-то подходит убрать просыпь или что-то проверить. Опасен не только ковш, но и задняя часть поворотной платформы с противовесом. При повороте машинист её не видит, и она может прижать человека к самосвалу. Во время погрузки водитель сидит в кабине под козырьком.',
+	},
+	{
+		title: 'Ковш проносят над кабиной самосвала.',
+		text: 'Грузить положено только сбоку или сзади кузова. Если ковш идёт над кабиной, то при открытии днища раньше времени или срыве крупного куска породы удар приходится прямо на кабину. Защитный козырёк кузова выдерживает отдельные мелкие куски, а содержимое ковша (десятки тонн) он не держит.',
+	},
+	{
+		title: 'Перегруз, неравномерная загрузка и разгрузка с высоты.',
+		text: 'Порода выше бортов падает на дорогу и на встречные машины на съездах. Смещённый на одну сторону груз меняет центр тяжести и повышает риск опрокидывания на уклонах и поворотах. Если высыпать породу с большой высоты или бросить в кузов негабарит, удар придётся на раму и подвеску и передастся водителю в кабину.',
+	},
+	{
+		title: 'Самосвал заезжает под погрузку без сигнала машиниста или не стоит на тормозе. ',
+		text: 'Самосвал ждёт за пределами радиуса действия экскаватора и въезжает только по сигналу. Если он заедет, пока платформа поворачивается, его ударит ковш или противовес. Если он откатится во время погрузки, ковш промахнётся и порода упадёт мимо кузова.',
+	},
+	{
+		title: 'Наезд на силовой кабель экскаватора.',
+		text: 'Экскаватор электрический: сзади виден кабельный барабан, питание идёт по высоковольтному кабелю. Переезжать кабель можно только по специальным кабельным переездам. Колесо гружёного самосвала продавливает изоляцию, что грозит пробоем, напряжением на корпусе или грунте, поражением током и пожаром.',
+	},
+];
+
+const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: RiskMapMobile }), getImage({ src: RiskMapDesktop })]);
 ---
 
-<section class="risk-map" aria-labelledby="risk-map-title">
-  <aside>
-    <h2 id="risk-map-title">Что не так с безопасностью на промплощадке?</h2>
-    <p>Найдите опасные ситуации и обсудите, как их предотвратить.</p>
-  </aside>
-  <div class="risk-map__scene" aria-label="Иллюстрация промплощадки с отмеченными рисками">
-    {riskPoints.map((point) => <span>{point}</span>)}
-  </div>
+<section class='risk-map' data-risk-points={JSON.stringify(riskPoints)}>
+	<div class='risk-map__inner'>
+		<aside class='risk-map__aside'>
+			<h2 class='risk-map__title'>Что не так с безопасностью на промплощадке?</h2>
+			<p class='risk-map__text'>Внимательно посмотрите на иллюстрацию и объясните все потенциально опасные ситуации.</p>
+			<div class='risk-map__details' aria-live='polite' aria-atomic='true'>
+				<h3 data-risk-display-title></h3>
+				<p data-risk-display-text></p>
+			</div>
+		</aside>
+		<div class='risk-map__scene'>
+			<div class='risk-map__img'>
+				<picture class='risk-map__image'>
+					<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+					<img src={mobileBackground.src} alt='' />
+				</picture>
+			</div>
+
+			<div class='risk-map__points'>
+				{riskPoints.map((point) => <button class='risk-map__point' type='button' />)}
+			</div>
+		</div>
+	</div>
 </section>
 
+<script>
+	document.querySelectorAll('.risk-map').forEach((map) => {
+		let activeIndex = -1;
+		const riskPoints = JSON.parse(map.getAttribute('data-risk-points') ?? '[]') as { title: string; text: string }[];
+		const title = map.querySelector<HTMLElement>('[data-risk-display-title]');
+		const text = map.querySelector<HTMLElement>('[data-risk-display-text]');
+		const points = map.querySelectorAll<HTMLButtonElement>('.risk-map__point');
+
+		points.forEach((point, index) => {
+			point.addEventListener('click', () => {
+				activeIndex = index;
+				const selectedTitle = riskPoints[index].title;
+				const selectedText = riskPoints[index].text;
+				if (!title || !text || !selectedTitle || !selectedText) {
+					return;
+				}
+
+				title.textContent = selectedTitle;
+				text.textContent = selectedText;
+				points.forEach((item, id) => {
+					if (id === activeIndex) {
+						item.classList.add('risk-map__point--active');
+					} else {
+						item.classList.remove('risk-map__point--active');
+					}
+				});
+			});
+		});
+	});
+</script>
+
 <style>
-  .risk-map {
-    display: grid;
-    background: #e4edff;
+	.risk-map {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		background: var(--bg-20);
+	}
 
-    aside {
-      padding: 28px 20px;
-    }
+	.risk-map__text {
+		margin-top: 32px;
+		font-size: 16px;
+		line-height: 120%;
+		font-weight: 500;
+	}
+	.risk-map__title {
+		margin: 0;
+		font-size: 32px;
+		font-weight: 600;
+		line-height: 1;
+	}
 
-    h2 {
-      max-width: 300px;
-      margin: 0;
-      font-size: 22px;
-      line-height: 1.08;
-    }
+	.risk-map__aside {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 20px;
+		height: 100%;
+		width: 473px;
+		z-index: 10;
+		background: #e5ecfd;
+	}
+	.risk-map__details {
+		min-height: 291px;
+		margin-top: 56px;
+		padding: 18px;
+		background: var(--bg-20);
+		border: 2px dashed #bb2014;
+		border-radius: 10px;
+		font-size: 16px;
+		line-height: 120%;
+		h3 {
+			margin: 0 0 20px;
+			font-weight: bold;
+		}
 
-    p {
-      max-width: 320px;
-      font-size: 13px;
-      line-height: 1.45;
-    }
+		p {
+			margin: 0;
+		}
+	}
+	.risk-map__inner {
+		width: 100%;
+		max-width: 1440px;
+	}
+	.risk-map__img {
+		display: flex;
+		width: 100%;
+		picture,
+		img {
+			display: flex;
+			width: 100%;
+			height: auto;
+		}
+	}
+	.risk-map__points {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+	}
+	.risk-map__scene {
+		position: relative;
+		width: 100%;
+		min-height: 260px;
+		background: #b6c4ce;
+	}
+	.risk-map__point {
+		position: absolute;
+		display: flex;
+		width: 24px;
+		height: 24px;
+		background: transparent;
+		border: 0;
+		padding: 0;
+		border-radius: 50%;
+		cursor: pointer;
+		z-index: 1;
+		&::before {
+			position: absolute;
+			content: '';
+			display: flex;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 42px;
+			height: 42px;
+			border-radius: 50%;
+			background: rgba(164, 28, 17, 0.5);
+			filter: blur(2px);
+			z-index: -1;
+			transition: background ease 0.15s;
+		}
+		&::after {
+			position: absolute;
+			content: '';
+			inset: 0;
+			box-sizing: border-box;
+			background: #bb2014;
+			border: 1px solid #ffffff;
+			border-radius: 50%;
+			z-index: 0;
+			transition:
+				border ease 0.15s,
+				background ease 0.15s;
+		}
+		&:hover,
+		&:focus-visible,
+		&[aria-pressed='true'],
+    &.risk-map__point--active {
+			&::before {
+				background: rgba(255, 255, 255, 0.5);
+			}
+			&::after {
+				background: #ffffff;
+				border: 1px solid #112233;
+			}
+		}
+	}
 
-    @media (width >= 760px) {
-      grid-template-columns: minmax(230px, 1fr) 2fr;
-
-      aside {
-        padding: 40px max(24px, calc((100vw - 1120px) / 2));
-      }
-    }
-  }
-
-  .risk-map__scene {
-    position: relative;
-    min-height: 260px;
-    background: #b6c4ce;
-
-    span {
-      position: absolute;
-      display: grid;
-      place-items: center;
-      width: 26px;
-      aspect-ratio: 1;
-      border: 2px solid var(--color-white);
-      border-radius: 50%;
-      background: #ff641e;
-      color: var(--color-white);
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    span:nth-child(1) { top: 20%; left: 24%; }
-    span:nth-child(2) { top: 42%; left: 68%; }
-    span:nth-child(3) { top: 70%; left: 45%; }
-    span:nth-child(4) { top: 25%; left: 84%; }
-  }
+	.risk-map__point:nth-child(1) {
+		top: 65%;
+		left: 43.2%;
+	}
+	.risk-map__point:nth-child(2) {
+		top: 26.3%;
+		left: 65.4%;
+	}
+	.risk-map__point:nth-child(3) {
+		top: 41.4%;
+		left: 80.9%;
+	}
+	.risk-map__point:nth-child(4) {
+		top: 55.3%;
+		left: 60.8%;
+	}
+	.risk-map__point:nth-child(5) {
+		top: 83.6%;
+		left: 67.7%;
+	}
 </style>
