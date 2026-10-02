@@ -1,87 +1,175 @@
 ---
+import { getImage } from 'astro:assets';
+import EvidenceCard0 from './assets/evidence-card-0.webp';
+import EvidenceCard1 from './assets/evidence-card-1.webp';
+import EvidenceCard2 from './assets/evidence-card-2.webp';
+import EvidenceCard3 from './assets/evidence-card-3.webp';
+import EvidenceCard4 from './assets/evidence-card-4.webp';
+
 const practices = [
-  "Обязательные инструктажи по охране труда",
-  "Система 5S",
-  "Модуль «Безопасность» на корпоративном портале",
-  "Право отказаться от небезопасной работы",
-  "Инвестиции в охрану труда и промышленную безопасность",
+	{
+		title: 'Обязательные инструктажи по охране труда',
+		text: 'Вводный инструктаж — обязательный этап для всех новых сотрудников и работников подрядных организаций. Он включает обучение по охране труда и правилам поведения в случае ЧС и АС. Кроме этого, мы разработали специальные курсы, направленные на повышения общей культуры безопасности, такие как «Предотвращение травматизма» и «Защитное вождение».',
+		image: EvidenceCard0,
+	},
+	{
+		title: 'Система 5S',
+		text: 'Система 5S — системный подход к организации рабочих мест, который напрямую влияет на безопасность сотрудников и производственных процессов. Когда в рабочей зоне нет лишних предметов, инструменты лежат на своих местах, а проходы и эвакуационные выходы свободны — риск споткнуться, уронить тяжелый предмет и получить травму значительно снижается. ',
+		image: EvidenceCard1,
+	},
+	{
+		title: '«Модуль безопасности» на корпоративном портале',
+		text: 'Каждый сотрудник может зафиксировать потенциально опасную ситуацию и сообщить о ней для скорейшего устранения факторов риска. Также с помощью модуля можно провести проверку соблюдения всех требований безопасности перед началом работ, сообщить о возможном риске и получить необходимые дополнительные указания. Так на безопасность влияет каждый сотрудник, а не только руководители и начальники смен.',
+		image: EvidenceCard2,
+	},
+	{
+		title: 'Право отказаться от небезопасной работы',
+		text: 'Если сотрудник видит, что выполнение задачи связано с повышением риска, он может безнаказанно отказаться от её выполнения и устранить нарушения и минимизировать риски.',
+		image: EvidenceCard3,
+	},
+	{
+		title: 'Инвестиции в ОТиПБ',
+		text: 'Закупка СИЗов, проведение мероприятий по охране труда, развитие института внутренних тренеров, обучение и информирование. А также автоматизация и цифровизация процессов, идентификация опасностей и управление рисками, профилактика профессиональных заболеваний и ДМС для сотрудников.',
+		image: EvidenceCard4,
+	},
 ];
+
+const evidenceCards = await Promise.all(
+	practices.map(async ({ image, ...practice }) => ({
+		...practice,
+		image: await getImage({ src: image }),
+	})),
+);
 ---
 
-<section class="evidence" id="practices" aria-labelledby="evidence-title">
-  <div class="evidence__inner">
-    <h2 id="evidence-title">5 доказательств, что забота о безопасности встроена в работу Удокана</h2>
-    <p class="evidence__lead">
-      Культура складывается из повторяющихся действий и обязательных инструментов.
-    </p>
-    <ul>
-      {practices.map((practice) => (
-        <li>
-          <div class="evidence__image" aria-hidden="true"></div>
-          <h3>{practice}</h3>
-          <p>Описание практики будет добавлено.</p>
-        </li>
-      ))}
-    </ul>
-  </div>
+<section class='evidence' id='practices'>
+	<div class='evidence__inner'>
+		<h2 class='evidence__title'> 5 доказательств, что забота о безопасности встроена в работу Удокана </h2>
+		<p class='evidence__lead'>
+			Культура складывается из повторяющихся действий — от обязательных инструктажей по охране труда до права остановить небезопасную работу.
+		</p>
+		<div class='evidence__list'>
+			{
+				evidenceCards.map((card) => (
+					<div class='evidence__card'>
+						<div class='evidence__image'>
+							<img src={card.image.src} alt='' loading='lazy' />
+						</div>
+						<h3 class='evidence__card-title'>{card.title}</h3>
+						<p class='evidence__card-text'>{card.text}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
 </section>
 
 <style>
-  .evidence {
-    padding: 72px 20px;
-    background: #f4f7fa;
-  }
+	.evidence {
+		padding: 119px 24px 111px;
+		background: #f8fafd;
+		display: flex;
+		justify-content: center;
+	}
 
-  .evidence__inner {
-    width: min(100%, 1040px);
-    margin-inline: auto;
-  }
+	.evidence__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		max-width: 1440px;
+	}
 
-  h2 {
-    max-width: 700px;
-    margin: 0 auto;
-    font-size: 30px;
-    line-height: 1.08;
-    text-align: center;
-  }
+	.evidence__title {
+		max-width: 1068px;
+		margin: 0 auto;
+		font-size: 56px;
+		line-height: 1;
+		font-weight: 600;
+		text-align: center;
+	}
 
-  .evidence__lead {
-    max-width: 680px;
-    margin: 14px auto 28px;
-    font-size: 14px;
-    text-align: center;
-  }
+	.evidence__lead {
+		max-width: 1068px;
+		margin: 20px auto 0;
+		line-height: 140%;
+		text-align: center;
+	}
 
-  ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+	.evidence__list {
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: 24px;
+		margin: 80px 0 0;
+		padding: 0;
+		list-style: none;
+	}
 
-  li {
-    padding: 10px;
-    border: 1px solid #d1d9e0;
-    background: var(--white-0);
-  }
+	.evidence__card {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		min-height: 694px;
+		grid-column: span 2;
+		padding: 20px;
+		border: 1px solid #c8d2dc;
+	}
 
-  .evidence__image {
-    aspect-ratio: 1.55;
-    background: #cbd6de;
-  }
+	.evidence__card:nth-child(4) {
+		grid-column: 2 / span 2;
+		min-height: 646px;
+	}
 
-  h3 {
-    margin: 12px 0 0;
-    font-size: 15px;
-    line-height: 1.25;
-  }
+	.evidence__card:nth-child(5) {
+		grid-column: 4 / span 2;
+		min-height: 646px;
+	}
 
-  li p {
-    margin: 8px 0 0;
-    color: #596572;
-    font-size: 13px;
-    line-height: 1.45;
-  }
+	.evidence__image {
+		display: flex;
+		width: 100%;
+    img{
+      width: 100%;
+    }
+	}
+
+	.evidence__card-title {
+		margin: 30px 0 0;
+		font-size: 24px;
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.evidence__card-text {
+		margin: 10px 0 0;
+		font-size: 16px;
+		line-height: 1.4;
+	}
+
+	@media (max-width: 760px) {
+		.evidence__list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.evidence__card:nth-child(4) {
+			grid-column: auto;
+		}
+
+		.evidence__card:nth-child(5) {
+			grid-column: 1 / -1;
+			width: calc((100% - 16px) / 2);
+			justify-self: center;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.evidence__list {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.evidence__card:nth-child(5) {
+			grid-column: auto;
+			width: auto;
+		}
+	}
 </style>
