@@ -3,6 +3,13 @@ import Link from "../link.astro";
 import type { QuizStorageKey } from "../../config/quizzes";
 import type { QuizAnswer, QuizQuestion } from "../../types/quiz";
 import Answer from "./answer.astro";
+import LastCorrectAnswer from "../safety/last-correct-answer.astro";
+import LastWrongAnswer from "../safety/last-wrong-answer.astro";
+
+const answerComponents = {
+  "last-correct-answer": LastCorrectAnswer,
+  "last-wrong-answer": LastWrongAnswer,
+};
 
 interface Props {
   question: QuizQuestion;
@@ -42,9 +49,17 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
   <ul class="quiz__body">
     {
       answers.map((answer: QuizAnswer) => {
+        const customComponent = answer.customComponent
+          ? answerComponents[answer.customComponent]
+          : undefined;
+
         return (
           <li>
-            <Answer answer={answer} correctAnswerId={correctAnswerId} />
+            <Answer
+              answer={answer}
+              correctAnswerId={correctAnswerId}
+              customComponent={customComponent}
+            />
           </li>
         );
       })
@@ -329,6 +344,8 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
     const comment = answer.querySelector(".answer__comment");
 
     const tl = gsap.timeline();
+    if (!comment) return tl;
+
     return tl
       .set(comment, {
         display: "block",

@@ -4,15 +4,21 @@ import type { QuizStorageKey } from "../../config/quizzes.ts";
 
 interface Props {
   questionsCount: number;
+  excludedQuestionNumbers?: string[];
   storageKey: QuizStorageKey;
 }
 
-const { questionsCount, storageKey } = Astro.props;
+const {
+  questionsCount,
+  storageKey,
+  excludedQuestionNumbers = [],
+} = Astro.props;
 ---
 
 <div
   data-quiz-result
   data-questions-count={questionsCount}
+  data-excluded-question-numbers={JSON.stringify(excludedQuestionNumbers)}
   data-quiz-storage-key={storageKey}
 >
   <Link href="/безопасность/" view="round">Пройти ещё раз</Link>
@@ -23,9 +29,8 @@ const { questionsCount, storageKey } = Astro.props;
   import { readStoredQuizResult } from "../../scripts/quiz-result";
 
   function initSafetyQuizResult() {
-    const resultElement = document.querySelector<HTMLElement>(
-      "[data-quiz-result]",
-    );
+    const resultElement =
+      document.querySelector<HTMLElement>("[data-quiz-result]");
 
     if (!resultElement || resultElement.dataset.initialized === "true") return;
 
@@ -37,7 +42,14 @@ const { questionsCount, storageKey } = Astro.props;
       return;
     }
 
-    const result = readStoredQuizResult(storageKey, questionsCount);
+    const excludedQuestionNumbers: string[] = JSON.parse(
+      resultElement.dataset.excludedQuestionNumbers ?? "[]",
+    );
+    const result = readStoredQuizResult(
+      storageKey,
+      questionsCount,
+      excludedQuestionNumbers,
+    );
 
     if (!result) {
       goHome();

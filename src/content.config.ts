@@ -24,11 +24,15 @@ const defineQuestionsCollection = (base: string) =>
             id: z.string(),
             text: z.string(),
             comment: z.string(),
+            customComponent: z
+              .enum(["last-correct-answer", "last-wrong-answer"])
+              .optional(),
           }),
         ),
         correctAnswerId: z.string(),
         nextPage: z.string(),
         isLast: z.boolean().optional(),
+        consider: z.boolean().default(true),
       }),
   });
 
