@@ -11,7 +11,7 @@ const defineQuestionsCollection = (base: string) =>
     }),
     schema: ({ image }) =>
       z.object({
-        questionNumber: z.number(),
+        questionNumber: z.string(),
         questionText: z.string(),
         backgrounds: z.object({
           desktop: image(),
