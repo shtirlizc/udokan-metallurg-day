@@ -2,10 +2,10 @@
   "questionNumber": "Вопрос 6",
   "questionText": "Один из пунктов Кодекса Удокана гласит: «Я прикладываю все усилия, чтобы обеспечить ⟨...⟩, ставя её в приоритет». Напомните, о чем идет речь?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "./images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "./images/chars-mobile.webp"
   },
   "answers": [
     {

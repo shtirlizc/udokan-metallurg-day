@@ -2,10 +2,10 @@
   "questionNumber": "Вопрос 5",
   "questionText": "Арину отправили в командировку на промплощадку, и ей необходимо подняться по лестнице в цех. Сколько точек опоры у неё должно быть?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {

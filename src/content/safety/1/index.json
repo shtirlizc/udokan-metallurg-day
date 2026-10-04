@@ -2,10 +2,10 @@
   "questionNumber": "Вопрос 1",
   "questionText": "Арина работает в офисе и слышит звук пожарной сигнализации. Она вспоминает, что вроде бы коллега говорила ей, что сегодня будет противопожарная тренировка. Как ей следует поступить?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {

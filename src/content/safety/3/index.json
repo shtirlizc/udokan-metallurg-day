@@ -2,10 +2,10 @@
   "questionNumber": "Вопрос 3",
   "questionText": "Товарищ Ивана, водитель БелАЗа на карьере, на обеде поделился с ним проблемой: кажется, у машины отказывают тормоза. Что делать в такой ситуации?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {

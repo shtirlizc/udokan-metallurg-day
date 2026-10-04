@@ -2,10 +2,10 @@
   "questionNumber": "Время получать награду!",
   "questionText": "Спасибо за помощь — благодаря вам Арина и Иван вспомнили правила и требования охраны труда и могут работать без риска.",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {

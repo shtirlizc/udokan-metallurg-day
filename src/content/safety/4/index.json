@@ -2,10 +2,10 @@
   "questionNumber": "Вопрос 4",
   "questionText": "После обеда Иван и Арина спешат на свое рабочее место. Проходя по цеху, они видят лежащие на их пути громоздкие запасные детали, забытые ремонтниками. Что посоветуете?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {

@@ -2,10 +2,10 @@
   "questionNumber": "Вопрос 2",
   "questionText": "В процессе работы на движущемся конвейере Арина заметила, что её коллега пытается достать кусок руды с конвейера на ходу. Что посоветуете Арине?",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {
