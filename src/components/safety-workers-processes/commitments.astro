@@ -1,78 +1,116 @@
 ---
-const commitments = [1, 2, 3, 4, 5, 6, 7];
+import { getImage } from 'astro:assets';
+import Pattern from './assets/principles-pattern.webp';
+const commitments = [
+	'Сделать привычкой неукоснительное соблюдение требований охраны труда',
+	'Использовать СИЗ во всех ситуациях, предусмотренных правилами ОТиПБ',
+	'Следить за порядком на рабочем месте',
+	'Оперативно сообщать о возникающих рисках и обнаруженных опасностях',
+	'Предупреждать о нарушениях требований охраны труда со стороны коллег и подрядчиков',
+	'Отказываться от небезопасной работы и останавливать ее',
+	'Проходить курсы компании и при необходимости обращаться за советами к сотрудникам ДОТПБиООС',
+];
+
+const patternImg = await getImage({ src: Pattern });
 ---
 
-<section class="commitments" id="commitments" aria-labelledby="commitments-title">
-  <div class="commitments__inner">
-    <h2 id="commitments-title">Кто помогает создавать безопасную среду</h2>
-    <p>Каждый из нас может поддерживать безопасность конкретными действиями.</p>
-    <ol>
-      {commitments.map((item) => (
-        <li>
-          <span>{String(item).padStart(2, "0")}</span>
-          <p>Пункт личной ответственности будет добавлен.</p>
-        </li>
-      ))}
-    </ol>
-  </div>
+<section class='commitments' id='commitments' style={`--principles-pattern: url(${patternImg.src})`}>
+	<div class='commitments__inner'>
+		<h2 class='commitments__title'>Кто помогает создавать безопасную среду</h2>
+		<p class='commitments__text'
+			>Формировать культуру безопасного производства и нулевого травматизма на Удокане помогают сотрудники Департамента охраны труда, промышленной
+			безопасности и охраны окружающей среды (ДОТПБиООС). Они действуют в рамках корпоративного стандарта и всегда рады помочь коллегам.</p
+		>
+		<ol>
+			{
+				commitments.map((commitment, index) => (
+					<li class='commitments__item'>
+						<span>{String(index + 1).padStart(2, '0')}</span>
+						<p>{commitment}</p>
+					</li>
+				))
+			}
+		</ol>
+	</div>
 </section>
 
 <style>
-  .commitments {
-    padding: 72px 20px;
-    background-color: #102b42;
-    background-image: linear-gradient(#ffffff0b 1px, transparent 1px),
-      linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
-    background-size: 28px 28px;
-    color: var(--color-white);
-  }
+	.commitments {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		padding: 150px 20px 51px;
+		color: var(--color-white);
+		background-color: var(--black-100);
+		background-image: var(--principles-pattern);
+		background-size: 116px 77px;
+		overflow: hidden;
+	}
+	.commitments::before {
+		position: absolute;
 
-  .commitments__inner {
-    width: min(100%, 760px);
-    margin-inline: auto;
-  }
+		content: '';
+		width: 2670px;
+		height: 1148px;
+		left: 50%;
+		top: 0;
+		transform: translate(-50%, -50%);
+		background: #102030;
+		filter: blur(375px);
+	}
+	.commitments__inner {
+		position: relative;
+		max-width: 780px;
+		z-index: 10;
+	}
 
-  h2 {
-    max-width: 560px;
-    margin: 0;
-    font-size: 32px;
-    line-height: 1.08;
-  }
+	.commitments__title {
+		margin: 0;
+		font-size: 56px;
+		line-height: 1;
+		font-weight: 600;
+	}
 
-  .commitments__inner > p {
-    font-size: 14px;
-    line-height: 1.5;
-  }
+	.commitments__text {
+		margin-top: 30px;
+		line-height: 1.4;
+	}
 
-  ol {
-    display: grid;
-    gap: 8px;
-    margin: 28px 0 0;
-    padding: 0;
-    list-style: none;
-  }
+	ol {
+		display: grid;
+		gap: 16px;
+		margin: 41px 0 0;
+		padding: 0;
+		list-style: none;
+		width: 100%;
+	}
 
-  li {
-    display: grid;
-    grid-template-columns: 42px 1fr;
-    align-items: center;
-    min-height: 48px;
-    background: #f4f7fa;
-    color: var(--black-100);
+	li {
+		display: flex;
 
-    span {
-      display: grid;
-      align-self: stretch;
-      place-items: center;
-      background: #cbd7df;
-      font-size: 12px;
-    }
+		align-items: center;
+		min-height: 48px;
+		background: #f4f7fa;
+		color: var(--black-100);
 
-    p {
-      margin: 0;
-      padding: 10px 14px;
-      font-size: 13px;
-      line-height: 1.35;
-    }
-  }
+		span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 75px;
+			height: 100%;
+			background: #c8d2dc;
+			font-size: 12px;
+			flex-shrink: 0;
+			font-weight: 500;
+		}
+
+		p {
+			margin: 0;
+			padding: 24px;
+			font-size: 17px;
+			line-height: 26px;
+			font-weight: bold;
+		}
+	}
 </style>
