@@ -1,30 +1,28 @@
 {
-  "questionNumber": 7,
-  "questionText": "Наша небольшая экскурсия завершена, пора возвращаться к работе! Мы руководствуемся принципами «Кодекса Удокана» и нашими корпоративными ценностями: Безопасность, Уважение, Постоянное совершенствование, Честность и Бережливость. Так, что упустили?",
+  "questionNumber": "Время получать награду!",
+  "questionText": "Спасибо за помощь — благодаря вам Арина и Иван вспомнили правила и требования охраны труда и могут работать без риска.",
   "backgrounds": {
-    "desktop": "images/bg-desktop.png",
-    "mobile": "images/bg-mobile.png",
-    "charsDesktop": "images/chars-desktop.png",
-    "charsMobile": "images/chars-mobile.png"
+    "desktop": "images/bg-desktop.webp",
+    "mobile": "images/bg-mobile.webp",
+    "charsDesktop": "images/chars-desktop.webp",
+    "charsMobile": "images/chars-mobile.webp"
   },
   "answers": [
     {
       "id": "01",
-      "text": "Закрытость",
-      "comment": "Эта история не про нас. Мы стремимся к новым горизонтам, работая над улучшениями вместе со своей командой!"
+      "text": "Время считать результаты!",
+      "comment": "Куда без каски, мы ж в цехе! Ну Семен Семеныч…",
+      "customComponent": "last-wrong-answer"
     },
     {
       "id": "02",
-      "text": "Командная работа",
-      "comment": "Только вместе мы добьёмся поставленных целей. Вперед к новым профессиональным вершинам!"
-    },
-    {
-      "id": "03",
-      "text": "Консервативность",
-      "comment": "Эта история не про нас. Мы стремимся к новым горизонтам, работая над улучшениями вместе со своей командой!"
+      "text": "Стоп, я ж без каски…",
+      "comment": "Вас не проведешь! Конечно, находиться в цехе можно только в каске. Безопасность действительно у вас в крови.",
+      "customComponent": "last-correct-answer"
     }
   ],
   "correctAnswerId": "02",
+  "consider": false,
   "nextPage": "result",
   "isLast": true
 }

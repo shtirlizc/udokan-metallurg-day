@@ -5,23 +5,31 @@ import type { QuizStorageKey } from "../../config/quizzes";
 
 interface Props {
   questionsCount: number;
+  excludedQuestionNumbers?: string[];
   storageKey: QuizStorageKey;
 }
 
-const { questionsCount, storageKey } = Astro.props;
+const {
+  questionsCount,
+  storageKey,
+  excludedQuestionNumbers = [],
+} = Astro.props;
 ---
 
 <div
   class="message"
   id="result-message"
   data-questions-count={questionsCount}
+  data-excluded-question-numbers={JSON.stringify(excludedQuestionNumbers)}
   data-quiz-storage-key={storageKey}
 >
   <div class="message__body">
     <div class="message__result">
       <ul class="message__result-chart">
         {
-          Array.from({ length: questionsCount }).map(() => (
+          Array.from({
+            length: questionsCount - excludedQuestionNumbers.length,
+          }).map(() => (
             <li>
               <LogoIcon />
             </li>
@@ -76,7 +84,14 @@ const { questionsCount, storageKey } = Astro.props;
 
     if (!storageKey) return;
 
-    const result = readStoredQuizResult(storageKey, questionsCount);
+    const excludedQuestionNumbers: string[] = JSON.parse(
+      resultMessage.dataset.excludedQuestionNumbers ?? "[]",
+    );
+    const result = readStoredQuizResult(
+      storageKey,
+      questionsCount,
+      excludedQuestionNumbers,
+    );
 
     restartLink?.addEventListener("click", (event) => {
       const isIOS =

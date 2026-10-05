@@ -81,6 +81,12 @@ import charsImg from "./assets/metallurgist-day-chars.webp";
     flex-direction: column;
     overflow: hidden;
 
+    &:hover .root__chars {
+      --chars-scale: 1.05;
+
+      transition: transform var(--transition-long);
+    }
+
     &.is-chars-visible .root__chars {
       --chars-translate-x: 0px;
 
@@ -164,6 +170,7 @@ import charsImg from "./assets/metallurgist-day-chars.webp";
 
     & .root__chars {
       --chars-translate-x: clamp(48px, 8vw, 120px);
+      --chars-scale: 1;
 
       flex-grow: 1;
       position: relative;
@@ -174,7 +181,7 @@ import charsImg from "./assets/metallurgist-day-chars.webp";
       align-items: flex-end;
       margin-top: 4vh;
       opacity: 0;
-      transform: translateX(var(--chars-translate-x));
+      transform: translateX(var(--chars-translate-x)) scale(var(--chars-scale));
       transition:
         opacity calc(1.5 * var(--transition-long)) var(--transition-f),
         transform calc(1.5 * var(--transition-long)) var(--transition-f);

@@ -1,5 +1,5 @@
 {
-  "questionNumber": 1,
+  "questionNumber": "Вопрос 1",
   "questionText": "Недавно у нас появились новые плакаты. Метафорически наши корпоративные ценности и «Кодекс Удокана» можно представить в виде:",
   "backgrounds": {
     "desktop": "images/bg-desktop.png",
