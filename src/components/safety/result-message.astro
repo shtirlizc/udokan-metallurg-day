@@ -3,8 +3,18 @@ import { Image } from "astro:assets";
 import Link from "../link.astro";
 import type { QuizStorageKey } from "../../config/quizzes.ts";
 import LogoIcon from "../../assets/logo-icon.svg";
-import charsMobile from "../../pages/безопасность/assets/result/chars-mobile-1.webp";
-import charsDesktop from "../../pages/безопасность/assets/result/chars-desktop-1.webp";
+import charsMobile1 from "../../pages/безопасность/assets/result/chars-mobile-1.webp";
+import charsDesktop1 from "../../pages/безопасность/assets/result/chars-desktop-1.webp";
+import charsMobile2 from "../../pages/безопасность/assets/result/chars-mobile-2.webp";
+import charsDesktop2 from "../../pages/безопасность/assets/result/chars-desktop-2.webp";
+import charsMobile3 from "../../pages/безопасность/assets/result/chars-mobile-3.webp";
+import charsDesktop3 from "../../pages/безопасность/assets/result/chars-desktop-3.webp";
+
+const characterVariants = [
+  { variant: "1", mobile: charsMobile1, desktop: charsDesktop1 },
+  { variant: "2", mobile: charsMobile2, desktop: charsDesktop2 },
+  { variant: "3", mobile: charsMobile3, desktop: charsDesktop3 },
+];
 
 interface Props {
   questionsCount: number;
@@ -26,16 +36,25 @@ const {
   data-quiz-storage-key={storageKey}
 >
   <div class="message">
-    <picture class="message__chars" data-transition-image>
-      <source
-        media="(min-width: 960px)"
-        srcset={charsDesktop.src}
-        width={charsDesktop.width}
-        height={charsDesktop.height}
-        type="image/webp"
-      />
-      <Image src={charsMobile} alt="" loading="eager" />
-    </picture>
+    {
+      characterVariants.map(({ variant, mobile, desktop }) => (
+        <picture
+          class="message__chars"
+          data-result-chars={variant}
+          data-transition-image
+          hidden={variant !== "1"}
+        >
+          <source
+            media="(min-width: 960px)"
+            srcset={desktop.src}
+            width={desktop.width}
+            height={desktop.height}
+            type="image/webp"
+          />
+          <Image src={mobile} alt="" loading="eager" />
+        </picture>
+      ))
+    }
 
     <div class="message__body">
       <div class="message__result">
@@ -80,6 +99,10 @@ const {
       display: block;
       width: 100%;
       height: auto;
+
+      &[hidden] {
+        display: none;
+      }
 
       img {
         display: block;
@@ -130,6 +153,12 @@ const {
         display: flex;
         justify-content: center;
         gap: var(--space24);
+        margin-top: 110px;
+
+        /* desktop */
+        @media (width >= 960px) {
+          margin-top: 0;
+        }
 
         svg {
           opacity: 0.2;
@@ -146,16 +175,26 @@ const {
         font-weight: 500;
         font-size: 35px;
         line-height: 105%;
+        margin-top: var(--space40);
 
         /* desktop */
         @media (width >= 960px) {
           font-size: 60px;
+          margin-top: var(--space24);
         }
       }
     }
 
     & .message__text {
       font: var(--font-text-regular);
+      margin-top: var(--space24);
+      margin-bottom: var(--space36);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: var(--space16);
+        margin-bottom: var(--space32);
+      }
     }
   }
 </style>
@@ -165,6 +204,7 @@ const {
   import { withBase } from "../../utils/paths";
   import { navigate } from "astro:transitions/client";
   import { readStoredQuizResult } from "../../scripts/quiz-result";
+  import { setSafetyResultCharacters } from "../../scripts/safety-result-characters";
 
   const RESULT_C =
     "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег";
@@ -201,9 +241,8 @@ const {
       return;
     }
 
-    const messageBody = resultElement.querySelector<HTMLElement>(
-      ".message__body",
-    );
+    const messageBody =
+      resultElement.querySelector<HTMLElement>(".message__body");
     const restartLink = resultElement.querySelector<HTMLAnchorElement>("a");
 
     if (!messageBody) return;
@@ -225,7 +264,10 @@ const {
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
       // Safari snapshots the visible scene before the outgoing transition.
-      if (isIOS || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (
+        isIOS ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
         event.preventDefault();
         navigate(restartLink.href);
         return;
@@ -271,10 +313,15 @@ const {
       legendElement.textContent = `${result.correctAnswersCount}/${result.totalAnswers} правильных ответов`;
     }
 
+    const characterVariant = setSafetyResultCharacters(
+      resultElement,
+      result.correctAnswersCount,
+    );
+
     if (messageElement) {
-      if (result.correctAnswersCount <= 3) {
+      if (characterVariant === "1") {
         messageElement.textContent = RESULT_C;
-      } else if (result.correctAnswersCount <= 5) {
+      } else if (characterVariant === "2") {
         messageElement.textContent = RESULT_B;
       } else {
         messageElement.textContent = RESULT_A;

@@ -118,6 +118,8 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
   <!-- Yandex.Metrika counter -->
 
   <script>
+    import { prepareSafetyResultCharacters } from "../scripts/safety-result-characters";
+
     type PreparationEvent = Event & {
       loader: () => Promise<void>;
       newDocument: Document;
@@ -125,7 +127,7 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
     };
 
     const imageLoadTimeout = 15_000;
-    const transitionImageSelector = "[data-transition-image] img";
+    const transitionImageSelector = "[data-transition-image]:not([hidden]) img";
 
     function isIOS() {
       return (
@@ -218,6 +220,7 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
 
       preparation.loader = async () => {
         await loadPage();
+        prepareSafetyResultCharacters(preparation.newDocument);
         const isIOSSceneExit =
           isIOS() &&
           (document.querySelector(".question") ||
