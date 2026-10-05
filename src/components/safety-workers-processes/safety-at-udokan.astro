@@ -1,0 +1,70 @@
+---
+import { getImage } from 'astro:assets';
+import TeamSupportPeopleDesktop from './assets/safety-at-udokan-desktop.webp';
+import TeamSupportPeopleMobile from './assets/safety-at-udokan-mobile.webp';
+const [mobileBackground, desktopBackground] = await Promise.all([
+	getImage({ src: TeamSupportPeopleMobile }),
+	getImage({ src: TeamSupportPeopleDesktop }),
+]);
+---
+
+<section class='safety-at-udokan'>
+	<div class='safety-at-udokan__inner'>
+		<h2 class='safety-at-udokan__title'>Безопасность на Удокане — дело каждого из нас</h2>
+		<p class='safety-at-udokan__text'>
+			С 2023 года в компании действует специальная процедура, определяющая критерии поощрения за достижения в области охраны труда: отсутствие травм
+			и несчастных случаев, безопасное состояние рабочих мест, демонстрируемые инициативы в области ОТиПБ. В 2024 году процедуры были дополнены
+			отдельным положением о поощрении работников Управления автотранспортом за соблюдение мер безопасности дорожного движения. Предусмотрены
+			благодарственные письма от высшего руководства, знаки отличия, корпоративные сувениры и денежные премии.
+		</p>
+	</div>
+	<div class='safety-at-udokan__visual'>
+		<picture class='safety-at-udokan__image'>
+			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+			<img src={mobileBackground.src} alt='' />
+		</picture>
+	</div>
+</section>
+
+<style>
+	.safety-at-udokan {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 120px;
+		background: var(--white-0);
+	}
+	.safety-at-udokan__inner {
+		max-width: 780px;
+		display: flex;
+		flex-direction: column;
+	}
+	.safety-at-udokan__title {
+		margin: 0;
+		font-size: 56px;
+		line-height: 100%;
+		font-weight: 600;
+	}
+
+	.safety-at-udokan__text {
+		margin-top: 20px;
+		font-size: 20px;
+		line-height: 1.4;
+	}
+	.safety-at-udokan__visual {
+		margin-top: 108px;
+		display: flex;
+		width: 100%;
+		min-height: 400px;
+	}
+	.safety-at-udokan__image {
+		display: flex;
+		width: 100%;
+		height: auto;
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+</style>

@@ -1,0 +1,180 @@
+---
+import { getImage } from 'astro:assets';
+import TeamSupportPeopleDesktop from './assets/team-support-people.webp';
+import TeamSupportPeopleMobile from './assets/team-support-people.webp';
+const responsibilities = [
+	'Обучают основам безопасного поведения на производстве',
+	'Обучают и контролируют правильность применения СИЗ',
+	'Проверяют условия труда и выявляют потенциально опасные ситуации',
+	'Помогают коллегам правильно оформлять отказ от работы в небезопасных условиях',
+];
+
+const [mobileBackground, desktopBackground] = await Promise.all([
+	getImage({ src: TeamSupportPeopleMobile }),
+	getImage({ src: TeamSupportPeopleDesktop }),
+]);
+---
+
+<section class='team-support'>
+	<div class='team-support__decor team-support__decor_top'>
+		<svg width='1440' height='52' viewBox='0 0 1440 52' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 0H0V51.1484L720 0Z' fill='#F8FAFD'></path>
+			<path d='M1440 0H720L1440 51.1484V0Z' fill='#F8FAFD'></path>
+		</svg>
+	</div>
+	<div class='team-support__inner'>
+		<div class='team-support__intro'>
+			<h2 class='team-support__title'>Кто помогает создавать безопасную среду</h2>
+			<p class='team-support__text'>
+				Формировать культуру безопасного производства и нулевого травматизма на Удокане помогают сотрудники Департамента охраны труда, промышленной
+				безопасности и охраны окружающей среды (ДОТПБиООС). Они действуют в рамках корпоративного стандарта и всегда рады помочь коллегам.</p
+			>
+		</div>
+	</div>
+
+	<div class='team-support__tasks'>
+		<div class='team-support__people'>
+			<picture class='team-support__image'>
+				<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+				<img src={mobileBackground.src} alt='' />
+			</picture>
+		</div>
+		<div class='team-support__inner'>
+			<h3>Задачи команды ДОТПБиООС</h3>
+			<ul>
+				{
+					responsibilities.map((item) => (
+						<li>
+							<span class='team-support__icon'>
+								<svg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+									<rect width='22' height='22' rx='11' fill='#FFC037' />
+									<path
+										d='M9.56291 14.4883L5.56451 10.1539L6.76291 8.97791L9.52931 11.9459L15.5213 5.05791L16.7869 6.18911L9.56291 14.4883Z'
+										fill='#19324B'
+									/>
+								</svg>
+							</span>
+							{item}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+	<div class='team-support__decor team-support__decor_bottom'>
+		<svg width='1440' height='51' viewBox='0 0 1440 51' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 51.1484H0V0L720 51.1484Z' fill='#F8FAFD'></path>
+			<path d='M1440 51.1484H720L1440 0V51.1484Z' fill='#F8FAFD'></path>
+		</svg>
+	</div>
+</section>
+
+<style>
+	.team-support {
+		position: relative;
+		padding: 180px 0px 0;
+		background: var(--black-100);
+		color: var(--color-white);
+	}
+
+	.team-support__inner {
+		margin: 0 auto;
+		max-width: 780px;
+		width: 100%;
+	}
+
+	.team-support__title {
+		margin: 0;
+		font-size: 56px;
+		font-weight: 600;
+		line-height: 1;
+	}
+
+	.team-support__text {
+		margin-top: 30px;
+		line-height: 140%;
+	}
+
+	.team-support__people {
+		margin-bottom: 94px;
+		display: flex;
+		width: 100%;
+	}
+	.team-support__image {
+		margin-top: -13.889vw;
+		display: flex;
+		width: 100%;
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.team-support__tasks {
+		margin-top: 19.306vw;
+		padding: 0 0 150px;
+		background: #c8d2dc;
+		color: var(--black-100);
+
+		h3 {
+			margin: 0 0 17px;
+			font-size: 27.5px;
+			letter-spacing: -0.56px;
+		}
+
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		li {
+			display: flex;
+
+			align-items: center;
+			padding: 14px 0;
+			font-size: 17px;
+			line-height: 26px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+		}
+	}
+	.team-support__icon {
+		margin-top: 2px;
+		display: flex;
+		margin-right: 14px;
+		width: 22px;
+		height: 22px;
+	}
+	.team-support__decor {
+		position: absolute;
+		display: flex;
+		left: 50%;
+		transform: translate(-50%);
+		width: 100%;
+		max-width: 1440px;
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.team-support__decor_top {
+		top: -2px;
+	}
+	.team-support__decor_bottom {
+		bottom: -2px;
+	}
+	.team-support__decor::after,
+	.team-support__decor::before {
+		position: absolute;
+		content: '';
+		bottom: 0;
+		height: 100%;
+		background: #f8fafd;
+		width: calc((100vw - 1438px) / 2);
+	}
+	.team-support__decor::after {
+		right: calc(100% - 1px);
+	}
+	.team-support__decor::before {
+		left: calc(100% - 1px);
+	}
+</style>

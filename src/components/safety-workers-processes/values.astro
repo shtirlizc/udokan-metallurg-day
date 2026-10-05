@@ -1,0 +1,113 @@
+---
+const values = ['Безопасность', 'Постоянное совершенствование', 'Честность', 'Бережливость', 'Уважение', 'Командная\nработа'];
+---
+
+<section class='values' id='values' aria-labelledby='values-title'>
+	<div class='values__inner'>
+		<div class='values__intro'>
+			<h2 class='values__title'>Безопасность — наш безусловный приоритет</h2>
+			<div class='values__text'>
+				Один из постулатов «Кодекса Удокана» фиксирует наш ключевой подход к производству: «Я прикладываю все усилия, чтобы обеспечить безопасность
+				работников и процессов, ставя ее в приоритет». Он также перекликается с нашими основными ценностями и зафиксирован в Политике устойчивого
+				развития.
+			</div>
+		</div>
+		<ul class='values__diagram'>
+			{
+				values.map((value, index) => {
+					if (index === 0) {
+						return <li class='values__core'>{value}</li>;
+					}
+					return <li>{value}</li>;
+				})
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.values {
+		padding-top: 180px;
+		background: var(--white-0);
+	}
+
+	.values__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.values__intro {
+		max-width: 780px;
+	}
+
+	.values__title {
+		margin: 0;
+		font-size: 56px;
+		font-weight: 600;
+		line-height: 1;
+	}
+	.values__text {
+		margin-top: 20px;
+		font-size: 20px;
+		line-height: 140%;
+	}
+	.values__diagram {
+		margin-top: -0.571em;
+		position: relative;
+		height: 48.619em;
+		width: 100%;
+		max-width: 1440px;
+		font-size: min(calc(21 * 100vw / 1440), 21px);
+		list-style: none;
+		li {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			aspect-ratio: 1.12;
+			clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+			width: 12.857em;
+			height: 14.857em;
+			background: #ca9477;
+			color: var(--color-white);
+			font-size: inherit;
+			line-height: 150%;
+			font-weight: bold;
+			text-transform: uppercase;
+			white-space: pre-wrap;
+			&:nth-child(2) {
+				top: 8.333em;
+				left: 3.714em;
+			}
+			&:nth-child(3) {
+				top: 23em;
+				left: 12.286em;
+			}
+			&:nth-child(4) {
+				top: 31.286em;
+				left: 50%;
+				transform: translate(-50%);
+			}
+			&:nth-child(5) {
+				top: 23em;
+				right: 12.286em;
+			}
+			&:nth-child(6) {
+				top: 8.333em;
+				right: 3.714em;
+			}
+		}
+
+		.values__core {
+			top: 1.109em;
+			left: 50%;
+			transform: translate(-50%);
+			width: 10.522em;
+			height: 12.152em;
+			background: var(--brand-gradient-original);
+			font-size: min(calc(46 * 100vw / 1440), 46px);
+		}
+	}
+</style>

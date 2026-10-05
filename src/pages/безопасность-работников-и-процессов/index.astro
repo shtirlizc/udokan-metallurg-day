@@ -1,0 +1,51 @@
+---
+import MainLayout from "../../layouts/main.astro";
+import ArticleHeader from "../../components/safety-workers-processes/header.astro";
+import Progress from "../../components/safety-workers-processes/progress.astro";
+import Hero from "../../components/safety-workers-processes/hero.astro";
+import Values from "../../components/safety-workers-processes/values.astro";
+import LifeAndHealth from "../../components/safety-workers-processes/life-and-health.astro";
+import RiskScenarios from "../../components/safety-workers-processes/risk-scenarios.astro";
+import Definition from "../../components/safety-workers-processes/definition.astro";
+import Principles from "../../components/safety-workers-processes/principles.astro";
+import RiskMap from "../../components/safety-workers-processes/risk-map.astro";
+import Evidence from "../../components/safety-workers-processes/evidence.astro";
+import TeamSupport from "../../components/safety-workers-processes/team-support.astro";
+import RoadSafety from "../../components/safety-workers-processes/road-safety.astro";
+import TrafficStats from "../../components/safety-workers-processes/traffic-stats.astro";
+import SafetyAtUdokan from "../../components/safety-workers-processes/safety-at-udokan.astro";
+import Commitments from "../../components/safety-workers-processes/commitments.astro";
+import Closing from "../../components/safety-workers-processes/closing.astro";
+
+const title = "Безопасность работников и процессов";
+const description =
+  "Статья о безопасности работников и производственных процессов на Удокане.";
+---
+
+<MainLayout title={title} description={description}>
+  <Progress />
+  <main class="safety-article">
+    <ArticleHeader />
+    <Hero title={title} />
+    <Values />
+    <LifeAndHealth />
+    <RiskScenarios />
+    <Definition />
+    <Principles />
+    <RiskMap />
+    <Evidence />
+    <TeamSupport />
+    <RoadSafety />
+    <TrafficStats />
+    <SafetyAtUdokan />
+    <Commitments />
+    <Closing />
+  </main>
+</MainLayout>
+
+<style>
+  .safety-article {
+    overflow: hidden;
+    color: var(--black-100);
+  }
+</style>

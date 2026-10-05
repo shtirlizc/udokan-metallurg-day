@@ -1,0 +1,150 @@
+---
+const stats = [
+	{ value: '85', label: 'транспортных средств в 2025 году' },
+	{ value: '69', label: 'карьерных самосвалов в 2026 году' },
+	{ value: '10', label: 'вспомогательных машин в 2026 году' },
+	{ value: '≈300 ', label: 'камер заднего вида для лучшего обзора' },
+];
+---
+
+<section class='traffic-stats'>
+	<div class='traffic-stats__decor traffic-stats__decor_top'>
+		<svg width='1440' height='52' viewBox='0 0 1440 52' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 0H0V51.1484L720 0Z' fill='#F8FAFD'></path>
+			<path d='M1440 0H720L1440 51.1484V0Z' fill='#F8FAFD'></path>
+		</svg>
+	</div>
+	<div class='traffic-stats__inner'>
+		<h2 class='traffic-stats__title'>«Видеоаналитика ПДД»</h2>
+		<p class='traffic-stats__text'>Специальные системы отслеживают стиль вождения, уровень усталости водителей и другие опасные факторы.</p>
+		<ul class='traffic-stats__list'>
+			{
+				stats.map((stat) => (
+					<li>
+						<strong>{stat.value}</strong>
+						<span>{stat.label}</span>
+					</li>
+				))
+			}
+		</ul>
+		<p class='traffic-stats__total'>1066</p>
+		<p class='traffic-stats__caption'
+			>водителей компании получили практические навыки «Защитное вождение» в рамках риск ориентированных кампаний. Надеемся, что полученные навыки
+			сотрудники применяют и в обычной жизни, делая улицы городов безопаснее для окружающих.</p
+		>
+	</div>
+</section>
+
+<style>
+	.traffic-stats {
+		position: relative;
+		padding: 77px 20px 120px;
+		background: var(--black-100);
+		color: var(--color-white);
+		text-align: center;
+	}
+
+	.traffic-stats__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.traffic-stats__title {
+		margin: 0;
+		font-size: 56px;
+		font-weight: 600;
+		line-height: 100%;
+	}
+	.traffic-stats__text {
+		margin-top: 20px;
+		max-width: 480px;
+		width: 100%;
+		text-align: center;
+		font-size: 16px;
+		line-height: 130%;
+	}
+
+	.traffic-stats__list {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 24px;
+		margin: 107px 0 0;
+		max-width: 1220px;
+		width: 100%;
+		padding: 0;
+		list-style: none;
+
+		@media (width < 760px) {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		li {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			max-width: 260px;
+			width: 100%;
+			strong {
+				font-size: 140px;
+				font-weight: bold;
+				font-family: 'Bebas Neue Cyrillic', sans-serif;
+				line-height: 1;
+			}
+
+			span {
+				margin-top: 15px;
+				font-size: 16px;
+				line-height: 130%;
+			}
+		}
+	}
+
+	.traffic-stats__total {
+		font-family: 'Bebas Neue Cyrillic', sans-serif;
+		margin: 161px 0 0;
+		font-size: 300px;
+		font-weight: bold;
+		line-height: 65%;
+	}
+
+	.traffic-stats__caption {
+		margin: 49px 0 0;
+		font-size: 16px;
+		line-height: 130%;
+		max-width: 626px;
+	}
+	.traffic-stats__decor {
+		position: absolute;
+		display: flex;
+		left: 50%;
+		transform: translate(-50%);
+		width: 100%;
+		max-width: 1440px;
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.traffic-stats__decor_top {
+		top: -2px;
+	}
+	.traffic-stats__decor_bottom {
+		bottom: -2px;
+	}
+	.traffic-stats__decor::after,
+	.traffic-stats__decor::before {
+		position: absolute;
+		content: '';
+		bottom: 0;
+		height: 100%;
+		background: #f8fafd;
+		width: calc((100vw - 1438px) / 2);
+	}
+	.traffic-stats__decor::after {
+		right: calc(100% - 1px);
+	}
+	.traffic-stats__decor::before {
+		left: calc(100% - 1px);
+	}
+</style>

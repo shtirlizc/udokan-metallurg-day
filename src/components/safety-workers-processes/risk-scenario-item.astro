@@ -1,0 +1,279 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+
+interface Props {
+	index: number;
+	title?: string;
+	attention?: boolean;
+	text: string;
+	image?: {
+		mobile: ImageMetadata;
+		desktop: ImageMetadata;
+	};
+	hint?: {
+		text: string;
+		bubble: {
+			mobile: ImageMetadata;
+			desktop: ImageMetadata;
+		};
+	};
+}
+
+const { title, text, image, index, hint, attention } = Astro.props;
+const mobileBackground = image ? await getImage({ src: image.mobile }) : undefined;
+const desktopBackground = image ? await getImage({ src: image.desktop }) : undefined;
+---
+
+<div class:list={['scenario-item', `scenario-item_${index}`]}>
+	<div class='scenario-item__visual'>
+		{
+			mobileBackground && desktopBackground && (
+				<picture class='scenario-item__image'>
+					<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+					<img src={mobileBackground.src} alt='' />
+				</picture>
+			)
+		}
+		{
+			hint && (
+				<div class:list={['scenario-item__hint']}>
+					<div class='scenario-item__hint__body'>
+						<picture class='scenario-item__hint__bubble' aria-hidden='true'>
+							<source media='(min-width: 960px)' srcset={hint.bubble.desktop.src} type='image/svg+xml' />
+							<img src={hint.bubble.mobile.src} alt='' />
+						</picture>
+						<p>{hint.text}</p>
+					</div>
+					<div class='scenario-item__hint__icon'>
+						<svg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+							<circle cx='20' cy='20' r='20' fill='url(#paint0_linear_2266_4267)' />
+							<path d='M25.3047 15.1934L14.6981 25.8' stroke='white' stroke-width='3' />
+							<path d='M25.3047 25.7998L14.6981 15.1932' stroke='white' stroke-width='3' />
+							<defs>
+								<linearGradient id='paint0_linear_2266_4267' x1='20' y1='0' x2='20' y2='40' gradientUnits='userSpaceOnUse'>
+									<stop stop-color='#FF4747' />
+									<stop offset='1' stop-color='#B11414' />
+								</linearGradient>
+							</defs>
+						</svg>
+					</div>
+				</div>
+			)
+		}
+	</div>
+	<div class='scenario-item__caption'>
+		{
+			attention && (
+				<div class='scenario-item__icon'>
+					<svg width='44' height='44' viewBox='0 0 44 44' fill='none' xmlns='http://www.w3.org/2000/svg'>
+						<rect width='44' height='44' rx='22' fill='#FF6B1A' />
+						<path
+							d='M20.6152 23.7423L20.3864 14.1535H23.9848L23.7352 23.7423H20.6152ZM22.1752 29.0671C21.8562 29.0671 21.5373 28.9977 21.2184 28.8591C20.9133 28.7065 20.6568 28.4916 20.4488 28.2143C20.2546 27.9231 20.1576 27.5487 20.1576 27.0911C20.1576 26.6473 20.2546 26.2868 20.4488 26.0095C20.6568 25.7183 20.9133 25.5033 21.2184 25.3647C21.5234 25.2121 21.8424 25.1359 22.1752 25.1359C22.6882 25.1359 23.1458 25.3023 23.548 25.6351C23.964 25.954 24.172 26.4393 24.172 27.0911C24.172 27.5487 24.068 27.9231 23.86 28.2143C23.6658 28.4916 23.4162 28.7065 23.1112 28.8591C22.8061 28.9977 22.4941 29.0671 22.1752 29.0671Z'
+							fill='white'
+						/>
+					</svg>
+				</div>
+			)
+		}
+		{title && <h3>{title}</h3>}
+		<p>{text}</p>
+	</div>
+</div>
+
+<style>
+	.scenario-item {
+		position: absolute;
+		display: flex;
+		font-size: 1em;
+	}
+	.scenario-item_0 {
+		top: 0;
+		left: 0;
+		width: 45.375em;
+		height: 48.125em;
+		.scenario-item__caption {
+			left: 0.3125em;
+			bottom: 1.8125em;
+			max-width: 20.625em;
+		}
+		.scenario-item__hint {
+			top: 25.75em;
+			left: 10.0625em;
+		}
+		.scenario-item__hint__body {
+			top: -4.5em;
+			left: -1.3125em;
+
+			width: 19.625em;
+			height: 3.5em;
+			transform: rotate(4.47deg);
+		}
+	}
+	.scenario-item_1 {
+		top: 0;
+		right: -0.3125em;
+		width: 48.75em;
+		height: 48.125em;
+		.scenario-item__caption {
+			right: 0.5em;
+			bottom: 2.75em;
+			max-width: 21.875em;
+		}
+		.scenario-item__hint {
+			top: 12.125em;
+			left: 20.8125em;
+		}
+		.scenario-item__hint__body {
+			top: 1em;
+			left: -20.25em;
+			width: 20.0625em;
+			height: 4.6875em;
+			transform: rotate(-11.24deg);
+		}
+	}
+	.scenario-item_2 {
+		top: 45.125em;
+		left: -0.25em;
+		width: 51.8125em;
+		height: 45em;
+		z-index: 4;
+
+		.scenario-item__caption {
+			left: 0.1875em;
+			bottom: 0;
+			max-width: 25.375em;
+		}
+		.scenario-item__hint {
+			top: 20.1875em;
+			left: 17.5em;
+		}
+		.scenario-item__hint__body {
+			top: -2.5em;
+			left: -13.8125em;
+			width: 13.4375em;
+			height: 4.75em;
+			transform: rotate(9.51deg);
+		}
+	}
+	.scenario-item_3 {
+		top: 44.9375em;
+		right: 0;
+		width: 45.4375em;
+		height: 45em;
+		z-index: 5;
+		.scenario-item__caption {
+			left: 1.4375em;
+			bottom: 1.6875em;
+			max-width: 36.625em;
+		}
+		.scenario-item__hint {
+			top: 15.375em;
+			left: 25.875em;
+		}
+		.scenario-item__hint__body {
+			padding: 2.125em 1.1875em 0;
+			top: 2.375em;
+			left: 1.375em;
+			width: 12.75em;
+			height: 6.5625em;
+			transform: rotate(-15.63deg);
+		}
+	}
+	.scenario-item_4 {
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		z-index: 3;
+		.scenario-item__caption {
+			padding: 1.5em 1.5em 3.5em;
+			display: flex;
+			right: 0;
+			bottom: 1.25em;
+			background: #f9fafe;
+			max-width: 31.8125em;
+			p {
+				line-height: 140%;
+			}
+		}
+	}
+	.scenario-item__icon {
+		display: flex;
+		margin-right: 1.125em;
+		width: 2.75em;
+		height: 2.75em;
+	}
+	.scenario-item__visual {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.scenario-item__image {
+		display: flex;
+		width: 100%;
+		picture,
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	.scenario-item__hint {
+		position: absolute;
+		z-index: 1;
+	}
+	.scenario-item__hint__icon {
+		position: relative;
+		display: flex;
+		width: 2.5em;
+		height: 2.5em;
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.scenario-item__hint__body {
+		padding: 1.0625em 1.1875em;
+		position: absolute;
+		background: transparent;
+		border: 0;
+	}
+	.scenario-item__hint__bubble {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.scenario-item__hint__body p {
+		position: relative;
+		z-index: 1;
+	}
+	.scenario-item__hint {
+		margin: 0;
+		line-height: 120%;
+		font-weight: 600;
+	}
+
+	.scenario-item__caption {
+		position: absolute;
+		padding: 1.5em;
+		background: var(--color-white);
+		z-index: 1;
+		h3 {
+			margin: 0 0 0.5em;
+			font-size: 1em;
+		}
+
+		p {
+			margin: 0;
+			font-size: 0.875em;
+			line-height: 120%;
+		}
+	}
+</style>

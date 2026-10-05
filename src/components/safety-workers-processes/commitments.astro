@@ -1,0 +1,116 @@
+---
+import { getImage } from 'astro:assets';
+import Pattern from './assets/principles-pattern.webp';
+const commitments = [
+	'Сделать привычкой неукоснительное соблюдение требований охраны труда',
+	'Использовать СИЗ во всех ситуациях, предусмотренных правилами ОТиПБ',
+	'Следить за порядком на рабочем месте',
+	'Оперативно сообщать о возникающих рисках и обнаруженных опасностях',
+	'Предупреждать о нарушениях требований охраны труда со стороны коллег и подрядчиков',
+	'Отказываться от небезопасной работы и останавливать ее',
+	'Проходить курсы компании и при необходимости обращаться за советами к сотрудникам ДОТПБиООС',
+];
+
+const patternImg = await getImage({ src: Pattern });
+---
+
+<section class='commitments' id='commitments' style={`--principles-pattern: url(${patternImg.src})`}>
+	<div class='commitments__inner'>
+		<h2 class='commitments__title'>Кто помогает создавать безопасную среду</h2>
+		<p class='commitments__text'
+			>Формировать культуру безопасного производства и нулевого травматизма на Удокане помогают сотрудники Департамента охраны труда, промышленной
+			безопасности и охраны окружающей среды (ДОТПБиООС). Они действуют в рамках корпоративного стандарта и всегда рады помочь коллегам.</p
+		>
+		<ol>
+			{
+				commitments.map((commitment, index) => (
+					<li class='commitments__item'>
+						<span>{String(index + 1).padStart(2, '0')}</span>
+						<p>{commitment}</p>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>
+
+<style>
+	.commitments {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		padding: 150px 20px 51px;
+		color: var(--color-white);
+		background-color: var(--black-100);
+		background-image: var(--principles-pattern);
+		background-size: 116px 77px;
+		overflow: hidden;
+	}
+	.commitments::before {
+		position: absolute;
+
+		content: '';
+		width: 2670px;
+		height: 1148px;
+		left: 50%;
+		top: 0;
+		transform: translate(-50%, -50%);
+		background: #102030;
+		filter: blur(375px);
+	}
+	.commitments__inner {
+		position: relative;
+		max-width: 780px;
+		z-index: 10;
+	}
+
+	.commitments__title {
+		margin: 0;
+		font-size: 56px;
+		line-height: 1;
+		font-weight: 600;
+	}
+
+	.commitments__text {
+		margin-top: 30px;
+		line-height: 1.4;
+	}
+
+	ol {
+		display: grid;
+		gap: 16px;
+		margin: 41px 0 0;
+		padding: 0;
+		list-style: none;
+		width: 100%;
+	}
+
+	li {
+		display: flex;
+
+		align-items: center;
+		min-height: 48px;
+		background: #f4f7fa;
+		color: var(--black-100);
+
+		span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 75px;
+			height: 100%;
+			background: #c8d2dc;
+			font-size: 12px;
+			flex-shrink: 0;
+			font-weight: 500;
+		}
+
+		p {
+			margin: 0;
+			padding: 24px;
+			font-size: 17px;
+			line-height: 26px;
+			font-weight: bold;
+		}
+	}
+</style>
