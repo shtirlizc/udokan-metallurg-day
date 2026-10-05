@@ -33,12 +33,12 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	</div>
 
 	<div class='team-support__tasks'>
-			<div class='team-support__people'>
-				<picture class='team-support__image'>
-					<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-					<img src={mobileBackground.src} alt='' />
-				</picture>
-			</div>
+		<div class='team-support__people'>
+			<picture class='team-support__image'>
+				<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+				<img src={mobileBackground.src} alt='' />
+			</picture>
+		</div>
 		<div class='team-support__inner'>
 			<h3>Задачи команды ДОТПБиООС</h3>
 			<ul>
@@ -96,12 +96,12 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	}
 
 	.team-support__people {
-    margin-bottom: 94px;
+		margin-bottom: 94px;
 		display: flex;
 		width: 100%;
 	}
 	.team-support__image {
-		margin-top: -200px;
+		margin-top: -13.889vw;
 		display: flex;
 		width: 100%;
 		img {
@@ -110,41 +110,40 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 		}
 	}
 	.team-support__tasks {
-		margin-top: 278px;
-    padding: 0 0 150px;
+		margin-top: 19.306vw;
+		padding: 0 0 150px;
 		background: #c8d2dc;
 		color: var(--black-100);
 
 		h3 {
 			margin: 0 0 17px;
 			font-size: 27.5px;
-      letter-spacing: -0.56px;
+			letter-spacing: -0.56px;
 		}
 
 		ul {
-			
 			margin: 0;
 			padding: 0;
 			list-style: none;
 		}
 
 		li {
-      display: flex;
+			display: flex;
 
-      align-items: center;
+			align-items: center;
 			padding: 14px 0;
 			font-size: 17px;
 			line-height: 26px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 		}
 	}
-  .team-support__icon{
-    margin-top: 2px;
-    display: flex;
-    margin-right: 14px;
-    width: 22px;
-    height: 22px;
-  }
+	.team-support__icon {
+		margin-top: 2px;
+		display: flex;
+		margin-right: 14px;
+		width: 22px;
+		height: 22px;
+	}
 	.team-support__decor {
 		position: absolute;
 		display: flex;
@@ -158,11 +157,10 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 		}
 	}
 	.team-support__decor_top {
-		top: -1px;
+		top: -2px;
 	}
 	.team-support__decor_bottom {
-		bottom: -1px;
-    
+		bottom: -2px;
 	}
 	.team-support__decor::after,
 	.team-support__decor::before {
@@ -170,7 +168,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 		content: '';
 		bottom: 0;
 		height: 100%;
-    background: #F8FAFD;
+		background: #f8fafd;
 		width: calc((100vw - 1438px) / 2);
 	}
 	.team-support__decor::after {

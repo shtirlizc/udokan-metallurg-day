@@ -28,7 +28,7 @@ const riskPoints = [
 const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: RiskMapMobile }), getImage({ src: RiskMapDesktop })]);
 ---
 
-<section class='risk-map' data-risk-points={JSON.stringify(riskPoints)}>
+<section class='risk-map'>
 	<div class='risk-map__inner'>
 		<aside class='risk-map__aside'>
 			<h2 class='risk-map__title'>Что не так с безопасностью на промплощадке?</h2>
@@ -54,9 +54,31 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 </section>
 
 <script>
-	document.querySelectorAll('.risk-map').forEach((map) => {
-		let activeIndex = -1;
-		const riskPoints = JSON.parse(map.getAttribute('data-risk-points') ?? '[]') as { title: string; text: string }[];
+	const map = document.querySelector('.risk-map');
+	const riskPoints = [
+		{
+			title: 'Человек в зоне действия экскаватора.',
+			text: 'Например, водитель выходит из кабины, кто-то подходит убрать просыпь или что-то проверить. Опасен не только ковш, но и задняя часть поворотной платформы с противовесом. При повороте машинист её не видит, и она может прижать человека к самосвалу. Во время погрузки водитель сидит в кабине под козырьком.',
+		},
+		{
+			title: 'Ковш проносят над кабиной самосвала.',
+			text: 'Грузить положено только сбоку или сзади кузова. Если ковш идёт над кабиной, то при открытии днища раньше времени или срыве крупного куска породы удар приходится прямо на кабину. Защитный козырёк кузова выдерживает отдельные мелкие куски, а содержимое ковша (десятки тонн) он не держит.',
+		},
+		{
+			title: 'Перегруз, неравномерная загрузка и разгрузка с высоты.',
+			text: 'Порода выше бортов падает на дорогу и на встречные машины на съездах. Смещённый на одну сторону груз меняет центр тяжести и повышает риск опрокидывания на уклонах и поворотах. Если высыпать породу с большой высоты или бросить в кузов негабарит, удар придётся на раму и подвеску и передастся водителю в кабину.',
+		},
+		{
+			title: 'Самосвал заезжает под погрузку без сигнала машиниста или не стоит на тормозе. ',
+			text: 'Самосвал ждёт за пределами радиуса действия экскаватора и въезжает только по сигналу. Если он заедет, пока платформа поворачивается, его ударит ковш или противовес. Если он откатится во время погрузки, ковш промахнётся и порода упадёт мимо кузова.',
+		},
+		{
+			title: 'Наезд на силовой кабель экскаватора.',
+			text: 'Экскаватор электрический: сзади виден кабельный барабан, питание идёт по высоковольтному кабелю. Переезжать кабель можно только по специальным кабельным переездам. Колесо гружёного самосвала продавливает изоляцию, что грозит пробоем, напряжением на корпусе или грунте, поражением током и пожаром.',
+		},
+	];
+	let activeIndex = -1;
+	if (map) {
 		const title = map.querySelector<HTMLElement>('[data-risk-display-title]');
 		const text = map.querySelector<HTMLElement>('[data-risk-display-text]');
 		const points = map.querySelectorAll<HTMLButtonElement>('.risk-map__point');
@@ -81,7 +103,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 				});
 			});
 		});
-	});
+	}
 </script>
 
 <style>
@@ -204,7 +226,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		&:hover,
 		&:focus-visible,
 		&[aria-pressed='true'],
-    &.risk-map__point--active {
+		&.risk-map__point--active {
 			&::before {
 				background: rgba(255, 255, 255, 0.5);
 			}

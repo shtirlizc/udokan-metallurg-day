@@ -41,6 +41,9 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 <style>
 	.life-health {
 		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		background: #0b2439;
 		color: var(--color-white);
 	}
@@ -97,10 +100,10 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		}
 	}
 	.life-health__decor_top {
-		top: -1px;
+		top: -2px;
 	}
 	.life-health__decor_bottom {
-		bottom: -1px;
+		bottom: -2px;
 	}
 	.life-health__decor::after,
 	.life-health__decor::before {
