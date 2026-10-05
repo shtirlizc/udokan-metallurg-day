@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import charsMobile from "./assets/chars-mobile.webp";
-import charsDesktop from "./assets/chars-desktop.webp";
+import charsMobile from "./assets/start/chars-mobile.webp";
+import charsDesktop from "./assets/start/chars-desktop.webp";
 import { withBase } from "../../utils/paths";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
@@ -54,7 +54,7 @@ import { pageSlide } from "../../transitions/page-slide";
   .root {
     position: relative;
     overflow: hidden;
-    background-image: url("./assets/bg-mobile.webp");
+    background-image: url("assets/start/bg-mobile.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -63,7 +63,7 @@ import { pageSlide } from "../../transitions/page-slide";
 
     /* desktop */
     @media (width >= 960px) {
-      background-image: url("./assets/bg-desktop.webp");
+      background-image: url("assets/start/bg-desktop.webp");
       height: 100vh;
     }
 
