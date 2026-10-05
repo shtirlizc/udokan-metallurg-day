@@ -25,6 +25,7 @@ const {
 </div>
 
 <script>
+  import { withBase } from "../../utils/paths";
   import { navigate } from "astro:transitions/client";
   import { readStoredQuizResult } from "../../scripts/quiz-result";
 
@@ -64,7 +65,7 @@ const {
   }
 
   function goHome() {
-    navigate("/безопасность", { history: "replace" });
+    navigate(withBase("/безопасность"), { history: "replace" });
   }
 
   document.addEventListener("astro:page-load", initSafetyQuizResult);

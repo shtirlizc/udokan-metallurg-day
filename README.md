@@ -1,5 +1,21 @@
 # Astro Starter Kit: Minimal
 
+## Деплой на GitHub Pages
+
+Workflow `.github/workflows/deploy.yml` собирает сайт на Node.js 24 и публикует
+его при push в `main`. Запуск вручную доступен во вкладке Actions через
+`Deploy to GitHub Pages` → `Run workflow`.
+
+В настройках репозитория откройте **Settings → Pages → Build and deployment**
+и выберите **Source: GitHub Actions**.
+
+Адрес сайта: https://shtirlizc.github.io/udokan-metallurg-day/.
+Параметры `site` и `base` заданы в `astro.config.mjs`; внутренние ссылки и
+ресурсы из `public/` учитывают `base` через `src/utils/paths.ts`.
+
+При подключении собственного домена замените `site` на его URL и уберите
+`base`. Если автодеплой Vercel больше не нужен, отключите его в Vercel.
+
 ```sh
 npm create astro@latest -- --template minimal
 ```

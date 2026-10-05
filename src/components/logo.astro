@@ -1,8 +1,9 @@
 ---
+import { withBase } from "../utils/paths";
 import LogoSvg from "../assets/logo.svg";
 ---
 
-<a class="logo" href="/">
+<a class="logo" href={withBase("/")}>
   <LogoSvg />
 </a>
 

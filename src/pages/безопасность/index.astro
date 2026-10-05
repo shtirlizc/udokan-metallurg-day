@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../../utils/paths";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import Link from "../../components/link.astro";
@@ -8,7 +9,7 @@ import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 <MainLayout>
   <SafetyLayout>
     <div
-      data-quiz-home="/безопасность"
+      data-quiz-home={withBase("/безопасность")}
       data-quiz-storage-key={QUIZ_STORAGE_KEYS.safety}
     >
       <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>

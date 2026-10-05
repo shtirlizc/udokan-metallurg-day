@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../utils/paths";
+
 interface Props {
   href: string;
   disabled?: boolean;
@@ -15,8 +17,8 @@ const {
 ---
 
 <a
-  href={disabled ? undefined : href}
-  data-href={disabled ? href : undefined}
+  href={disabled ? undefined : withBase(href)}
+  data-href={disabled ? withBase(href) : undefined}
   class:list={[
     "button",
     block && "block",

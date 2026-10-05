@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../../utils/paths";
 import Footer from "../../components/metallurgist-day/footer.astro";
 import Header from "../../components/metallurgist-day/header.astro";
 import Link from "../../components/link.astro";
@@ -13,7 +14,7 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 
     <main
       class="content"
-      data-quiz-home="/день-металлурга"
+      data-quiz-home={withBase("/день-металлурга")}
       data-quiz-storage-key={QUIZ_STORAGE_KEYS.metallurgistDay}
     >
       <h1>«Удокан — это вы»</h1>

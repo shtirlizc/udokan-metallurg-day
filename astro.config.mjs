@@ -1,13 +1,15 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 
+const base = "/udokan-metallurg-day";
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://udokan-metallurg-day.vercel.app',
-  // site: 'https://udokan.shtirlizc.ru',
+  site: "https://shtirlizc.github.io",
+  base,
   // site: 'https://мы-удокан.рф',
   redirects: {
-    "/404": "/",
+    "/404": `${base}/`,
   },
   fonts: [
     {
