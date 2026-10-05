@@ -118,6 +118,8 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
   <!-- Yandex.Metrika counter -->
 
   <script>
+    import { prepareSafetyResultCharacters } from "../scripts/safety-result-characters";
+
     type PreparationEvent = Event & {
       loader: () => Promise<void>;
       newDocument: Document;
@@ -125,7 +127,7 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
     };
 
     const imageLoadTimeout = 15_000;
-    const transitionImageSelector = "[data-transition-image] img";
+    const transitionImageSelector = "[data-transition-image]:not([hidden]) img";
 
     function isIOS() {
       return (
@@ -218,11 +220,16 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
 
       preparation.loader = async () => {
         await loadPage();
+        prepareSafetyResultCharacters(preparation.newDocument);
         const isIOSSceneExit =
           isIOS() &&
           (document.querySelector(".question") ||
             document.querySelector("#result-message") ||
-            document.querySelector(".main"));
+            document.querySelector(".main") ||
+            document.querySelector("[data-safety-result-scene]") ||
+            document.querySelector(
+              "[data-quiz-home][data-astro-transition-scope]",
+            ));
         const isIOSQuestionToQuestion =
           isIOSSceneExit &&
           document.querySelector(".question") &&
@@ -236,7 +243,7 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
 
           document
             .querySelectorAll<HTMLElement>(
-              ".question [data-astro-transition-scope], .main[data-astro-transition-scope]",
+              ".question [data-astro-transition-scope], .main[data-astro-transition-scope], [data-safety-result-scene][data-astro-transition-scope], [data-quiz-home][data-astro-transition-scope]",
             )
             .forEach((layer) => {
               layer.style.viewTransitionName = "none";

@@ -5,6 +5,7 @@ import ResultMessage from "../../components/safety/result-message.astro";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import { QUIZ_STORAGE_KEYS } from "../../config/quizzes.ts";
+import { pageSlide } from "../../transitions/page-slide";
 
 const questions = await getCollection("safetyQuestions");
 const questionsCount = questions.length;
@@ -15,10 +16,58 @@ const excludedQuestionNumbers = questions
 
 <MainLayout>
   <SafetyLayout>
-    <ResultMessage
-      questionsCount={questionsCount}
-      excludedQuestionNumbers={excludedQuestionNumbers}
-      storageKey={QUIZ_STORAGE_KEYS.safety}
-    />
+    <div
+      class="root"
+      data-safety-result-scene
+      transition:name="page-content"
+      transition:animate={pageSlide}
+    >
+      <div class="root__bg"></div>
+
+      <div class="root__content">
+        <ResultMessage
+          questionsCount={questionsCount}
+          excludedQuestionNumbers={excludedQuestionNumbers}
+          storageKey={QUIZ_STORAGE_KEYS.safety}
+        />
+      </div>
+    </div>
   </SafetyLayout>
 </MainLayout>
+
+<style>
+  .root {
+    position: relative;
+    height: 100vh;
+    color: var(--color-white);
+    background-image: url("assets/result/bg-mobile.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* desktop */
+    @media (width >= 960px) {
+      background-image: url("assets/result/bg-desktop.webp");
+      height: 100vh;
+    }
+
+    & .root__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("assets/result/shield-mobile.webp");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      pointer-events: none;
+
+      /* desktop */
+      @media (width >= 960px) {
+        background-image: url("assets/result/shield-desktop.webp");
+      }
+    }
+
+    & .root__content {
+      position: relative;
+    }
+  }
+</style>
