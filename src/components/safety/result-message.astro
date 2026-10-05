@@ -1,6 +1,10 @@
 ---
+import { Image } from "astro:assets";
 import Link from "../link.astro";
 import type { QuizStorageKey } from "../../config/quizzes.ts";
+import LogoIcon from "../../assets/logo-icon.svg";
+import charsMobile from "../../pages/безопасность/assets/result/chars-mobile-1.webp";
+import charsDesktop from "../../pages/безопасность/assets/result/chars-desktop-1.webp";
 
 interface Props {
   questionsCount: number;
@@ -21,13 +25,124 @@ const {
   data-excluded-question-numbers={JSON.stringify(excludedQuestionNumbers)}
   data-quiz-storage-key={storageKey}
 >
-  <Link href="/безопасность/" view="round">Пройти ещё раз</Link>
+  <div class="message">
+    <picture class="message__chars">
+      <source
+        media="(min-width: 960px)"
+        srcset={charsDesktop.src}
+        width={charsDesktop.width}
+        height={charsDesktop.height}
+        type="image/webp"
+      />
+      <Image src={charsMobile} alt="" loading="eager" />
+    </picture>
+
+    <div class="message__body">
+      <div class="message__result">
+        <ul class="message__result-chart">
+          {
+            Array.from({
+              length: questionsCount - excludedQuestionNumbers.length,
+            }).map(() => (
+              <li>
+                <LogoIcon />
+              </li>
+            ))
+          }
+        </ul>
+        <p class="message__result-legend"></p>
+      </div>
+
+      <p class="message__text"></p>
+
+      <Link href="/безопасность/" view="round">Пройти ещё раз</Link>
+    </div>
+  </div>
 </div>
 
+<style>
+  .message {
+    position: relative;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+
+    /* desktop */
+    @media (width >= 960px) {
+      height: 100vh;
+      align-items: center;
+    }
+
+    & .message__chars {
+      position: absolute;
+      inset: auto 0 0;
+      pointer-events: none;
+      display: block;
+      width: 100%;
+      height: auto;
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    & .message__body {
+      position: relative;
+      max-width: 650px;
+      text-align: center;
+    }
+
+    & .message__result {
+      .message__result-chart {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: var(--space24);
+
+        svg {
+          opacity: 0.2;
+          transform-box: fill-box;
+          transform-origin: center;
+
+          stop {
+            stop-color: var(--color-white);
+          }
+        }
+      }
+
+      .message__result-legend {
+        font-weight: 500;
+        font-size: 35px;
+        line-height: 105%;
+
+        /* desktop */
+        @media (width >= 960px) {
+          font-size: 60px;
+        }
+      }
+    }
+
+    & .message__text {
+      font: var(--font-text-regular);
+    }
+  }
+</style>
+
 <script>
+  import { gsap } from "gsap";
   import { withBase } from "../../utils/paths";
   import { navigate } from "astro:transitions/client";
   import { readStoredQuizResult } from "../../scripts/quiz-result";
+
+  const RESULT_C =
+    "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег";
+  const RESULT_B =
+    "Ценим ваши старания сделать пространство вокруг безопаснее! Осталось немного подучиться, и вы станете настоящим асом в вопросах ТБ.";
+  const RESULT_A =
+    "Вы настоящий мастер безопасности и подлинный человек Удокана! С вами комфортно работать плечом к плечу и в офисе, и на промплощадке. Так держать!";
 
   function initSafetyQuizResult() {
     const resultElement =
@@ -62,6 +177,53 @@ const {
       result.correctAnswersCount,
     );
     resultElement.dataset.totalAnswers = String(result.totalAnswers);
+
+    const legendElement = resultElement.querySelector(
+      ".message__result-legend",
+    );
+    const messageElement = resultElement.querySelector(".message__text");
+
+    if (legendElement) {
+      legendElement.textContent = `${result.correctAnswersCount}/${result.totalAnswers} правильных ответов`;
+    }
+
+    if (messageElement) {
+      if (result.correctAnswersCount <= 3) {
+        messageElement.textContent = RESULT_C;
+      } else if (result.correctAnswersCount <= 5) {
+        messageElement.textContent = RESULT_B;
+      } else {
+        messageElement.textContent = RESULT_A;
+      }
+    }
+
+    const icons = Array.from(
+      resultElement.querySelectorAll<SVGSVGElement>(
+        ".message__result-chart svg",
+      ),
+    );
+    const correctIcons = icons.slice(0, result.correctAnswersCount);
+
+    gsap.set(icons, { opacity: 0.2, scale: 1 });
+    if (correctIcons.length === 0) return;
+
+    gsap.to(correctIcons, {
+      keyframes: [
+        {
+          opacity: 1,
+          scale: 1.3,
+          duration: 0.25,
+          ease: "back.out(2)",
+        },
+        {
+          scale: 1,
+          duration: 0.2,
+          ease: "power2.out",
+        },
+      ],
+      delay: 0.3,
+      stagger: 0.1,
+    });
   }
 
   function goHome() {
