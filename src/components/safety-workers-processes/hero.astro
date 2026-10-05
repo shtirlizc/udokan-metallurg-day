@@ -22,10 +22,22 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		</a>
 	</div>
 	<div class='hero__background'>
-		<picture class='hero__image'>
+		<div class='hero__figure'>
+			<svg width='1412' height='1632' viewBox='0 0 1412 1632' fill='none' xmlns='http://www.w3.org/2000/svg'>
+				<path opacity='0.1' d='M1411.5 408.288V1223.71L706 1631.42L0.5 1223.71V408.288L706 0.576172L1411.5 408.288Z' stroke='#FDFAF9'></path>
+				<path opacity='0.2' d='M1305.5 470.289V1161.71L706 1507.42L106.5 1161.71V470.289L706 124.577L1305.5 470.289Z' stroke='#FDFAF9'></path>
+				<path opacity='0.3' d='M1211.5 524.789V1107.21L706 1398.42L200.5 1107.21V524.789L706 233.577L1211.5 524.789Z' stroke='#FDFAF9'></path>
+				<path opacity='0.4' d='M1103.5 586.789V1045.21L706 1274.42L308.5 1045.21V586.789L706 357.577L1103.5 586.789Z' stroke='#FDFAF9'></path>
+				<path opacity='0.5' d='M997.5 647.788V984.211L706 1152.42L414.5 984.211V647.788L706 479.576L997.5 647.788Z' stroke='#FDFAF9'></path>
+				<path opacity='0.6' d='M888.5 710.789V921.21L706 1026.42L523.5 921.21V710.789L706 605.577L888.5 710.789Z' stroke='#FDFAF9'></path>
+			</svg>
+		</div>
+		<div class="hero__image">
+		<picture >
 			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
 			<img src={mobileBackground.src} alt='' />
 		</picture>
+		</div>
 	</div>
 	<div class='hero__label'>
 		<div class='hero__label__inner'> Безопасность начинается с каждого из нас </div>
@@ -62,7 +74,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 
 	.hero__eyebrow {
 		margin: 0 0 12px;
-		color:  var(--yellow-orange-accent);
+		color: var(--yellow-orange-accent);
 		font-size: 14px;
 		font-weight: 600;
 		text-transform: uppercase;
@@ -88,16 +100,16 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		align-items: center;
 		padding: 0 24px;
 		border-radius: 12px;
-    height: 58px;
+		height: 58px;
 		background: #ff6b1a;
 		color: var(--color-white);
 		font-size: 15px;
 		font-weight: bold;
 		text-decoration: none;
 		box-shadow: 0px 14px 34px rgba(255, 107, 26, 0.28);
-    span{
-      font-size: 20px;
-    }
+		span {
+			font-size: 20px;
+		}
 	}
 
 	.hero__background {
@@ -109,17 +121,52 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		overflow: hidden;
 		pointer-events: none;
 	}
-	.hero__image {
+	/* .hero__image::after {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		content: '';
+		width: 100%;
+		height: 251px;
+		background: linear-gradient(180deg, #ffffff 0%, #12273b 100%);
+		mix-blend-mode: multiply;
+	} */
+	.hero__figure {
 		position: absolute;
 		display: flex;
 		top: 50%;
 		left: 50%;
-		transform: translate(calc(-50% + 647px), calc(-50% - 174px));
-		width: 1559px;
+		transform: translate(0, calc(-50% + 36px));
+		width: 1412px;
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.hero__image {
+		position: absolute;
+		display: flex;
+		bottom: 0;
+		left: 50%;
+		transform: translate(calc(-50% + 302px), 50px);
+		width: 870px;
+		opacity: 0;
+		transition:
+			opacity 1s ease,
+			transform 1s ease;
 		picture,
 		img {
 			width: 100%;
 			height: auto;
+		}
+		&.is-ready {
+			opacity: 1;
+			transform: translate(calc(-50% + 302px));
+		}
+		@media (prefers-reduced-motion: reduce) {
+			opacity: 1;
+			transform: translate(calc(-50% + 302px));
+			transition: none;
 		}
 	}
 	.hero__label {
@@ -178,3 +225,35 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		left: calc(100% - 1px);
 	}
 </style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const heroImage = document.querySelector('.hero__image img') as HTMLImageElement | null;
+		const heroWrapper = document.querySelector('.hero__image') as HTMLElement | null;
+
+		if (!heroImage || !heroWrapper) return;
+
+		const revealImage = () => {
+			requestAnimationFrame(() => {
+				heroWrapper.classList.add('is-ready');
+			});
+		};
+
+		const revealWhenReady = () => {
+			if (heroImage.decode) {
+				heroImage.decode().then(revealImage).catch(revealImage);
+				return;
+			}
+
+			revealImage();
+		};
+
+		if (heroImage.complete && heroImage.naturalWidth > 0) {
+			revealWhenReady();
+			return;
+		}
+
+		heroImage.addEventListener('load', revealWhenReady, { once: true });
+		heroImage.addEventListener('error', revealWhenReady, { once: true });
+	});
+</script>
