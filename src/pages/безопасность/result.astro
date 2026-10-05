@@ -5,6 +5,7 @@ import ResultMessage from "../../components/safety/result-message.astro";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import { QUIZ_STORAGE_KEYS } from "../../config/quizzes.ts";
+import { pageSlide } from "../../transitions/page-slide";
 
 const questions = await getCollection("safetyQuestions");
 const questionsCount = questions.length;
@@ -15,7 +16,12 @@ const excludedQuestionNumbers = questions
 
 <MainLayout>
   <SafetyLayout>
-    <div class="root">
+    <div
+      class="root"
+      data-safety-result-scene
+      transition:name="page-content"
+      transition:animate={pageSlide}
+    >
       <div class="root__bg"></div>
 
       <div class="root__content">

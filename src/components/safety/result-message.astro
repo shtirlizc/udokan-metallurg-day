@@ -26,7 +26,7 @@ const {
   data-quiz-storage-key={storageKey}
 >
   <div class="message">
-    <picture class="message__chars">
+    <picture class="message__chars" data-transition-image>
       <source
         media="(min-width: 960px)"
         srcset={charsDesktop.src}
@@ -92,6 +92,35 @@ const {
       position: relative;
       max-width: 650px;
       text-align: center;
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.75);
+      transition:
+        opacity var(--transition-long) var(--transition-f),
+        transform var(--transition-long) var(--transition-f);
+
+      &.is-open {
+        visibility: visible;
+        pointer-events: auto;
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      &.is-open.is-leaving {
+        pointer-events: none;
+        opacity: 0;
+        transform: scale(0.75);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+        transform: none;
+
+        &.is-open.is-leaving {
+          transform: none;
+        }
+      }
     }
 
     & .message__result {
@@ -172,6 +201,61 @@ const {
       return;
     }
 
+    const messageBody = resultElement.querySelector<HTMLElement>(
+      ".message__body",
+    );
+    const restartLink = resultElement.querySelector<HTMLAnchorElement>("a");
+
+    if (!messageBody) return;
+
+    restartLink?.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      const isIOS =
+        /iP(ad|hone|od)/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      // Safari snapshots the visible scene before the outgoing transition.
+      if (isIOS || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        event.preventDefault();
+        navigate(restartLink.href);
+        return;
+      }
+
+      event.preventDefault();
+      if (messageBody.classList.contains("is-leaving")) return;
+      messageBody.classList.add("is-leaving");
+
+      let navigated = false;
+      const restart = () => {
+        if (navigated) return;
+        navigated = true;
+        clearTimeout(fallback);
+        messageBody.removeEventListener("transitionend", onTransitionEnd);
+        navigate(restartLink.href);
+      };
+      const onTransitionEnd = (transitionEvent: TransitionEvent) => {
+        if (
+          transitionEvent.target === messageBody &&
+          transitionEvent.propertyName === "opacity"
+        ) {
+          restart();
+        }
+      };
+
+      messageBody.addEventListener("transitionend", onTransitionEnd);
+      const fallback = window.setTimeout(restart, 500);
+    });
+
     resultElement.dataset.initialized = "true";
     resultElement.dataset.correctAnswersCount = String(
       result.correctAnswersCount,
@@ -205,7 +289,33 @@ const {
     const correctIcons = icons.slice(0, result.correctAnswersCount);
 
     gsap.set(icons, { opacity: 0.2, scale: 1 });
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const revealDelay =
+      !reducedMotion &&
+      document.documentElement.hasAttribute("data-astro-transition")
+        ? 1_500
+        : 0;
+    const revealTimer = window.setTimeout(() => {
+      messageBody.classList.add("is-open");
+    }, revealDelay);
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        clearTimeout(revealTimer);
+        gsap.killTweensOf(icons);
+      },
+      { once: true },
+    );
+
     if (correctIcons.length === 0) return;
+
+    if (reducedMotion) {
+      gsap.set(correctIcons, { opacity: 1 });
+      return;
+    }
 
     gsap.to(correctIcons, {
       keyframes: [
@@ -221,7 +331,7 @@ const {
           ease: "power2.out",
         },
       ],
-      delay: 0.3,
+      delay: revealDelay / 1_000 + 0.3,
       stagger: 0.1,
     });
   }
