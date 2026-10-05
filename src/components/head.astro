@@ -222,7 +222,10 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
           isIOS() &&
           (document.querySelector(".question") ||
             document.querySelector("#result-message") ||
-            document.querySelector(".main"));
+            document.querySelector(".main") ||
+            document.querySelector(
+              "[data-quiz-home][data-astro-transition-scope]",
+            ));
         const isIOSQuestionToQuestion =
           isIOSSceneExit &&
           document.querySelector(".question") &&
@@ -236,7 +239,7 @@ const cover = new URL(withBase("/cover.jpg"), Astro.site);
 
           document
             .querySelectorAll<HTMLElement>(
-              ".question [data-astro-transition-scope], .main[data-astro-transition-scope]",
+              ".question [data-astro-transition-scope], .main[data-astro-transition-scope], [data-quiz-home][data-astro-transition-scope]",
             )
             .forEach((layer) => {
               layer.style.viewTransitionName = "none";

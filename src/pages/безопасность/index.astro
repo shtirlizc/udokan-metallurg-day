@@ -8,16 +8,19 @@ import SafetyLayout from "../../layouts/safety-layout.astro";
 import Link from "../../components/link.astro";
 import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
 import Logo from "../../components/logo.astro";
+import { pageSlide } from "../../transitions/page-slide";
 ---
 
 <MainLayout>
   <SafetyLayout>
     <div
       class="root"
+      transition:name="page-content"
+      transition:animate={pageSlide}
       data-quiz-home={withBase("/безопасность")}
       data-quiz-storage-key={QUIZ_STORAGE_KEYS.safety}
     >
-      <picture class="root__picture">
+      <picture class="root__picture" data-transition-image>
         <source
           media="(min-width: 960px)"
           srcset={charsDesktop.src}
