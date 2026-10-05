@@ -1,21 +1,128 @@
 ---
+import { Image } from "astro:assets";
+import charsMobile from "./assets/chars-mobile.webp";
+import charsDesktop from "./assets/chars-desktop.webp";
 import { withBase } from "../../utils/paths";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import Link from "../../components/link.astro";
 import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
+import Logo from "../../components/logo.astro";
 ---
 
 <MainLayout>
   <SafetyLayout>
     <div
+      class="root"
       data-quiz-home={withBase("/безопасность")}
       data-quiz-storage-key={QUIZ_STORAGE_KEYS.safety}
     >
-      <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>
+      <picture class="root__picture">
+        <source
+          media="(min-width: 960px)"
+          srcset={charsDesktop.src}
+          width={charsDesktop.width}
+          height={charsDesktop.height}
+          type="image/webp"
+        />
+        <Image src={charsMobile} alt="" loading="eager" />
+      </picture>
+
+      <div class="root__body">
+        <div class="root__logo">
+          <Logo />
+        </div>
+        <h1>«Удокан&nbsp;—&nbsp;это безопасность»</h1>
+        <p>
+          Сможете своим примером доказать, что забота о&nbsp;безопасности
+          заложена в ДНК людей Удокана? Пройдите короткий тест и&nbsp;помогите
+          Ивану и&nbsp;Арине избежать опасностей на&nbsp;промплощадке
+          и&nbsp;в&nbsp;офисе.
+        </p>
+        <div class="root__link">
+          <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>
+        </div>
+      </div>
     </div>
   </SafetyLayout>
 </MainLayout>
+
+<style>
+  .root {
+    position: relative;
+    overflow: hidden;
+    background-image: url("./assets/bg-mobile.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--color-white);
+    min-height: 100dvh;
+
+    /* desktop */
+    @media (width >= 960px) {
+      background-image: url("./assets/bg-desktop.webp");
+      height: 100vh;
+    }
+
+    & .root__picture {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      pointer-events: none;
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+
+        @media (width >= 960px) {
+          height: 100%;
+          object-fit: cover;
+          object-position: right bottom;
+        }
+      }
+    }
+
+    & .root__body {
+      position: relative;
+      padding: 0 var(--space12);
+
+      .root__logo {
+      }
+
+      @media (width >= 960px) {
+        max-width: 40vw;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 var(--space40);
+      }
+
+      h1 {
+        margin-top: 46px;
+        font-weight: 500;
+        font-size: 40px;
+        line-height: 105%;
+
+        /* desktop */
+        @media (width >= 960px) {
+          font-size: 60px;
+        }
+      }
+
+      p {
+        font: var(--font-text-regular);
+        margin-top: var(--space16);
+      }
+
+      .root__link {
+        margin-top: var(--space32);
+      }
+    }
+  }
+</style>
 
 <script>
   import "../../scripts/quiz-home";
