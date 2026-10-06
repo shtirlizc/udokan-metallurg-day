@@ -267,7 +267,9 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
         answers !== null &&
         typeof answers === "object" &&
         !Array.isArray(answers) &&
-        Object.hasOwn(answers, questionId)
+        Object.hasOwn(answers, questionId) &&
+        (Reflect.get(answers, questionId) === "success" ||
+          Reflect.get(answers, questionId) === "fail")
       );
     } catch {
       return false;

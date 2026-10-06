@@ -17,21 +17,22 @@ const characterVariants = [
 ];
 
 interface Props {
-  questionsCount: number;
+  questionNumbers: string[];
   excludedQuestionNumbers?: string[];
   storageKey: QuizStorageKey;
 }
 
 const {
-  questionsCount,
+  questionNumbers,
   storageKey,
   excludedQuestionNumbers = [],
 } = Astro.props;
+const questionsCount = questionNumbers.length;
 ---
 
 <div
   data-quiz-result
-  data-questions-count={questionsCount}
+  data-question-numbers={JSON.stringify(questionNumbers)}
   data-excluded-question-numbers={JSON.stringify(excludedQuestionNumbers)}
   data-quiz-storage-key={storageKey}
 >
@@ -82,7 +83,7 @@ const {
 <style>
   .message {
     position: relative;
-    height: 100dvh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
 
@@ -236,7 +237,9 @@ const {
 
     if (!resultElement || resultElement.dataset.initialized === "true") return;
 
-    const questionsCount = Number(resultElement.dataset.questionsCount);
+    const questionNumbers: string[] = JSON.parse(
+      resultElement.dataset.questionNumbers ?? "[]",
+    );
     const storageKey = resultElement.dataset.quizStorageKey;
 
     if (!storageKey) {
@@ -249,7 +252,7 @@ const {
     );
     const result = readStoredQuizResult(
       storageKey,
-      questionsCount,
+      questionNumbers,
       excludedQuestionNumbers,
     );
 

@@ -8,10 +8,15 @@ export interface QuizResult {
 
 export function readStoredQuizResult(
   storageKey: string,
-  questionsCount: number,
+  questionNumbers: string[],
   excludedQuestionNumbers: string[] = [],
 ): QuizResult | null {
-  if (!Number.isInteger(questionsCount) || questionsCount <= 0) return null;
+  if (
+    questionNumbers.length === 0 ||
+    new Set(questionNumbers).size !== questionNumbers.length
+  ) {
+    return null;
+  }
 
   let savedResult: string | null;
 
@@ -42,7 +47,10 @@ export function readStoredQuizResult(
   const entries = Object.entries(parsedResult);
 
   if (
-    entries.length !== questionsCount ||
+    entries.length !== questionNumbers.length ||
+    !questionNumbers.every((questionNumber) =>
+      Object.hasOwn(parsedResult, questionNumber),
+    ) ||
     !entries.every(([, value]) => value === "success" || value === "fail")
   ) {
     return null;
