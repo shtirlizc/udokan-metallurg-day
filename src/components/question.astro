@@ -32,7 +32,9 @@ const {
   Do not also snapshot this wrapper: on Safari that creates an additional
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
-<div class:list={["question", { "question--split": desktopLayout === "split" }]}>
+<div
+  class:list={["question", { "question--split": desktopLayout === "split" }]}
+>
   <div class="question__body">
     <div class="bg">
       <div
@@ -140,7 +142,7 @@ const {
       display: flex;
       justify-content: center;
       align-items: center;
-      aspect-ratio: 1;
+      aspect-ratio: var(--question-aspect-ratio);
 
       /* mobile landscape */
       @media (width < 960px) and (orientation: landscape) {
@@ -148,7 +150,6 @@ const {
         inset: 0;
         width: 100%;
         height: 100%;
-        aspect-ratio: auto;
       }
 
       /* desktop */
@@ -157,7 +158,6 @@ const {
         inset: 0;
         width: 100%;
         height: 100%;
-        aspect-ratio: auto;
       }
     }
 
