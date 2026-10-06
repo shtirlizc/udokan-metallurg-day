@@ -129,12 +129,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
     }
 
     & .quiz__head {
-      padding: var(--space20) var(--space16) 0;
-
-      /* desktop */
-      @media (width >= 960px) {
-        padding: var(--space32) var(--space32) 0;
-      }
+      padding: var(--quiz-head-padding);
 
       h2 {
         font: var(--font-title-2);
@@ -157,13 +152,12 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
       list-style: none;
       display: grid;
       gap: var(--space);
-      padding: 0 var(--space16);
+      padding: var(--quiz-body-padding);
 
       /* desktop */
       @media (width >= 960px) {
         margin-top: var(--space24);
         gap: var(--space8);
-        padding: 0 var(--space32);
       }
     }
 
@@ -273,7 +267,9 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}`;
         answers !== null &&
         typeof answers === "object" &&
         !Array.isArray(answers) &&
-        Object.hasOwn(answers, questionId)
+        Object.hasOwn(answers, questionId) &&
+        (Reflect.get(answers, questionId) === "success" ||
+          Reflect.get(answers, questionId) === "fail")
       );
     } catch {
       return false;

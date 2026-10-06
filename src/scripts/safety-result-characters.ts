@@ -32,7 +32,7 @@ export function prepareSafetyResultCharacters(incomingDocument: Document) {
 
   const result = readStoredQuizResult(
     resultElement.dataset.quizStorageKey,
-    Number(resultElement.dataset.questionsCount),
+    JSON.parse(resultElement.dataset.questionNumbers ?? "[]"),
     JSON.parse(resultElement.dataset.excludedQuestionNumbers ?? "[]"),
   );
 

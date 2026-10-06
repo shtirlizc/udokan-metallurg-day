@@ -8,7 +8,7 @@ import MainLayout from "../../layouts/main.astro";
 import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 
 const questions = await getCollection("metallurgistQuestions");
-const questionsCount = questions.length;
+const questionNumbers = questions.map(({ data }) => data.questionNumber);
 const excludedQuestionNumbers = questions
   .filter(({ data }) => !data.consider)
   .map(({ data }) => data.questionNumber);
@@ -19,7 +19,7 @@ const excludedQuestionNumbers = questions
     <Header isCentered />
     <main class="content">
       <ResultMessage
-        questionsCount={questionsCount}
+        questionNumbers={questionNumbers}
         excludedQuestionNumbers={excludedQuestionNumbers}
         storageKey={QUIZ_STORAGE_KEYS.metallurgistDay}
       />
@@ -32,7 +32,10 @@ const excludedQuestionNumbers = questions
   .content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: safe center;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
     padding: var(--space8);
 
     .message {

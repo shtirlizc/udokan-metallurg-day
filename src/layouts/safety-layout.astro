@@ -11,10 +11,22 @@
     --link-padding: 0 43px;
     --brand-light-gradient: linear-gradient(180deg, #d5e3f4 0%, #97b9e4 100%);
     --question-padding: 0;
-    --quiz-border-radius: 0;
+    --question-aspect-ratio: 375 / 281;
     --quiz-next-padding: 0;
     --answer-active-color: #2850d6;
     --answer-active-text-color: var(--color-white);
     --answer-disabled-color: #e5ecfd;
+
+    /* mobile landscape */
+    @media (width < 960px) and (orientation: landscape) {
+      --quiz-border-radius: 0;
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      --quiz-head-padding: var(--space20) var(--space20) 0;
+      --quiz-body-padding: 0 var(--space20);
+      --quiz-border-radius: 0;
+    }
   }
 </style>
