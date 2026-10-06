@@ -19,11 +19,13 @@
 
     /* mobile landscape */
     @media (width < 960px) and (orientation: landscape) {
+      --question-aspect-ratio: auto;
       --quiz-border-radius: 0;
     }
 
     /* desktop */
     @media (width >= 960px) {
+      --question-aspect-ratio: auto;
       --quiz-head-padding: var(--space20) var(--space20) 0;
       --quiz-body-padding: 0 var(--space20);
       --quiz-border-radius: 0;
