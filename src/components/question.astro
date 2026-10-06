@@ -7,7 +7,6 @@ import type { getImage } from "astro:assets";
 type ImageResult = Awaited<ReturnType<typeof getImage>>;
 
 interface Props {
-  desktopLayout?: "fullscreen" | "split";
   desktopBackgroundSrc: ImageResult["src"];
   mobileBackgroundSrc: ImageResult["src"];
   desktopCharsSrc: ImageResult["src"];
@@ -17,7 +16,6 @@ interface Props {
 }
 
 const {
-  desktopLayout = "fullscreen",
   desktopBackgroundSrc,
   mobileBackgroundSrc,
   desktopCharsSrc,
@@ -32,9 +30,7 @@ const {
   Do not also snapshot this wrapper: on Safari that creates an additional
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
-<div
-  class:list={["question", { "question--split": desktopLayout === "split" }]}
->
+<div class="question">
   <div class="question__body">
     <div class="bg">
       <div
@@ -117,25 +113,6 @@ const {
       grid-template-rows: none;
       grid-template-columns: 473px 1fr;
       overflow: hidden;
-    }
-
-    &.question--split {
-      @media (width >= 960px) {
-        grid-template-columns: 473px minmax(0, 1fr);
-
-        & .question__body {
-          position: relative;
-          inset: auto;
-          grid-column: 2;
-          grid-row: 1;
-          min-width: 0;
-        }
-
-        & .quiz-panel {
-          grid-column: 1;
-          grid-row: 1;
-        }
-      }
     }
 
     & .question__body {

@@ -63,6 +63,7 @@
   --scrollbar-side: var(--space8);
 
   --link-bg: linear-gradient(180deg, #ffc037 0%, #f83833 50%, #ffc037 100%);
+  --link-padding: 0 89px;
   --question-padding: 0;
   --quiz-border-radius: var(--border-radius12) var(--border-radius12) 0 0;
   --quiz-next-padding: var(--space20) var(--space16);
