@@ -20,7 +20,11 @@ import { pageSlide } from "../../transitions/page-slide";
       data-quiz-home={withBase("/безопасность")}
       data-quiz-storage-key={QUIZ_STORAGE_KEYS.safety}
     >
-      <picture class="root__picture" data-transition-image>
+      <picture
+        class="root__picture"
+        data-safety-home-chars
+        data-transition-image
+      >
         <source
           media="(min-width: 960px)"
           srcset={charsDesktop.src}
@@ -74,6 +78,13 @@ import { pageSlide } from "../../transitions/page-slide";
       display: flex;
       align-items: flex-end;
       pointer-events: none;
+      opacity: 0;
+      transform: translateY(24px);
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+      }
 
       img {
         display: block;
@@ -90,7 +101,7 @@ import { pageSlide } from "../../transitions/page-slide";
 
     & .root__body {
       position: relative;
-      padding: 0 var(--space12);
+      padding: var(--space20);
 
       .root__logo {
       }
@@ -101,7 +112,12 @@ import { pageSlide } from "../../transitions/page-slide";
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 0 var(--space40);
+        padding: 0 59px;
+      }
+
+      /* widescreen */
+      @media (width >= 1200px) {
+        max-width: 680px;
       }
 
       h1 {
@@ -113,11 +129,13 @@ import { pageSlide } from "../../transitions/page-slide";
         /* desktop */
         @media (width >= 960px) {
           font-size: 60px;
+          margin-top: var(--space24);
         }
       }
 
       p {
         font: var(--font-text-regular);
+        line-height: 145%;
         margin-top: var(--space16);
       }
 
@@ -129,5 +147,46 @@ import { pageSlide } from "../../transitions/page-slide";
 </style>
 
 <script>
+  import { gsap } from "gsap";
   import "../../scripts/quiz-home";
+
+  async function revealSafetyHomeCharacters() {
+    const characters = document.querySelector<HTMLElement>(
+      "[data-safety-home-chars]",
+    );
+    if (!characters || characters.dataset.initialized === "true") return;
+    characters.dataset.initialized = "true";
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const image = characters.querySelector("img");
+    try {
+      await image?.decode();
+    } catch {
+      // A failed image must not block page initialization.
+    }
+    if (!characters.isConnected) return;
+
+    const revealDelay = document.documentElement.hasAttribute(
+      "data-astro-transition",
+    )
+      ? 1.5
+      : 0;
+
+    gsap.to(characters, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      delay: revealDelay + 0.15,
+      ease: "power2.out",
+    });
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => gsap.killTweensOf(characters),
+      { once: true },
+    );
+  }
+
+  document.addEventListener("astro:page-load", revealSafetyHomeCharacters);
 </script>

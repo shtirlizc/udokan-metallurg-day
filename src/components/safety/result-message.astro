@@ -88,7 +88,6 @@ const {
 
     /* desktop */
     @media (width >= 960px) {
-      height: 100vh;
       align-items: center;
     }
 
@@ -99,6 +98,13 @@ const {
       display: block;
       width: 100%;
       height: auto;
+      opacity: 0;
+      transform: translateY(24px);
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+      }
 
       &[hidden] {
         display: none;
@@ -147,23 +153,31 @@ const {
     }
 
     & .message__result {
+      /* desktop */
+      @media (width >= 960px) {
+        padding-top: var(--space20);
+      }
+
       .message__result-chart {
         list-style: none;
         padding: 0;
         display: flex;
         justify-content: center;
-        gap: var(--space24);
-        margin-top: 110px;
+        gap: var(--space16);
+        margin-top: 116px;
 
         /* desktop */
         @media (width >= 960px) {
           margin-top: 0;
+          gap: var(--space48);
         }
 
         svg {
           opacity: 0.2;
           transform-box: fill-box;
           transform-origin: center;
+          width: 34px;
+          height: 34px;
 
           stop {
             stop-color: var(--color-white);
@@ -175,23 +189,26 @@ const {
         font-weight: 500;
         font-size: 35px;
         line-height: 105%;
-        margin-top: var(--space40);
+        margin-top: var(--space44);
 
         /* desktop */
         @media (width >= 960px) {
           font-size: 60px;
-          margin-top: var(--space24);
+          margin-top: var(--space40);
         }
       }
     }
 
     & .message__text {
+      max-width: 260px;
+      margin-inline: auto;
       font: var(--font-text-regular);
-      margin-top: var(--space24);
+      margin-top: var(--space16);
       margin-bottom: var(--space36);
 
       /* desktop */
       @media (width >= 960px) {
+        max-width: 520px;
         margin-top: var(--space16);
         margin-bottom: var(--space32);
       }
@@ -213,7 +230,7 @@ const {
   const RESULT_A =
     "Вы настоящий мастер безопасности и подлинный человек Удокана! С вами комфортно работать плечом к плечу и в офисе, и на промплощадке. Так держать!";
 
-  function initSafetyQuizResult() {
+  async function initSafetyQuizResult() {
     const resultElement =
       document.querySelector<HTMLElement>("[data-quiz-result]");
 
@@ -339,20 +356,97 @@ const {
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const shield = resultElement
+      .closest("[data-safety-result-scene]")
+      ?.querySelector<HTMLElement>("[data-result-shield]");
+    const characters = resultElement.querySelector<HTMLElement>(
+      "[data-result-chars]:not([hidden])",
+    );
+    const sceneElements = [shield, characters].filter(
+      (element): element is HTMLElement => Boolean(element),
+    );
+    const revealElements = Array.from(
+      messageBody.querySelectorAll<HTMLElement>(
+        ".message__result-chart, .message__result-legend, .message__text, a",
+      ),
+    );
+
+    if (!reducedMotion) {
+      gsap.set(revealElements, { opacity: 0, y: 12 });
+
+      await Promise.all(
+        sceneElements.map(async (element) => {
+          const image = element.querySelector("img");
+          try {
+            await image?.decode();
+          } catch {
+            // A failed image must not block the result text.
+          }
+        }),
+      );
+      if (!resultElement.isConnected) return;
+    }
+
     const revealDelay =
       !reducedMotion &&
       document.documentElement.hasAttribute("data-astro-transition")
         ? 1_500
         : 0;
+    const bodyRevealDelay = revealDelay + (reducedMotion ? 0 : 300);
+
+    if (!reducedMotion) {
+      if (shield) {
+        gsap.fromTo(
+          shield,
+          {
+            opacity: 0,
+            scale: 1.5,
+            filter: "blur(6px)",
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1,
+            delay: revealDelay / 1_000,
+            ease: "power2.out",
+          },
+        );
+      }
+
+      if (characters) {
+        gsap.to(characters, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: revealDelay / 1_000 + 0.15,
+          ease: "power2.out",
+        });
+      }
+    }
+
     const revealTimer = window.setTimeout(() => {
       messageBody.classList.add("is-open");
-    }, revealDelay);
+
+      if (!reducedMotion) {
+        gsap.to(revealElements, {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          delay: 0.1,
+          stagger: 0.15,
+          ease: "power2.out",
+        });
+      }
+    }, bodyRevealDelay);
 
     document.addEventListener(
       "astro:before-swap",
       () => {
         clearTimeout(revealTimer);
         gsap.killTweensOf(icons);
+        gsap.killTweensOf(revealElements);
+        gsap.killTweensOf(sceneElements);
       },
       { once: true },
     );
@@ -378,7 +472,7 @@ const {
           ease: "power2.out",
         },
       ],
-      delay: revealDelay / 1_000 + 0.3,
+      delay: bodyRevealDelay / 1_000 + 0.3,
       stagger: 0.1,
     });
   }
