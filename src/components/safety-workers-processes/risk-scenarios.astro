@@ -2,23 +2,23 @@
 import RiskScenarioItem from './risk-scenario-item.astro';
 
 import RiskComicsImg0Desktop from './assets/risk-comics-img-0.webp';
-import RiskComicsImg0Mobile from './assets/risk-comics-img-0.webp';
+import RiskComicsImg0Mobile from './assets/risk-comics-img-0-mobile.webp';
 import RiskComicsImg1Desktop from './assets/risk-comics-img-1.webp';
-import RiskComicsImg1Mobile from './assets/risk-comics-img-1.webp';
+import RiskComicsImg1Mobile from './assets/risk-comics-img-1-mobile.webp';
 import RiskComicsImg2Desktop from './assets/risk-comics-img-2.webp';
-import RiskComicsImg2Mobile from './assets/risk-comics-img-2.webp';
+import RiskComicsImg2Mobile from './assets/risk-comics-img-2-mobile.webp';
 import RiskComicsImg3Desktop from './assets/risk-comics-img-3.webp';
-import RiskComicsImg3Mobile from './assets/risk-comics-img-3.webp';
+import RiskComicsImg3Mobile from './assets/risk-comics-img-3-mobile.webp';
 import RiskComicsImg4Desktop from './assets/risk-comics-img-4.webp';
-import RiskComicsImg4Mobile from './assets/risk-comics-img-4.webp';
+import RiskComicsImg4Mobile from './assets/risk-comics-img-4-mobile.webp';
 import RiskComicsBubble0Desktop from './assets/risk-comics-bubble-0.svg';
-import RiskComicsBubble0Mobile from './assets/risk-comics-bubble-0.svg';
+import RiskComicsBubble0Mobile from './assets/risk-comics-bubble-0-mobile.svg';
 import RiskComicsBubble1Desktop from './assets/risk-comics-bubble-1.svg';
-import RiskComicsBubble1Mobile from './assets/risk-comics-bubble-1.svg';
+import RiskComicsBubble1Mobile from './assets/risk-comics-bubble-1-mobile.svg';
 import RiskComicsBubble2Desktop from './assets/risk-comics-bubble-2.svg';
-import RiskComicsBubble2Mobile from './assets/risk-comics-bubble-2.svg';
+import RiskComicsBubble2Mobile from './assets/risk-comics-bubble-2-mobile.svg';
 import RiskComicsBubble3Desktop from './assets/risk-comics-bubble-3.svg';
-import RiskComicsBubble3Mobile from './assets/risk-comics-bubble-3.svg';
+import RiskComicsBubble3Mobile from './assets/risk-comics-bubble-3-mobile.svg';
 
 const scenariosData = [
 	{
@@ -38,7 +38,7 @@ const scenariosData = [
 	},
 	{
 		title: 'Без СИЗ в зоне погрузки',
-		text: 'Сотрудник находится в карьере БелАЗов без каски. Пренебрежение обязательным СИЗом в опасной зоне может привести к травме.',
+		text: 'Сотрудник находится в карьере БелАЗов без каски. Пренебрежение обязательным СИЗом в опасной зоне может привести к травме.',
 		image: {
 			mobile: RiskComicsImg1Mobile,
 			desktop: RiskComicsImg1Desktop,
@@ -142,12 +142,6 @@ const scenariosData = [
 		font-size: min(16px, 1.111111vw);
 	}
 
-	.scenarios__briefing {
-		min-height: 220px;
-		margin-top: 20px;
-		background: #cbd6de;
-	}
-
 	.scenarios__decor {
 		position: absolute;
 		display: flex;
@@ -169,12 +163,41 @@ const scenariosData = [
 		bottom: 0;
 		background: #c8d2dc;
 		height: 100%;
-		width: calc((100vw - 1438px) / 2);
+		width: 50vw;
 	}
 	.scenarios__decor::after {
 		right: calc(100% - 1px);
 	}
 	.scenarios__decor::before {
 		left: calc(100% - 1px);
+	}
+
+	@media (width < 960px) {
+		.scenarios {
+			padding: 80px 0 35px;
+		}
+		.scenarios__intro {
+			padding: 0 20px;
+		}
+
+		.scenarios__title {
+			font-size: 34px;
+			line-height: 36px;
+		}
+
+		.scenarios__text {
+			margin-top: 16px;
+			font-size: 17px;
+			line-height: 26px;
+		}
+
+		.scenarios__list {
+			margin: 40px auto 0;
+			height: auto;
+			font-size: 14px;
+		}
+		.scenarios__decor {
+			display: none;
+		}
 	}
 </style>

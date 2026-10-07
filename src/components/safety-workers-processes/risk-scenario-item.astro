@@ -66,13 +66,7 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 		{
 			attention && (
 				<div class='scenario-item__icon'>
-					<svg width='44' height='44' viewBox='0 0 44 44' fill='none' xmlns='http://www.w3.org/2000/svg'>
-						<rect width='44' height='44' rx='22' fill='#FF6B1A' />
-						<path
-							d='M20.6152 23.7423L20.3864 14.1535H23.9848L23.7352 23.7423H20.6152ZM22.1752 29.0671C21.8562 29.0671 21.5373 28.9977 21.2184 28.8591C20.9133 28.7065 20.6568 28.4916 20.4488 28.2143C20.2546 27.9231 20.1576 27.5487 20.1576 27.0911C20.1576 26.6473 20.2546 26.2868 20.4488 26.0095C20.6568 25.7183 20.9133 25.5033 21.2184 25.3647C21.5234 25.2121 21.8424 25.1359 22.1752 25.1359C22.6882 25.1359 23.1458 25.3023 23.548 25.6351C23.964 25.954 24.172 26.4393 24.172 27.0911C24.172 27.5487 24.068 27.9231 23.86 28.2143C23.6658 28.4916 23.4162 28.7065 23.1112 28.8591C22.8061 28.9977 22.4941 29.0671 22.1752 29.0671Z'
-							fill='white'
-						/>
-					</svg>
+					<span>!</span>
 				</div>
 			)
 		}
@@ -191,7 +185,7 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 			right: 0;
 			bottom: 1.25em;
 			background: #f9fafe;
-			max-width: 31.8125em;
+			max-width: 31.6em;
 			p {
 				line-height: 140%;
 			}
@@ -199,9 +193,19 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 	}
 	.scenario-item__icon {
 		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin-right: 1.125em;
 		width: 2.75em;
 		height: 2.75em;
+		border-radius: 50%;
+		font-weight: bold;
+		color: var(--color-white);
+		background: #ff6b1a;
+		flex-shrink: 0;
+		span {
+			font-size: 1.25em;
+		}
 	}
 	.scenario-item__visual {
 		position: relative;
@@ -274,6 +278,147 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 			margin: 0;
 			font-size: 0.875em;
 			line-height: 120%;
+		}
+	}
+
+	@media (width < 960px) {
+		.scenario-item {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			top: 0;
+			left: 0;
+			right: unset;
+			bottom: unset;
+			font-size: 16px;
+			width: 100%;
+			height: auto;
+			.scenario-item__caption {
+				padding: 12px 20px;
+				top: 0;
+				left: 0;
+				right: unset;
+				bottom: unset;
+				max-width: 100%;
+				position: relative;
+			}
+		}
+		.scenario-item__caption {
+			max-width: 100%;
+			position: relative;
+		}
+		.scenario-item_0 {
+			.scenario-item__hint {
+				top: 53.5%;
+				left: 20.8%;
+			}
+			.scenario-item__hint__body {
+				top: -56px;
+				left: -13px;
+				width: 149px;
+				height: 53px;
+				transform: rotate(5.66deg);
+			}
+		}
+		.scenario-item_1 {
+			.scenario-item__hint {
+				top: 26.6%;
+				left: 38.3%;
+			}
+			.scenario-item__hint__body {
+				top: -70px;
+				left: -30px;
+				width: 149px;
+				height: 50px;
+				transform: rotate(-6.1deg);
+			}
+		}
+		.scenario-item_2 {
+			.scenario-item__hint {
+				top: 61.5%;
+				left: 25%;
+			}
+			.scenario-item__hint__body {
+				padding: 10px 12px 10px 21px;
+				top: 3px;
+				left: 26px;
+				width: 144px;
+				height: 50px;
+				transform: rotate(8.84deg);
+			}
+		}
+		.scenario-item_3 {
+			.scenario-item__hint {
+				top: 32%;
+				left: 48%;
+			}
+			.scenario-item__hint__body {
+				padding: 16px 12px 10px 11px;
+				top: 43px;
+				left: -20px;
+				width: 149px;
+				height: 59px;
+				transform: rotate(15.89deg);
+			}
+		}
+		.scenario-item_4{
+			.scenario-item__caption{
+				padding: 20px;
+			}
+		}
+		.scenario-item__icon {
+			display: flex;
+			margin-right: 8px;
+			width: 26px;
+			height: 26px;
+			span {
+				font-size: 21px;
+			}
+		}
+		.scenario-item__visual {
+			height: auto;
+		}
+
+		.scenario-item__hint__icon {
+			width: 22px;
+			height: 22px;
+		}
+		.scenario-item__hint__body {
+			padding: 10px 12px;
+		}
+		.scenario-item__hint__bubble {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			width: 100%;
+			height: 100%;
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+		.scenario-item__hint__body p {
+			position: relative;
+			z-index: 1;
+		}
+		.scenario-item__hint {
+			font-weight: 600;
+			font-size: 12px;
+			line-height: 12px;
+		}
+
+		.scenario-item__caption {
+			h3 {
+				margin: 0 0 8px;
+				font-size: 16px;
+				line-height: 120%;
+			}
+
+			p {
+				margin: 0;
+				font-size: 14px;
+				line-height: 20px;
+			}
 		}
 	}
 </style>
