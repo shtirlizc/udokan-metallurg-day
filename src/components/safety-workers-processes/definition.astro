@@ -3,6 +3,12 @@
 ---
 
 <section class='definition'>
+	<div class='definition__decor definition__decor_top'>
+		<svg width='1440' height='52' viewBox='0 0 1440 52' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 0H0V51.1484L720 0Z' fill='#fdfaf9'></path>
+			<path d='M1440 0H720L1440 51.1484V0Z' fill='#fdfaf9'></path>
+		</svg>
+	</div>
 	<div class='definition__inner'>
 		<h2 class='definition__title'>Что значит ценность «Безопасность»</h2>
 		<div class='definition__text'>
@@ -14,15 +20,23 @@
 			</p>
 		</div>
 	</div>
+	<div class='definition__decor definition__decor_bottom'>
+		<svg width='1440' height='51' viewBox='0 0 1440 51' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M720 51.1484H0V0L720 51.1484Z' fill='#19324B'></path>
+			<path d='M1440 51.1484H720L1440 0V51.1484Z' fill='#19324B'></path>
+		</svg>
+	</div>
 </section>
 
 <style>
 	.definition {
+		position: relative;
 		padding: 180px 20px 148px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		background: #c8d2dc;
+		overflow: hidden;
 	}
 
 	.definition__inner {
@@ -40,5 +54,58 @@
 	.definition__text {
 		margin: 20px 0 0;
 		line-height: 140%;
+	}
+
+	.definition__decor {
+		position: absolute;
+		display: none;
+		left: 50%;
+		transform: translate(-50%);
+		width: 100%;
+		max-width: 1440px;
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.definition__decor_top {
+		top: -1px;
+	}
+	.definition__decor_bottom {
+		bottom: -1px;
+	}
+	.definition__decor::after,
+	.definition__decor::before {
+		position: absolute;
+		content: '';
+		bottom: 0;
+		background: var(--white-0);
+		height: 100%;
+		width: 50vw;
+	}
+	.definition__decor::after {
+		right: calc(100% - 1px);
+	}
+	.definition__decor::before {
+		left: calc(100% - 1px);
+	}
+	@media (width < 960px) {
+		.definition {
+			padding: 72px 20px;
+		}
+		.definition__decor {
+			display: flex;
+		}
+
+		.definition__title {
+			font-size: 34px;
+			line-height: 36px;
+		}
+
+		.definition__text {
+			margin: 16px 0 0;
+			font-size: 17px;
+			line-height: 26px;
+		}
 	}
 </style>
