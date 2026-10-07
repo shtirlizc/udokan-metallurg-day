@@ -100,10 +100,10 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		}
 	}
 	.life-health__decor_top {
-		top: -2px;
+		top: -1px;
 	}
 	.life-health__decor_bottom {
-		bottom: -2px;
+		bottom: -1px;
 	}
 	.life-health__decor::after,
 	.life-health__decor::before {
@@ -112,12 +112,41 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		bottom: 0;
 		background: var(--white-0);
 		height: 100%;
-		width: calc((100vw - 1438px) / 2);
+		width: 50vw;
 	}
 	.life-health__decor::after {
 		right: calc(100% - 1px);
 	}
 	.life-health__decor::before {
 		left: calc(100% - 1px);
+	}
+	
+	@media (width < 960px) {
+
+	.life-health__inner {
+		padding: 80px 0  ;
+		
+	}
+
+	.life-health__title {
+		padding: 0 20px;
+		font-size: 34px;
+		line-height: 36px;
+		text-align: left;
+	}
+
+	.life-health__img {
+		margin-top: 24px;
+	}
+
+	.life-health__text {
+		padding: 0 20px;
+		margin-top: 24px;
+		font-size: 17px;
+		line-height: 26px;
+		p + p {
+			margin-top: 22px;
+		}
+	}
 	}
 </style>
