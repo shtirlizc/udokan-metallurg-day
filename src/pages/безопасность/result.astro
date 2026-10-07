@@ -7,7 +7,7 @@ import shieldDesktop from "./assets/result/shield-desktop.webp";
 import ResultMessage from "../../components/safety/result-message.astro";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
-import { QUIZ_STORAGE_KEYS } from "../../config/quizzes.ts";
+import { QUIZ_STORAGE_KEYS, SAFETY_META } from "../../config/quizzes.ts";
 import { pageSlide } from "../../transitions/page-slide";
 
 const questions = await getCollection("safetyQuestions");
@@ -17,7 +17,7 @@ const excludedQuestionNumbers = questions
   .map(({ data }) => data.questionNumber);
 ---
 
-<MainLayout>
+<MainLayout {...SAFETY_META}>
   <SafetyLayout>
     <div
       class="root"
@@ -48,16 +48,10 @@ const excludedQuestionNumbers = questions
 </MainLayout>
 
 <style>
-  :global(html:has([data-safety-result-scene])),
-  :global(body:has([data-safety-result-scene])) {
-    height: 100dvh;
-    overflow: hidden;
-  }
-
   .root {
     position: relative;
     overflow: hidden;
-    height: 100dvh;
+    min-height: 100dvh;
     color: var(--color-white);
     background-image: url("assets/result/bg-mobile.webp");
     background-size: cover;
@@ -100,10 +94,7 @@ const excludedQuestionNumbers = questions
 
     & .root__content {
       position: relative;
-      height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-      overscroll-behavior-y: contain;
+      min-height: 100dvh;
     }
   }
 </style>

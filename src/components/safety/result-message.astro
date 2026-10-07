@@ -224,10 +224,12 @@ const questionsCount = questionNumbers.length;
   import { readStoredQuizResult } from "../../scripts/quiz-result";
   import { setSafetyResultCharacters } from "../../scripts/safety-result-characters";
 
+  const RESULT_ZERO =
+    "Рефлекс пока не выработан, попробуй ещё раз! Берегите свою жизнь и здоровье своих коллег.";
   const RESULT_C =
-    "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег";
+    "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег.";
   const RESULT_B =
-    "Ценим ваши старания сделать пространство вокруг безопаснее! Осталось немного подучиться, и вы станете настоящим асом в вопросах ТБ.";
+    "Ценим ваши старания сделать пространство вокруг безопаснее! Осталось немного подучиться, и вы станете настоящим асом в вопросах охраны труда.";
   const RESULT_A =
     "Вы настоящий мастер безопасности и подлинный человек Удокана! С вами комфортно работать плечом к плечу и в офисе, и на промплощадке. Так держать!";
 
@@ -243,7 +245,7 @@ const questionsCount = questionNumbers.length;
     const storageKey = resultElement.dataset.quizStorageKey;
 
     if (!storageKey) {
-      goHome();
+      goToFirstQuestion();
       return;
     }
 
@@ -257,7 +259,7 @@ const questionsCount = questionNumbers.length;
     );
 
     if (!result) {
-      goHome();
+      goToFirstQuestion();
       return;
     }
 
@@ -340,7 +342,8 @@ const questionsCount = questionNumbers.length;
 
     if (messageElement) {
       if (characterVariant === "1") {
-        messageElement.textContent = RESULT_C;
+        messageElement.textContent =
+          result.correctAnswersCount === 0 ? RESULT_ZERO : RESULT_C;
       } else if (characterVariant === "2") {
         messageElement.textContent = RESULT_B;
       } else {
@@ -480,8 +483,8 @@ const questionsCount = questionNumbers.length;
     });
   }
 
-  function goHome() {
-    navigate(withBase("/безопасность"), { history: "replace" });
+  function goToFirstQuestion() {
+    navigate(withBase("/безопасность/1/"), { history: "replace" });
   }
 
   document.addEventListener("astro:page-load", initSafetyQuizResult);

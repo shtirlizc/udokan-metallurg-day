@@ -6,12 +6,12 @@ import { withBase } from "../../utils/paths";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import Link from "../../components/link.astro";
-import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
+import { QUIZ_STORAGE_KEYS, SAFETY_META } from "../../config/quizzes";
 import Logo from "../../components/logo.astro";
 import { pageSlide } from "../../transitions/page-slide";
 ---
 
-<MainLayout>
+<MainLayout {...SAFETY_META}>
   <SafetyLayout>
     <div
       class="root"
@@ -47,7 +47,7 @@ import { pageSlide } from "../../transitions/page-slide";
           и&nbsp;в&nbsp;офисе.
         </p>
         <div class="root__link">
-          <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>
+          <Link href="/безопасность/1/" view="round">Спешу на помощь!</Link>
         </div>
       </div>
     </div>
@@ -69,7 +69,8 @@ import { pageSlide } from "../../transitions/page-slide";
     /* desktop */
     @media (width >= 960px) {
       background-image: url("assets/start/bg-desktop.webp");
-      height: 100vh;
+      min-height: 100dvh;
+      height: 100dvh;
     }
 
     & .root__picture {
