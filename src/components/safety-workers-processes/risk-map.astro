@@ -257,4 +257,14 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		top: 83.6%;
 		left: 67.7%;
 	}
+
+	@media (width < 960px) {
+		.risk-map__inner {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+		.risk-map__aside {
+			position: relative;
+		}
+	}
 </style>
