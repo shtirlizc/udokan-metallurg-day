@@ -185,4 +185,57 @@ const icon = await getImage({ src: Icon });
 	.principles__decor::before {
 		left: calc(100% - 1px);
 	}
+	@media (width < 960px) {
+		.principles {
+			padding: 80px 20px;
+		}
+
+		article + article {
+			margin-top: 80px;
+		}
+		.principles__info {
+			flex-direction: column;
+		}
+		.principles__number {
+			margin-right: 0;
+			margin-bottom: 24px;
+		}
+
+		.principles__title {
+			font-size: 34px;
+			line-height: 36px;
+		}
+
+		.principles__text {
+			margin-top: 16px;
+			font-size: 17px;
+			line-height: 26px;
+		}
+		.principles__icon {
+			margin: 50px auto 16px;
+		}
+		.principles__quote {
+			font-size: 20px;
+		}
+		.principles__quote_1 {
+			margin-top: 50px;
+		}
+		.principles__amount {
+			margin: 81px 0 0;
+			font-size: 180px;
+			span {
+				margin-top: 22px;
+				font-size: 30px;
+			}
+		}
+
+		.principles__note {
+			margin: 18px auto 0;
+			font-size: 14px;
+			line-height: 20px;
+		}
+		.principles__decor {
+			display: none;
+		}
+	}
 </style>
