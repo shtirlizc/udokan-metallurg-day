@@ -25,6 +25,11 @@ const { answer } = Astro.props;
     justify-content: center;
     text-align: center;
     min-height: 65px;
+    filter: var(--disabled-filter);
+    opacity: var(--disabled-opacity);
+    transition:
+      filter var(--transition),
+      opacity var(--transition);
 
     &::before {
       content: "";

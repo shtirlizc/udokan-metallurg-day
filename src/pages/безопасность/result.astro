@@ -73,6 +73,11 @@ const excludedQuestionNumbers = questions
       transform: scale(1.5);
       filter: blur(6px);
 
+      @media (width >= 960px) {
+        height: 140%;
+        top: -20%;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         opacity: 1;
         transform: none;
