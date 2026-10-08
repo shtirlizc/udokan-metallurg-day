@@ -112,6 +112,11 @@ const { id, text, comment } = answer;
       pointer-events: none;
     }
 
+    &:disabled {
+      --disabled-filter: grayscale(1);
+      --disabled-opacity: 0.5;
+    }
+
     & .answer__body:not(.answer__body--custom) {
       display: grid;
       grid-template-columns: 74px 1fr;

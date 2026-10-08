@@ -7,6 +7,7 @@ const base = "/udokan-metallurg-day";
 export default defineConfig({
   site: "https://shtirlizc.github.io",
   base,
+  trailingSlash: "ignore",
   // site: 'https://мы-удокан.рф',
   redirects: {
     "/404": `${base}/`,
