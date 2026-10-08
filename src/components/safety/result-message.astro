@@ -4,16 +4,34 @@ import Link from "../link.astro";
 import type { QuizStorageKey } from "../../config/quizzes.ts";
 import LogoIcon from "../../assets/logo-icon.svg";
 import charsMobile1 from "../../pages/безопасность/assets/result/chars-mobile-1.webp";
-import charsDesktop1 from "../../pages/безопасность/assets/result/chars-desktop-1.webp";
+import charsDesktop1Left from "../../pages/безопасность/assets/result/chars-desktop-1-1.webp";
+import charsDesktop1Right from "../../pages/безопасность/assets/result/chars-desktop-1-2.webp";
 import charsMobile2 from "../../pages/безопасность/assets/result/chars-mobile-2.webp";
-import charsDesktop2 from "../../pages/безопасность/assets/result/chars-desktop-2.webp";
+import charsDesktop2Left from "../../pages/безопасность/assets/result/chars-desktop-2-1.webp";
+import charsDesktop2Right from "../../pages/безопасность/assets/result/chars-desktop-2-2.webp";
 import charsMobile3 from "../../pages/безопасность/assets/result/chars-mobile-3.webp";
-import charsDesktop3 from "../../pages/безопасность/assets/result/chars-desktop-3.webp";
+import charsDesktop3Left from "../../pages/безопасность/assets/result/chars-desktop-3-1.webp";
+import charsDesktop3Right from "../../pages/безопасность/assets/result/chars-desktop-3-2.webp";
 
 const characterVariants = [
-  { variant: "1", mobile: charsMobile1, desktop: charsDesktop1 },
-  { variant: "2", mobile: charsMobile2, desktop: charsDesktop2 },
-  { variant: "3", mobile: charsMobile3, desktop: charsDesktop3 },
+  {
+    variant: "1",
+    mobile: charsMobile1,
+    left: charsDesktop1Left,
+    right: charsDesktop1Right,
+  },
+  {
+    variant: "2",
+    mobile: charsMobile2,
+    left: charsDesktop2Left,
+    right: charsDesktop2Right,
+  },
+  {
+    variant: "3",
+    mobile: charsMobile3,
+    left: charsDesktop3Left,
+    right: charsDesktop3Right,
+  },
 ];
 
 interface Props {
@@ -38,22 +56,32 @@ const questionsCount = questionNumbers.length;
 >
   <div class="message">
     {
-      characterVariants.map(({ variant, mobile, desktop }) => (
-        <picture
+      characterVariants.map(({ variant, mobile, left, right }) => (
+        <div
           class="message__chars"
           data-result-chars={variant}
           data-transition-image
           hidden={variant !== "1"}
         >
-          <source
-            media="(min-width: 960px)"
-            srcset={desktop.src}
-            width={desktop.width}
-            height={desktop.height}
-            type="image/webp"
+          <Image
+            class="message__chars-mobile"
+            src={mobile}
+            alt=""
+            loading="eager"
           />
-          <Image src={mobile} alt="" loading="eager" />
-        </picture>
+          <Image
+            class="message__chars-desktop message__chars-left"
+            src={left}
+            alt=""
+            loading="eager"
+          />
+          <Image
+            class="message__chars-desktop message__chars-right"
+            src={right}
+            alt=""
+            loading="eager"
+          />
+        </div>
       ))
     }
 
@@ -108,6 +136,10 @@ const questionsCount = questionNumbers.length;
       opacity: 0;
       transform: translateY(24px);
 
+      @media (width >= 960px) {
+        height: min(82dvh, 46vw);
+      }
+
       @media (prefers-reduced-motion: reduce) {
         opacity: 1;
         transform: none;
@@ -121,6 +153,36 @@ const questionsCount = questionNumbers.length;
         display: block;
         width: 100%;
         height: auto;
+        max-height: 100%;
+      }
+
+      .message__chars-desktop {
+        display: none;
+      }
+
+      @media (width >= 960px) {
+        .message__chars-mobile {
+          display: none;
+        }
+
+        .message__chars-desktop {
+          position: absolute;
+          bottom: 0;
+          display: block;
+          width: min(32%, calc((100% - 520px) / 2));
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .message__chars-left {
+          left: 0;
+          object-position: left bottom;
+        }
+
+        .message__chars-right {
+          right: 0;
+          object-position: right bottom;
+        }
       }
     }
 
@@ -388,12 +450,15 @@ const questionsCount = questionNumbers.length;
 
       await Promise.all(
         sceneElements.map(async (element) => {
-          const image = element.querySelector("img");
-          try {
-            await image?.decode();
-          } catch {
-            // A failed image must not block the result text.
-          }
+          await Promise.all(
+            Array.from(element.querySelectorAll("img")).map(async (image) => {
+              try {
+                await image.decode();
+              } catch {
+                // A failed image must not block the result text.
+              }
+            }),
+          );
         }),
       );
       if (!resultElement.isConnected) return;
