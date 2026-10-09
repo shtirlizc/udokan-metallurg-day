@@ -1,21 +1,236 @@
 ---
+import { Image } from "astro:assets";
+import charsMobile from "./assets/start/chars-mobile.webp";
+import charsDesktop from "./assets/start/chars-desktop.webp";
+import { withBase } from "../../utils/paths";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import Link from "../../components/link.astro";
-import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
+import { QUIZ_STORAGE_KEYS, SAFETY_META } from "../../config/quizzes";
+import Logo from "../../components/logo.astro";
+import { pageSlide } from "../../transitions/page-slide";
 ---
 
-<MainLayout>
+<MainLayout {...SAFETY_META}>
   <SafetyLayout>
     <div
-      data-quiz-home="/безопасность"
+      class="root"
+      transition:name="page-content"
+      transition:animate={pageSlide}
+      data-quiz-home={withBase("/безопасность")}
       data-quiz-storage-key={QUIZ_STORAGE_KEYS.safety}
     >
-      <Link href="/безопасность/1" view="round">Спешу на помощь!</Link>
+      <picture
+        class="root__picture"
+        data-safety-home-chars
+        data-transition-image
+      >
+        <source
+          media="(min-width: 960px)"
+          srcset={charsDesktop.src}
+          width={charsDesktop.width}
+          height={charsDesktop.height}
+          type="image/webp"
+        />
+        <Image src={charsMobile} alt="" loading="eager" />
+      </picture>
+
+      <div class="root__body">
+        <div class="root__logo">
+          <Logo />
+        </div>
+        <h1>«Удокан&nbsp;—&nbsp;это безопасность»</h1>
+        <p>
+          Сможете своим примером доказать, что забота о&nbsp;безопасности
+          заложена в ДНК людей Удокана? Пройдите короткий тест и&nbsp;помогите
+          Ивану и&nbsp;Арине избежать опасностей на&nbsp;промплощадке
+          и&nbsp;в&nbsp;офисе.
+        </p>
+        <div class="root__link">
+          <Link href="/безопасность/1/" view="round">Спешу на помощь!</Link>
+        </div>
+      </div>
     </div>
   </SafetyLayout>
 </MainLayout>
 
+<style>
+  .root {
+    position: relative;
+    overflow: hidden;
+    color: var(--color-white);
+    min-height: max(800px, 100dvh);
+    background-image: url("assets/start/bg-mobile.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1c2c44;
+
+    /* mobile landscape */
+    @media (width < 960px) and (orientation: landscape) {
+      min-height: 980px;
+    }
+
+    /* tablet */
+    @media (width >= 768px) {
+      min-height: max(1120px, 100dvh);
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      background-image: url("assets/start/bg-desktop.webp");
+      min-height: 100vh;
+      height: 100vh;
+    }
+
+    & .root__picture {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(24px);
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (width >= 960px) {
+        justify-content: flex-end;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: all var(--transition);
+
+        /* desktop */
+        @media (width >= 960px) {
+          max-width: 60vw;
+          max-height: 105vh;
+          object-fit: contain;
+          object-position: right bottom;
+          margin-right: -40px;
+        }
+
+        /* widescreen */
+        @media (width >= 1200px) {
+          max-width: 70vw;
+        }
+
+        /* fullhd */
+        @media (width >= 1440px) {
+          max-width: 80vw;
+        }
+      }
+    }
+
+    & .root__body {
+      position: relative;
+      padding: var(--space20);
+
+      .root__logo {
+      }
+
+      @media (width >= 960px) {
+        max-width: 40vw;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 59px;
+      }
+
+      /* widescreen */
+      @media (width >= 1200px) {
+        max-width: 680px;
+      }
+
+      /* fullhd */
+      @media (width >= 1440px) {
+        max-width: clamp(680px, 44vw, 800px);
+      }
+
+      h1 {
+        margin-top: 46px;
+        font-weight: 500;
+        font-size: 40px;
+        line-height: 105%;
+
+        /* desktop */
+        @media (width >= 960px) {
+          font-size: 60px;
+          margin-top: var(--space24);
+        }
+
+        /* fullhd */
+        @media (width >= 1440px) {
+          font-size: clamp(60px, calc(24px + 2.5vw), 72px);
+        }
+      }
+
+      p {
+        font: var(--font-text-regular);
+        line-height: 145%;
+        margin-top: var(--space16);
+
+        /* fullhd */
+        @media (width >= 1440px) {
+          font-size: clamp(14px, calc(-4px + 1.25vw), 20px);
+        }
+      }
+
+      .root__link {
+        margin-top: var(--space32);
+      }
+    }
+  }
+</style>
+
 <script>
+  import { gsap } from "gsap";
   import "../../scripts/quiz-home";
+
+  async function revealSafetyHomeCharacters() {
+    const characters = document.querySelector<HTMLElement>(
+      "[data-safety-home-chars]",
+    );
+    if (!characters || characters.dataset.initialized === "true") return;
+    characters.dataset.initialized = "true";
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const image = characters.querySelector("img");
+    try {
+      await image?.decode();
+    } catch {
+      // A failed image must not block page initialization.
+    }
+    if (!characters.isConnected) return;
+
+    const revealDelay = document.documentElement.hasAttribute(
+      "data-astro-transition",
+    )
+      ? 1.5
+      : 0;
+
+    gsap.to(characters, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      delay: revealDelay + 0.15,
+      ease: "power2.out",
+    });
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => gsap.killTweensOf(characters),
+      { once: true },
+    );
+  }
+
+  document.addEventListener("astro:page-load", revealSafetyHomeCharacters);
 </script>

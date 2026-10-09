@@ -7,7 +7,7 @@ import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
 import QuestionComponent from "../../components/question.astro";
 import Quiz from "../../components/metallurgist-day/quiz.astro";
-import { QUIZ_STORAGE_KEYS } from "../../config/quizzes";
+import { QUIZ_STORAGE_KEYS, SAFETY_META } from "../../config/quizzes";
 
 export async function getStaticPaths() {
   const questions = await getCollection("safetyQuestions");
@@ -51,9 +51,10 @@ const {
   Do not also snapshot this wrapper: on Safari that creates an additional
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
-<MainLayout>
+<MainLayout {...SAFETY_META}>
   <SafetyLayout>
     <QuestionComponent
+      desktopLayout="split"
       desktopBackgroundSrc={desktopBackground.src}
       mobileBackgroundSrc={mobileBackground.src}
       desktopCharsSrc={desktopChars.src}

@@ -10,6 +10,7 @@
 }
 
 :root {
+  scroll-behavior: smooth;
   background-color: var(--white-0);
   color: var(--black-100);
   line-height: 120%;
@@ -21,6 +22,12 @@
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
 }
 
 body {

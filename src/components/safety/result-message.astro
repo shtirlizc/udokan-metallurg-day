@@ -1,44 +1,319 @@
 ---
+import { Image } from "astro:assets";
 import Link from "../link.astro";
 import type { QuizStorageKey } from "../../config/quizzes.ts";
+import LogoIcon from "../../assets/logo-icon.svg";
+import charsMobile1 from "../../pages/безопасность/assets/result/chars-mobile-1.webp";
+import charsDesktop1Left from "../../pages/безопасность/assets/result/chars-desktop-1-1.webp";
+import charsDesktop1Right from "../../pages/безопасность/assets/result/chars-desktop-1-2.webp";
+import charsMobile2 from "../../pages/безопасность/assets/result/chars-mobile-2.webp";
+import charsDesktop2Left from "../../pages/безопасность/assets/result/chars-desktop-2-1.webp";
+import charsDesktop2Right from "../../pages/безопасность/assets/result/chars-desktop-2-2.webp";
+import charsMobile3 from "../../pages/безопасность/assets/result/chars-mobile-3.webp";
+import charsDesktop3Left from "../../pages/безопасность/assets/result/chars-desktop-3-1.webp";
+import charsDesktop3Right from "../../pages/безопасность/assets/result/chars-desktop-3-2.webp";
+
+const characterVariants = [
+  {
+    variant: "1",
+    mobile: charsMobile1,
+    left: charsDesktop1Left,
+    right: charsDesktop1Right,
+  },
+  {
+    variant: "2",
+    mobile: charsMobile2,
+    left: charsDesktop2Left,
+    right: charsDesktop2Right,
+  },
+  {
+    variant: "3",
+    mobile: charsMobile3,
+    left: charsDesktop3Left,
+    right: charsDesktop3Right,
+  },
+];
 
 interface Props {
-  questionsCount: number;
+  questionNumbers: string[];
   excludedQuestionNumbers?: string[];
   storageKey: QuizStorageKey;
 }
 
 const {
-  questionsCount,
+  questionNumbers,
   storageKey,
   excludedQuestionNumbers = [],
 } = Astro.props;
+const questionsCount = questionNumbers.length;
 ---
 
 <div
   data-quiz-result
-  data-questions-count={questionsCount}
+  data-question-numbers={JSON.stringify(questionNumbers)}
   data-excluded-question-numbers={JSON.stringify(excludedQuestionNumbers)}
   data-quiz-storage-key={storageKey}
 >
-  <Link href="/безопасность/" view="round">Пройти ещё раз</Link>
+  <div class="message">
+    {
+      characterVariants.map(({ variant, mobile, left, right }) => (
+        <div
+          class="message__chars"
+          data-result-chars={variant}
+          data-transition-image
+          hidden={variant !== "1"}
+        >
+          <Image
+            class="message__chars-mobile"
+            src={mobile}
+            alt=""
+            loading="eager"
+          />
+          <Image
+            class="message__chars-desktop message__chars-left"
+            src={left}
+            alt=""
+            loading="eager"
+          />
+          <Image
+            class="message__chars-desktop message__chars-right"
+            src={right}
+            alt=""
+            loading="eager"
+          />
+        </div>
+      ))
+    }
+
+    <div class="message__body">
+      <div class="message__result">
+        <ul class="message__result-chart">
+          {
+            Array.from({
+              length: questionsCount - excludedQuestionNumbers.length,
+            }).map(() => (
+              <li>
+                <LogoIcon />
+              </li>
+            ))
+          }
+        </ul>
+        <p class="message__result-legend"></p>
+      </div>
+
+      <p class="message__text"></p>
+
+      <Link href="/безопасность/" view="round">Пройти ещё раз</Link>
+    </div>
+  </div>
 </div>
 
+<style>
+  .message {
+    position: relative;
+    min-height: max(820px, 100dvh);
+    display: flex;
+    justify-content: center;
+
+    /* mobile landscape */
+    @media (width < 960px) and (orientation: landscape) {
+      min-height: 1040px;
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      align-items: center;
+    }
+
+    & .message__chars {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      pointer-events: none;
+      display: block;
+      width: 100%;
+      height: auto;
+      opacity: 0;
+      transform: translateY(24px);
+
+      @media (width >= 960px) {
+        height: min(82dvh, 46vw);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+      }
+
+      &[hidden] {
+        display: none;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+      }
+
+      .message__chars-desktop {
+        display: none;
+      }
+
+      @media (width >= 960px) {
+        .message__chars-mobile {
+          display: none;
+        }
+
+        .message__chars-desktop {
+          position: absolute;
+          bottom: 0;
+          display: block;
+          width: min(32%, calc((100% - 520px) / 2));
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .message__chars-left {
+          left: 0;
+          object-position: left bottom;
+        }
+
+        .message__chars-right {
+          right: 0;
+          object-position: right bottom;
+        }
+      }
+    }
+
+    & .message__body {
+      position: relative;
+      max-width: 650px;
+      text-align: center;
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.75);
+      transition:
+        opacity var(--transition-long) var(--transition-f),
+        transform var(--transition-long) var(--transition-f);
+
+      &.is-open {
+        visibility: visible;
+        pointer-events: auto;
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      &.is-open.is-leaving {
+        pointer-events: none;
+        opacity: 0;
+        transform: scale(0.75);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+        transform: none;
+
+        &.is-open.is-leaving {
+          transform: none;
+        }
+      }
+    }
+
+    & .message__result {
+      /* desktop */
+      @media (width >= 960px) {
+        padding-top: var(--space20);
+      }
+
+      .message__result-chart {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: var(--space16);
+        margin-top: 116px;
+
+        /* desktop */
+        @media (width >= 960px) {
+          margin-top: 0;
+          gap: var(--space48);
+        }
+
+        svg {
+          opacity: 0.2;
+          transform-box: fill-box;
+          transform-origin: center;
+          width: 34px;
+          height: 34px;
+
+          stop {
+            stop-color: var(--color-white);
+          }
+        }
+      }
+
+      .message__result-legend {
+        font-weight: 500;
+        font-size: 35px;
+        line-height: 105%;
+        margin-top: var(--space44);
+
+        /* desktop */
+        @media (width >= 960px) {
+          font-size: 60px;
+          margin-top: var(--space40);
+        }
+      }
+    }
+
+    & .message__text {
+      max-width: 260px;
+      margin-inline: auto;
+      font: var(--font-text-regular);
+      margin-top: var(--space16);
+      margin-bottom: var(--space36);
+
+      /* desktop */
+      @media (width >= 960px) {
+        max-width: 520px;
+        margin-top: var(--space16);
+        margin-bottom: var(--space32);
+      }
+    }
+  }
+</style>
+
 <script>
+  import { gsap } from "gsap";
+  import { withBase } from "../../utils/paths";
   import { navigate } from "astro:transitions/client";
   import { readStoredQuizResult } from "../../scripts/quiz-result";
+  import { setSafetyResultCharacters } from "../../scripts/safety-result-characters";
 
-  function initSafetyQuizResult() {
+  const RESULT_ZERO =
+    "Рефлекс пока не выработан, попробуй ещё раз! Берегите свою жизнь и здоровье своих коллег.";
+  const RESULT_C =
+    "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег.";
+  const RESULT_B =
+    "Ценим ваши старания сделать пространство вокруг безопаснее! Осталось немного подучиться, и вы станете настоящим асом в вопросах охраны труда.";
+  const RESULT_A =
+    "Вы настоящий мастер безопасности и подлинный человек Удокана! С вами комфортно работать плечом к плечу и в офисе, и на промплощадке. Так держать!";
+
+  async function initSafetyQuizResult() {
     const resultElement =
       document.querySelector<HTMLElement>("[data-quiz-result]");
 
     if (!resultElement || resultElement.dataset.initialized === "true") return;
 
-    const questionsCount = Number(resultElement.dataset.questionsCount);
+    const questionNumbers: string[] = JSON.parse(
+      resultElement.dataset.questionNumbers ?? "[]",
+    );
     const storageKey = resultElement.dataset.quizStorageKey;
 
     if (!storageKey) {
-      goHome();
+      goToFirstQuestion();
       return;
     }
 
@@ -47,24 +322,240 @@ const {
     );
     const result = readStoredQuizResult(
       storageKey,
-      questionsCount,
+      questionNumbers,
       excludedQuestionNumbers,
     );
 
     if (!result) {
-      goHome();
+      goToFirstQuestion();
       return;
     }
+
+    const messageBody =
+      resultElement.querySelector<HTMLElement>(".message__body");
+    const restartLink = resultElement.querySelector<HTMLAnchorElement>("a");
+
+    if (!messageBody) return;
+
+    restartLink?.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      const isIOS =
+        /iP(ad|hone|od)/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      // Safari snapshots the visible scene before the outgoing transition.
+      if (
+        isIOS ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        event.preventDefault();
+        navigate(restartLink.href);
+        return;
+      }
+
+      event.preventDefault();
+      if (messageBody.classList.contains("is-leaving")) return;
+      messageBody.classList.add("is-leaving");
+
+      let navigated = false;
+      const restart = () => {
+        if (navigated) return;
+        navigated = true;
+        clearTimeout(fallback);
+        messageBody.removeEventListener("transitionend", onTransitionEnd);
+        navigate(restartLink.href);
+      };
+      const onTransitionEnd = (transitionEvent: TransitionEvent) => {
+        if (
+          transitionEvent.target === messageBody &&
+          transitionEvent.propertyName === "opacity"
+        ) {
+          restart();
+        }
+      };
+
+      messageBody.addEventListener("transitionend", onTransitionEnd);
+      const fallback = window.setTimeout(restart, 500);
+    });
 
     resultElement.dataset.initialized = "true";
     resultElement.dataset.correctAnswersCount = String(
       result.correctAnswersCount,
     );
     resultElement.dataset.totalAnswers = String(result.totalAnswers);
+
+    const legendElement = resultElement.querySelector(
+      ".message__result-legend",
+    );
+    const messageElement = resultElement.querySelector(".message__text");
+
+    if (legendElement) {
+      legendElement.textContent = `${result.correctAnswersCount}/${result.totalAnswers} правильных ответов`;
+    }
+
+    const characterVariant = setSafetyResultCharacters(
+      resultElement,
+      result.correctAnswersCount,
+    );
+
+    if (messageElement) {
+      if (characterVariant === "1") {
+        messageElement.textContent =
+          result.correctAnswersCount === 0 ? RESULT_ZERO : RESULT_C;
+      } else if (characterVariant === "2") {
+        messageElement.textContent = RESULT_B;
+      } else {
+        messageElement.textContent = RESULT_A;
+      }
+    }
+
+    const icons = Array.from(
+      resultElement.querySelectorAll<SVGSVGElement>(
+        ".message__result-chart svg",
+      ),
+    );
+    const correctIcons = icons.slice(0, result.correctAnswersCount);
+
+    gsap.set(icons, { opacity: 0.2, scale: 1 });
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const shield = resultElement
+      .closest("[data-safety-result-scene]")
+      ?.querySelector<HTMLElement>("[data-result-shield]");
+    const characters = resultElement.querySelector<HTMLElement>(
+      "[data-result-chars]:not([hidden])",
+    );
+    const sceneElements = [shield, characters].filter(
+      (element): element is HTMLElement => Boolean(element),
+    );
+    const revealElements = Array.from(
+      messageBody.querySelectorAll<HTMLElement>(
+        ".message__result-chart, .message__result-legend, .message__text, a",
+      ),
+    );
+
+    if (!reducedMotion) {
+      gsap.set(revealElements, { opacity: 0, y: 12 });
+
+      await Promise.all(
+        sceneElements.map(async (element) => {
+          await Promise.all(
+            Array.from(element.querySelectorAll("img")).map(async (image) => {
+              try {
+                await image.decode();
+              } catch {
+                // A failed image must not block the result text.
+              }
+            }),
+          );
+        }),
+      );
+      if (!resultElement.isConnected) return;
+    }
+
+    const revealDelay =
+      !reducedMotion &&
+      document.documentElement.hasAttribute("data-astro-transition")
+        ? 1_500
+        : 0;
+    const bodyRevealDelay = revealDelay + (reducedMotion ? 0 : 300);
+
+    if (!reducedMotion) {
+      if (shield) {
+        gsap.fromTo(
+          shield,
+          {
+            opacity: 0,
+            scale: 1.5,
+            filter: "blur(6px)",
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1,
+            delay: revealDelay / 1_000,
+            ease: "power2.out",
+          },
+        );
+      }
+
+      if (characters) {
+        gsap.to(characters, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: revealDelay / 1_000 + 0.15,
+          ease: "power2.out",
+        });
+      }
+    }
+
+    const revealTimer = window.setTimeout(() => {
+      messageBody.classList.add("is-open");
+
+      if (!reducedMotion) {
+        gsap.to(revealElements, {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          delay: 0.1,
+          stagger: 0.15,
+          ease: "power2.out",
+        });
+      }
+    }, bodyRevealDelay);
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        clearTimeout(revealTimer);
+        gsap.killTweensOf(icons);
+        gsap.killTweensOf(revealElements);
+        gsap.killTweensOf(sceneElements);
+      },
+      { once: true },
+    );
+
+    if (correctIcons.length === 0) return;
+
+    if (reducedMotion) {
+      gsap.set(correctIcons, { opacity: 1 });
+      return;
+    }
+
+    gsap.to(correctIcons, {
+      keyframes: [
+        {
+          opacity: 1,
+          scale: 1.3,
+          duration: 0.25,
+          ease: "back.out(2)",
+        },
+        {
+          scale: 1,
+          duration: 0.2,
+          ease: "power2.out",
+        },
+      ],
+      delay: bodyRevealDelay / 1_000 + 0.3,
+      stagger: 0.1,
+    });
   }
 
-  function goHome() {
-    navigate("/безопасность", { history: "replace" });
+  function goToFirstQuestion() {
+    navigate(withBase("/безопасность/1/"), { history: "replace" });
   }
 
   document.addEventListener("astro:page-load", initSafetyQuizResult);

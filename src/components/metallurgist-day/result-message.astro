@@ -4,22 +4,23 @@ import LogoIcon from "../../assets/logo-icon.svg";
 import type { QuizStorageKey } from "../../config/quizzes";
 
 interface Props {
-  questionsCount: number;
+  questionNumbers: string[];
   excludedQuestionNumbers?: string[];
   storageKey: QuizStorageKey;
 }
 
 const {
-  questionsCount,
+  questionNumbers,
   storageKey,
   excludedQuestionNumbers = [],
 } = Astro.props;
+const questionsCount = questionNumbers.length;
 ---
 
 <div
   class="message"
   id="result-message"
-  data-questions-count={questionsCount}
+  data-question-numbers={JSON.stringify(questionNumbers)}
   data-excluded-question-numbers={JSON.stringify(excludedQuestionNumbers)}
   data-quiz-storage-key={storageKey}
 >
@@ -46,6 +47,7 @@ const {
 </div>
 
 <script>
+  import { withBase } from "../../utils/paths";
   import { gsap } from "gsap";
   import { navigate } from "astro:transitions/client";
   import { readStoredQuizResult } from "../../scripts/quiz-result";
@@ -78,7 +80,9 @@ const {
   document.addEventListener("astro:page-load", initCurrentResultMessage);
 
   function initResultMessage(resultMessage: HTMLElement) {
-    const questionsCount = Number(resultMessage.dataset.questionsCount);
+    const questionNumbers: string[] = JSON.parse(
+      resultMessage.dataset.questionNumbers ?? "[]",
+    );
     const storageKey = resultMessage.dataset.quizStorageKey;
     const restartLink = resultMessage.querySelector<HTMLAnchorElement>("a");
 
@@ -89,11 +93,22 @@ const {
     );
     const result = readStoredQuizResult(
       storageKey,
-      questionsCount,
+      questionNumbers,
       excludedQuestionNumbers,
     );
 
     restartLink?.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
       const isIOS =
         /iP(ad|hone|od)/.test(navigator.userAgent) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -104,9 +119,8 @@ const {
         return;
       }
 
-      if (resultMessage.classList.contains("is-leaving")) return;
-
       event.preventDefault();
+      if (resultMessage.classList.contains("is-leaving")) return;
       resultMessage.classList.add("is-leaving");
 
       let navigated = false;
@@ -138,7 +152,7 @@ const {
     );
 
     function goHome() {
-      navigate("/день-металлурга", { history: "replace" });
+      navigate(withBase("/день-металлурга/"), { history: "replace" });
     }
 
     function showResult(

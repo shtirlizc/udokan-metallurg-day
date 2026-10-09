@@ -5,3 +5,11 @@ export const QUIZ_STORAGE_KEYS = {
 
 export type QuizStorageKey =
   (typeof QUIZ_STORAGE_KEYS)[keyof typeof QUIZ_STORAGE_KEYS];
+
+export const SAFETY_META = {
+  title: "Удокан — это безопасность",
+  description:
+    "Сможете своим примером доказать, что забота о безопасности заложена в ДНК людей Удокана?",
+  coverSrc: "/safety-cover.jpg",
+  coverAlt: "Иван и Арина — Удокан это безопасность",
+} as const;

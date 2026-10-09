@@ -1,24 +1,105 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import shieldMobile from "./assets/result/shield-mobile.webp";
+import shieldDesktop from "./assets/result/shield-desktop.webp";
 
 import ResultMessage from "../../components/safety/result-message.astro";
 import MainLayout from "../../layouts/main.astro";
 import SafetyLayout from "../../layouts/safety-layout.astro";
-import { QUIZ_STORAGE_KEYS } from "../../config/quizzes.ts";
+import { QUIZ_STORAGE_KEYS, SAFETY_META } from "../../config/quizzes.ts";
+import { pageSlide } from "../../transitions/page-slide";
 
 const questions = await getCollection("safetyQuestions");
-const questionsCount = questions.length;
+const questionNumbers = questions.map(({ data }) => data.questionNumber);
 const excludedQuestionNumbers = questions
   .filter(({ data }) => !data.consider)
   .map(({ data }) => data.questionNumber);
 ---
 
-<MainLayout>
+<MainLayout {...SAFETY_META}>
   <SafetyLayout>
-    <ResultMessage
-      questionsCount={questionsCount}
-      excludedQuestionNumbers={excludedQuestionNumbers}
-      storageKey={QUIZ_STORAGE_KEYS.safety}
-    />
+    <div
+      class="root"
+      data-safety-result-scene
+      transition:name="page-content"
+      transition:animate={pageSlide}
+    >
+      <picture class="root__bg" data-result-shield data-transition-image>
+        <source
+          media="(min-width: 960px)"
+          srcset={shieldDesktop.src}
+          width={shieldDesktop.width}
+          height={shieldDesktop.height}
+          type="image/webp"
+        />
+        <Image src={shieldMobile} alt="" loading="eager" />
+      </picture>
+
+      <div class="root__content">
+        <ResultMessage
+          questionNumbers={questionNumbers}
+          excludedQuestionNumbers={excludedQuestionNumbers}
+          storageKey={QUIZ_STORAGE_KEYS.safety}
+        />
+      </div>
+    </div>
   </SafetyLayout>
 </MainLayout>
+
+<style>
+  .root {
+    position: relative;
+    overflow: hidden;
+    min-height: 100dvh;
+    color: var(--color-white);
+    background-image: url("assets/result/bg-mobile.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1c2c44;
+
+    /* desktop */
+    @media (width >= 960px) {
+      background-image: url("assets/result/bg-desktop.webp");
+    }
+
+    & .root__bg {
+      position: absolute;
+      inset: 0;
+      display: block;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(1.5);
+      filter: blur(6px);
+
+      @media (width >= 960px) {
+        height: 140%;
+        top: -20%;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+
+        @media (width >= 960px) {
+          object-fit: contain;
+        }
+      }
+    }
+
+    & .root__content {
+      position: relative;
+      min-height: 100dvh;
+    }
+  }
+</style>

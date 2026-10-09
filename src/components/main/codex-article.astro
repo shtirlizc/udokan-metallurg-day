@@ -1,0 +1,176 @@
+---
+import charsImg from "./assets/metallurgist-day-chars.webp";
+import { withBase } from "../../utils/paths.ts";
+import { Image } from "astro:assets";
+import Tag from "../tag.astro";
+---
+
+<section class="codex-article" data-tile-reveal>
+  <div class="codex-article__bg"></div>
+
+  <div class="codex-article__head">
+    <ul>
+      <Tag color="#FF4400" textColor="light">Новинка</Tag>
+      <Tag color="#E88EED">Кодекс Удокана | Статья</Tag>
+    </ul>
+
+    <h2>
+      Кодекс Удокана.
+      <br />
+      Безопасность работников и процессов
+    </h2>
+  </div>
+
+  <div class="codex-article__chars">
+    <Image src={charsImg} alt="" />
+  </div>
+
+  <a href={withBase("/безопасность-работников-и-процессов/")}>
+    Кодекс Удокана
+  </a>
+</section>
+
+<style>
+  .codex-article {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &:hover .codex-article__chars {
+      --chars-scale: 1.05;
+
+      transition:
+        opacity calc(1.5 * var(--transition-long)) var(--transition-f),
+        transform var(--transition-long);
+    }
+
+    &.is-tile-visible .codex-article__chars {
+      --chars-translate-x: 0px;
+
+      opacity: 1;
+    }
+
+    &.is-tile-visible .codex-article__bg {
+      transform: scale(1);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(
+        180deg,
+        #171d2c -3.55%,
+        rgba(23, 29, 44, 0.3) 46.94%,
+        rgba(255, 255, 255, 0) 96.45%
+      );
+      z-index: 1;
+    }
+
+    & .codex-article__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("./assets/codex-bg.webp");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      transform: scale(1.2);
+      transition: transform calc(1.5 * var(--transition-long))
+        var(--transition-f);
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: scale(1);
+        transition: none;
+      }
+    }
+
+    & .codex-article__head {
+      padding: var(--space20);
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding: 30px;
+      }
+    }
+
+    ul,
+    h2 {
+      position: relative;
+      z-index: 1;
+      padding: 0;
+    }
+
+    ul {
+      display: flex;
+      gap: 5px;
+    }
+
+    h2 {
+      margin-top: 15px;
+      font-family: var(--font-bebas-neue-cyrillic), sans-serif;
+      font-weight: 700;
+      font-size: 35px;
+      line-height: 90%;
+      text-transform: uppercase;
+      color: var(--color-white);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: var(--space20);
+        font-size: 70px;
+        max-width: 25vw;
+      }
+    }
+
+    & .codex-article__chars {
+      --chars-translate-x: clamp(48px, 8vw, 120px);
+      --chars-scale: 1;
+
+      flex-grow: 1;
+      position: relative;
+      z-index: 1;
+      font-size: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      margin-top: 4vh;
+      opacity: 0;
+      transform: translateX(var(--chars-translate-x)) scale(var(--chars-scale));
+      transition:
+        opacity calc(1.5 * var(--transition-long)) var(--transition-f),
+        transform calc(1.5 * var(--transition-long)) var(--transition-f);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: 0;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    a {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      font-size: 0;
+    }
+  }
+</style>
+
+<script>
+  import "../../scripts/tile-reveal";
+</script>

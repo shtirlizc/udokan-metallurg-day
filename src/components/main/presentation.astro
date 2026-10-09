@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../../utils/paths";
 import { Image } from "astro:assets";
 
 import Tag from "../tag.astro";
@@ -10,7 +11,6 @@ import charsImg from "./assets/presentation-chars.webp";
 
   <div class="presentation__head">
     <ul>
-      <Tag color="#FF4400" textColor="light">Новинка</Tag>
       <Tag color="#E88EED">Презентация</Tag>
     </ul>
 
@@ -21,7 +21,7 @@ import charsImg from "./assets/presentation-chars.webp";
     <Image src={charsImg} alt="" />
   </div>
 
-  <a href="/pdf/presentation.pdf" target="_blank">
+  <a href={withBase("/pdf/presentation.pdf")} target="_blank">
     Проект по внедрению Ценностей и Кодекса компании
   </a>
 </section>

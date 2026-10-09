@@ -7,6 +7,7 @@ import type { getImage } from "astro:assets";
 type ImageResult = Awaited<ReturnType<typeof getImage>>;
 
 interface Props {
+  desktopLayout?: "fullscreen" | "split";
   desktopBackgroundSrc: ImageResult["src"];
   mobileBackgroundSrc: ImageResult["src"];
   desktopCharsSrc: ImageResult["src"];
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const {
+  desktopLayout = "fullscreen",
   desktopBackgroundSrc,
   mobileBackgroundSrc,
   desktopCharsSrc,
@@ -30,7 +32,9 @@ const {
   Do not also snapshot this wrapper: on Safari that creates an additional
   full-viewport old snapshot and the first outgoing scene can be dropped.
 -->
-<div class="question">
+<div
+  class:list={["question", { "question--split": desktopLayout === "split" }]}
+>
   <div class="question__body">
     <div class="bg">
       <div
@@ -115,11 +119,32 @@ const {
       overflow: hidden;
     }
 
+    &.question--split {
+      @media (width >= 960px) {
+        grid-template-rows: minmax(0, 1fr);
+        grid-template-columns: 473px minmax(0, 1fr);
+
+        & .question__body {
+          position: relative;
+          inset: auto;
+          grid-column: 2;
+          grid-row: 1;
+          min-width: 0;
+          min-height: 0;
+        }
+
+        & .quiz-panel {
+          grid-column: 1;
+          grid-row: 1;
+        }
+      }
+    }
+
     & .question__body {
       display: flex;
       justify-content: center;
       align-items: center;
-      aspect-ratio: 1;
+      aspect-ratio: var(--question-aspect-ratio);
 
       /* mobile landscape */
       @media (width < 960px) and (orientation: landscape) {
@@ -127,7 +152,6 @@ const {
         inset: 0;
         width: 100%;
         height: 100%;
-        aspect-ratio: auto;
       }
 
       /* desktop */
@@ -136,7 +160,6 @@ const {
         inset: 0;
         width: 100%;
         height: 100%;
-        aspect-ratio: auto;
       }
     }
 
