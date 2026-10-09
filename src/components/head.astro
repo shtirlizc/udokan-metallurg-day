@@ -121,6 +121,7 @@ const cover = new URL(withBase(coverSrc), Astro.site);
   <!-- Yandex.Metrika counter -->
 
   <script>
+    import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
     import { prepareSafetyResultCharacters } from "../scripts/safety-result-characters";
 
     type PreparationEvent = Event & {
@@ -267,6 +268,21 @@ const cover = new URL(withBase(coverSrc), Astro.site);
           images.map((image) => waitForImage(image, preparation.signal)),
         );
       };
+    });
+
+    document.addEventListener("astro:before-swap", (event) => {
+      const swap = event as TransitionBeforeSwapEvent;
+      const enteringQuizHome =
+        swap.newDocument.querySelector("[data-quiz-home]");
+      const leavingQuizScene = document.querySelector(
+        "[data-quiz-home], .question, #result-message, [data-safety-result-scene]",
+      );
+
+      // Keep the current page visible until the game is ready, then swap
+      // immediately. Transitions out of games and between quiz scenes remain.
+      if (enteringQuizHome && !leavingQuizScene) {
+        swap.viewTransition.skipTransition();
+      }
     });
 
     document.addEventListener("animationend", (event) => {

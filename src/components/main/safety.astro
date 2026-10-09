@@ -1,0 +1,129 @@
+---
+import { withBase } from "../../utils/paths";
+
+import Tag from "../tag.astro";
+---
+
+<section class="safety" data-tile-reveal>
+  <div class="safety__bg"></div>
+
+  <div class="safety__head">
+    <ul>
+      <Tag color="#FF4400" textColor="light">Новинка</Tag>
+      <Tag color="#C8FF00">Ценносить | Игра</Tag>
+    </ul>
+
+    <h2>Безопасность</h2>
+
+    <p>Ставим безопасность на первое место</p>
+  </div>
+
+  <a href={withBase("/безопасность/")}>Безопасность</a>
+</section>
+
+<style>
+  .safety {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    aspect-ratio: 720 / 1014;
+
+    /* desktop */
+    @media (width >= 960px) {
+      aspect-ratio: auto;
+    }
+
+    &.is-tile-visible .safety__bg {
+      transform: scale(1);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(
+        180deg,
+        #171d2c -3.55%,
+        rgba(23, 29, 44, 0.3) 46.94%,
+        rgba(255, 255, 255, 0) 96.45%
+      );
+      z-index: 1;
+    }
+
+    & .safety__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("./assets/safety-bg.webp");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      transform: scale(1.2);
+      transition: transform calc(1.5 * var(--transition-long))
+        var(--transition-f);
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: scale(1);
+        transition: none;
+      }
+    }
+
+    & .safety__head {
+      padding: var(--space20);
+
+      /* desktop */
+      @media (width >= 960px) {
+        padding: 30px;
+      }
+    }
+
+    ul,
+    h2,
+    p {
+      position: relative;
+      z-index: 1;
+      padding: 0;
+    }
+
+    ul {
+      display: flex;
+      gap: 5px;
+    }
+
+    h2 {
+      margin-top: 15px;
+      font-family: var(--font-bebas-neue-cyrillic), sans-serif;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 90%;
+      text-transform: uppercase;
+      color: var(--color-white);
+
+      /* desktop */
+      @media (width >= 960px) {
+        margin-top: var(--space20);
+        font-size: 100px;
+      }
+    }
+
+    p {
+      margin-top: var(--space8);
+      font: var(--font-text-medium);
+      color: var(--color-white);
+    }
+
+    a {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      font-size: 0;
+    }
+  }
+</style>
+
+<script>
+  import "../../scripts/tile-reveal";
+</script>
