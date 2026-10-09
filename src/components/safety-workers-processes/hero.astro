@@ -10,15 +10,15 @@ const { title } = Astro.props;
 const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: HeroBgMobile }), getImage({ src: HeroBgDesktop })]);
 ---
 
-<section class='hero' aria-labelledby='article-title'>
+<section class='hero'>
 	<div class='hero__inner'>
 		<h1 id='article-title'>{title}</h1>
 		<p class='hero__text'>
 			Начинаем серию статей, посвященных «Кодексу Удокана», нашим корпоративным ценностям и их воплощению в реальных рабочих процессах и ситуациях.
 			Сегодня в фокусе — приоритет безопасности жизни и здоровья сотрудников.
 		</p>
-		<a class='hero__link' href='#risk-scenarios'>
-			Разобраться на примерах <span aria-hidden='true'>↓</span>
+		<a class='hero__link' href='#values'>
+			Разобраться на примерах <span>↓</span>
 		</a>
 	</div>
 	<div class='hero__background'>
@@ -32,11 +32,11 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 				<path opacity='0.6' d='M888.5 710.789V921.21L706 1026.42L523.5 921.21V710.789L706 605.577L888.5 710.789Z' stroke='#FDFAF9'></path>
 			</svg>
 		</div>
-		<div class="hero__image">
-		<picture >
-			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-			<img src={mobileBackground.src} alt='' />
-		</picture>
+		<div class='hero__image'>
+			<picture>
+				<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
+				<img src={mobileBackground.src} alt='' />
+			</picture>
 		</div>
 	</div>
 	<div class='hero__label'>
@@ -216,13 +216,101 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		bottom: 0;
 		background: var(--white-0);
 		height: 100%;
-		width: calc((100vw - 1438px) / 2);
+		width: 50vw;
 	}
 	.hero__footer::after {
 		right: calc(100% - 1px);
 	}
 	.hero__footer::before {
 		left: calc(100% - 1px);
+	}
+
+	@media (width < 960px) {
+		.hero {
+			min-height: 882px;
+			padding: 0;
+			align-items: stretch;
+			background: var(--black-100);
+		}
+
+		.hero__inner {
+			box-sizing: border-box;
+			width: 100%;
+			max-width: 600px;
+			padding: 116px 20px 0;
+			z-index: 5;
+		}
+
+		h1 {
+			max-width: 100%;
+			font-size: 40px;
+			font-weight: 600;
+			line-height: 40px;
+		}
+
+		.hero__text {
+			margin: 16px 0 0;
+			font-size: 17px;
+			line-height: 26px;
+		}
+
+		.hero__link {
+			margin: 24px 0 0;
+			gap: 4px;
+			width: 233px;
+			height: 44px;
+			padding: 0 20px;
+			border-radius: 4px;
+			background: #ff6b1a;
+			font-size: 14px;
+			font-weight: 600;
+			line-height: 20px;
+			box-shadow: none;
+			span {
+				font-size: 14px;
+			}
+		}
+		.hero__figure {
+			top: 50%;
+			right: -374.26px;
+			left: auto;
+			width: 749.26px;
+			height: 866px;
+			transform: translateY(calc(247px - 50%));
+			opacity: 1;
+		}
+
+		.hero__image {
+			position: absolute;
+			left: 50%;
+			width: 380px;
+			height: 358px;
+			transform: translate(calc(-50%), 50px);
+			opacity: 1;
+			picture,
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
+			}
+
+			&.is-ready {
+				transform: translate(calc(-50%));
+			}
+			@media (prefers-reduced-motion: reduce) {
+				transform: translate(calc(-50%));
+			}
+		}
+
+		.hero__label {
+			display: none;
+		}
+
+		.hero__footer {
+			bottom: -1px;
+			width: 100%;
+		}
 	}
 </style>
 

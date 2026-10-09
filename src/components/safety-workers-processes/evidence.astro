@@ -128,9 +128,9 @@ const evidenceCards = await Promise.all(
 	.evidence__image {
 		display: flex;
 		width: 100%;
-    img{
-      width: 100%;
-    }
+		img {
+			width: 100%;
+		}
 	}
 
 	.evidence__card-title {
@@ -146,30 +146,63 @@ const evidenceCards = await Promise.all(
 		line-height: 1.4;
 	}
 
-	@media (max-width: 760px) {
+	@media (width < 960px) {
+		.evidence {
+			padding: 80px 0;
+		}
+
+		.evidence__title {
+			padding: 0 20px;
+			font-size: 34px;
+			line-height: 36px;
+			text-align: left;
+		}
+
+		.evidence__lead {
+			padding: 0 20px;
+			margin: 16px auto 0;
+			font-size: 17px;
+			line-height: 26px;
+			text-align: left;
+		}
+
 		.evidence__list {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+			margin-top: 40px;
+			gap: 0;
+			grid-template-columns: repeat(1, minmax(0, 1fr));
 		}
 
 		.evidence__card:nth-child(4) {
 			grid-column: auto;
-		}
-
-		.evidence__card:nth-child(5) {
-			grid-column: 1 / -1;
-			width: calc((100% - 16px) / 2);
-			justify-self: center;
-		}
-	}
-
-	@media (max-width: 520px) {
-		.evidence__list {
-			grid-template-columns: minmax(0, 1fr);
+		min-height: auto;
 		}
 
 		.evidence__card:nth-child(5) {
 			grid-column: auto;
-			width: auto;
+			width:100%;
+			justify-self: center;
+		min-height: auto;
 		}
+		
+	.evidence__card {
+		width: 100%;
+		min-height: auto;
+		grid-column: auto;
+			justify-self: center;
+		padding: 22px;
+		border: 1px solid #c8d2dc;
+	}
+
+	.evidence__card-title {
+		margin: 12px 0 0;
+		font-size: 22px;
+		line-height: 28px;
+	}
+
+	.evidence__card-text {
+		margin: 10px 0 0;
+		font-size: 14px;
+		line-height: 20px;
+	}
 	}
 </style>

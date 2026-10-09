@@ -2,39 +2,62 @@
 import Logo from "./logo.astro";
 ---
 
-<header class="article-header">
-  <div class="article-header__logo">
-    <Logo />
-  </div>
-  <nav class="article-header__nav" aria-label="Навигация по статье">
-    <a href="#values">Приоритет</a>
-    <a href="#practices">На практике</a>
-    <a href="#road-safety">На дороге</a>
-    <a href="#commitments">Чек-лист</a>
-  </nav>
+<header class='article-header'>
+	<div class='article-header__logo'>
+		<Logo />
+	</div>
+	<nav class='article-header__nav' aria-label='Навигация по статье'>
+		<a href='#values'>Приоритет</a>
+		<a href='#practices'>На практике</a>
+		<a href='#road-safety'>На дороге</a>
+		<a href='#commitments'>Чек-лист</a>
+	</nav>
+	<div class='article-header__btn'>
+		<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path d='M3 6H21M3 12H21M3 18H21' stroke='#19324B' stroke-width='2' stroke-linecap='round'></path>
+		</svg>
+	</div>
 </header>
 
+<script>
+	const btn = document.querySelector('.article-header__btn');
+	const menu = document.querySelector('.article-header__nav');
+	let isOpen = true;
+	if (menu && btn) {
+		const links = menu.querySelectorAll('a');
+		const clickMenuLinkHeader = () => {
+			isOpen = false;
+			menu.classList.remove('article-header__nav--active');
+		};
+		const clickBtnHandler = () => {
+			isOpen = !isOpen;
+			if (isOpen) {
+				menu.classList.add('article-header__nav--active');
+			} else {
+				menu.classList.remove('article-header__nav--active');
+			}
+		};
+		btn.addEventListener('click', clickBtnHandler);
+		links.forEach(element => {
+			element.addEventListener('click', clickMenuLinkHeader)
+		});
+	}
+</script>
 <style>
-  .article-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-height: 69px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px max(20px, calc((100% - 1240px) / 2)) 12px;
-    background: var(--white-0);
-    border-bottom: 1px solid rgba(206, 208, 219, 0.7);
-    z-index: 1000;
-
-    @media (width < 600px) {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
+	.article-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		min-height: 69px;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 18px max(20px, calc((100% - 1240px) / 2)) 12px;
+		background: var(--white-0);
+		border-bottom: 1px solid rgba(206, 208, 219, 0.7);
+		z-index: 1000;
+	}
 
   .article-header__nav {
     display: grid;
@@ -44,13 +67,49 @@ import Logo from "./logo.astro";
     font-weight: 600;
     line-height: 21%;
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-  }
-  .article-header__logo :global(.logo svg) {
-    width: 101px;
-    height: auto;
-  }
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+	.article-header__logo :global(.logo svg) {
+		width: 101px;
+		height: auto;
+	}
+	.article-header__btn {
+		display: none;
+	}
+
+	@media (width < 960px) {
+		.article-header {
+			min-height: 64px;
+
+			padding: 14px 20px 12px;
+			border-bottom: none;
+		}
+		.article-header__nav {
+			padding: 60px 40px;
+			position: absolute;
+			display: none;
+			right: 0;
+			top: 64px;
+			grid-auto-flow: row;
+			background: var(--white-0);
+			gap: 40px;
+			font-size: 16px;
+		}
+
+		.article-header__nav--active {
+			display: grid;
+		}
+		.article-header__btn {
+			display: flex;
+			width: 24px;
+			height: 24px;
+			svg {
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
 </style>

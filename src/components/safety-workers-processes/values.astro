@@ -2,7 +2,7 @@
 const values = ['Безопасность', 'Постоянное совершенствование', 'Честность', 'Бережливость', 'Уважение', 'Командная\nработа'];
 ---
 
-<section class='values' id='values' aria-labelledby='values-title'>
+<section class='values' id='values' >
 	<div class='values__inner'>
 		<div class='values__intro'>
 			<h2 class='values__title'>Безопасность — наш безусловный приоритет</h2>
@@ -108,6 +108,35 @@ const values = ['Безопасность', 'Постоянное соверше
 			height: 12.152em;
 			background: var(--brand-gradient-original);
 			font-size: min(calc(46 * 100vw / 1440), 46px);
+		}
+	}
+	@media (width < 960px) {
+		.values {
+			padding-top: 80px;
+			padding-bottom: 40px;
+		}
+
+		.values__inner {
+			align-items: stretch;
+		}
+
+		.values__intro {
+			max-width: none;
+			padding: 0 20px;
+		}
+
+		.values__title {
+			font-size: 34px;
+			line-height: 36px;
+		}
+
+		.values__text {
+			margin-top: 16px;
+			font-size: 17px;
+			line-height: 26px;
+		}
+		.values__diagram {
+			margin-top: 4px;
 		}
 	}
 </style>

@@ -33,7 +33,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		<aside class='risk-map__aside'>
 			<h2 class='risk-map__title'>Что не так с безопасностью на промплощадке?</h2>
 			<p class='risk-map__text'>Внимательно посмотрите на иллюстрацию и объясните все потенциально опасные ситуации.</p>
-			<div class='risk-map__details' aria-live='polite' aria-atomic='true'>
+			<div class='risk-map__details' >
 				<h3 data-risk-display-title></h3>
 				<p data-risk-display-text></p>
 			</div>
@@ -256,5 +256,21 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 	.risk-map__point:nth-child(5) {
 		top: 83.6%;
 		left: 67.7%;
+	}
+
+	@media (width < 960px) {
+		.risk-map__scene{
+			min-height: auto;
+		}
+		.risk-map__inner {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+		.risk-map__aside{
+			width: 100%;
+		}
+		.risk-map__aside {
+			position: relative;
+		}
 	}
 </style>
