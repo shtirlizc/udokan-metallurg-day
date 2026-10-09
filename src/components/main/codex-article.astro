@@ -1,60 +1,76 @@
 ---
-import { withBase } from "../../utils/paths";
+import charsImg from "./assets/metallurgist-day-chars.webp";
+import { withBase } from "../../utils/paths.ts";
 import { Image } from "astro:assets";
-
 import Tag from "../tag.astro";
-import charsImg from "./assets/presentation-chars.webp";
 ---
 
-<section class="presentation" data-chars-reveal>
-  <div class="presentation__bg"></div>
+<section class="codex-article" data-chars-reveal>
+  <div class="codex-article__bg"></div>
 
-  <div class="presentation__head">
+  <div class="codex-article__head">
     <ul>
-      <Tag color="#E88EED">Презентация</Tag>
+      <Tag color="#FF4400" textColor="light">Новинка</Tag>
+      <Tag color="#E88EED">Кодекс Удокана | Статья</Tag>
     </ul>
 
-    <h2>Проект по внедрению<br />Ценностей и Кодекса компании</h2>
+    <h2>Кодекс Удокана. Безопасность работников и процессов</h2>
   </div>
 
-  <div class="presentation__chars">
+  <div class="codex-article__chars">
     <Image src={charsImg} alt="" />
   </div>
 
-  <a href={withBase("/pdf/presentation.pdf")} target="_blank">
-    Проект по внедрению Ценностей и Кодекса компании
+  <a href={withBase("/безопасность-работников-и-процессов/")}>
+    Кодекс Удокана. Безопасность работников и процессов
   </a>
 </section>
 
 <style>
-  .presentation {
+  .codex-article {
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 
-    &:hover {
-      .presentation__chars {
-        --chars-scale: 1.05;
+    &:hover .codex-article__chars {
+      --chars-scale: 1.05;
 
-        transition: transform var(--transition-long);
-      }
+      transition:
+        opacity calc(1.5 * var(--transition-long)) var(--transition-f),
+        transform var(--transition-long);
     }
 
-    &.is-chars-visible .presentation__chars {
-      --chars-translate-y: 0px;
+    &.is-chars-visible .codex-article__chars {
+      --chars-translate-x: 0px;
 
       opacity: 1;
     }
 
-    &.is-chars-visible .presentation__bg {
+    &.is-chars-visible .codex-article__bg {
       transform: scale(1);
     }
 
-    & .presentation__bg {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(
+        180deg,
+        #171d2c -3.55%,
+        rgba(23, 29, 44, 0.3) 46.94%,
+        rgba(255, 255, 255, 0) 96.45%
+      );
+      z-index: 1;
+    }
+
+    & .codex-article__bg {
       position: absolute;
       inset: 0;
-      background-image: url("./assets/presentation-bg.webp");
+      background-image: url("./assets/codex-bg.webp");
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -68,7 +84,7 @@ import charsImg from "./assets/presentation-chars.webp";
       }
     }
 
-    & .presentation__head {
+    & .codex-article__head {
       padding: var(--space20);
 
       /* desktop */
@@ -94,19 +110,19 @@ import charsImg from "./assets/presentation-chars.webp";
       font-family: var(--font-bebas-neue-cyrillic), sans-serif;
       font-weight: 700;
       font-size: 35px;
-      line-height: 88%;
+      line-height: 90%;
       text-transform: uppercase;
       color: var(--color-white);
 
       /* desktop */
       @media (width >= 960px) {
-        font-size: 40px;
-        line-height: 105%;
+        margin-top: var(--space20);
+        font-size: 70px;
       }
     }
 
-    & .presentation__chars {
-      --chars-translate-y: clamp(48px, 8vw, 120px);
+    & .codex-article__chars {
+      --chars-translate-x: clamp(48px, 8vw, 120px);
       --chars-scale: 1;
 
       flex-grow: 1;
@@ -114,36 +130,24 @@ import charsImg from "./assets/presentation-chars.webp";
       z-index: 1;
       font-size: 0;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: flex-end;
-      margin-top: -10vw;
+      margin-top: 4vh;
       opacity: 0;
-      transform: translateY(var(--chars-translate-y)) scale(var(--chars-scale));
+      transform: translateX(var(--chars-translate-x)) scale(var(--chars-scale));
       transition:
         opacity calc(1.5 * var(--transition-long)) var(--transition-f),
         transform calc(1.5 * var(--transition-long)) var(--transition-f);
-      transform-origin: center bottom;
-
-      /* tablet */
-      @media (width >= 768px) {
-        margin-top: -10vw;
-      }
 
       /* desktop */
       @media (width >= 960px) {
-        margin-top: -2vw;
+        margin-top: 0;
       }
 
       img {
         width: 100%;
         height: auto;
         object-fit: contain;
-        max-width: 480px;
-
-        /* desktop */
-        @media (width >= 960px) {
-          max-width: none;
-        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -163,9 +167,9 @@ import charsImg from "./assets/presentation-chars.webp";
 </style>
 
 <script>
-  function initPresentationCharsReveal() {
+  function initCodexCharsReveal() {
     const sections = document.querySelectorAll<HTMLElement>(
-      ".presentation[data-chars-reveal]",
+      ".codex-article[data-chars-reveal]",
     );
 
     sections.forEach((section) => {
@@ -210,5 +214,5 @@ import charsImg from "./assets/presentation-chars.webp";
     });
   }
 
-  document.addEventListener("astro:page-load", initPresentationCharsReveal);
+  document.addEventListener("astro:page-load", initCodexCharsReveal);
 </script>

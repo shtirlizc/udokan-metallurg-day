@@ -5,11 +5,19 @@ import MetallurgistDay from "../components/main/metallurgist-day.astro";
 import Congratulation from "../components/main/congratulation.astro";
 import Presentation from "../components/main/presentation.astro";
 import OurValues from "../components/main/our-values.astro";
+import Safety from "../components/main/safety.astro";
+import CodexArticle from "../components/main/codex-article.astro";
 ---
 
 <MainLayout>
   <div class="grid">
     <Hero />
+
+    <div class="grid__cols">
+      <Safety />
+      <CodexArticle />
+    </div>
+
     <OurValues />
 
     <div class="grid__cols">
