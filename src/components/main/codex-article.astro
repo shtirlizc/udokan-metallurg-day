@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 import Tag from "../tag.astro";
 ---
 
-<section class="codex-article" data-chars-reveal>
+<section class="codex-article" data-tile-reveal>
   <div class="codex-article__bg"></div>
 
   <div class="codex-article__head">
@@ -14,7 +14,11 @@ import Tag from "../tag.astro";
       <Tag color="#E88EED">Кодекс Удокана | Статья</Tag>
     </ul>
 
-    <h2>Кодекс Удокана. Безопасность работников и процессов</h2>
+    <h2>
+      Кодекс Удокана.
+      <br />
+      Безопасность работников и процессов
+    </h2>
   </div>
 
   <div class="codex-article__chars">
@@ -22,7 +26,7 @@ import Tag from "../tag.astro";
   </div>
 
   <a href={withBase("/безопасность-работников-и-процессов/")}>
-    Кодекс Удокана. Безопасность работников и процессов
+    Кодекс Удокана
   </a>
 </section>
 
@@ -41,13 +45,13 @@ import Tag from "../tag.astro";
         transform var(--transition-long);
     }
 
-    &.is-chars-visible .codex-article__chars {
+    &.is-tile-visible .codex-article__chars {
       --chars-translate-x: 0px;
 
       opacity: 1;
     }
 
-    &.is-chars-visible .codex-article__bg {
+    &.is-tile-visible .codex-article__bg {
       transform: scale(1);
     }
 
@@ -118,6 +122,7 @@ import Tag from "../tag.astro";
       @media (width >= 960px) {
         margin-top: var(--space20);
         font-size: 70px;
+        max-width: 25vw;
       }
     }
 
@@ -167,52 +172,5 @@ import Tag from "../tag.astro";
 </style>
 
 <script>
-  function initCodexCharsReveal() {
-    const sections = document.querySelectorAll<HTMLElement>(
-      ".codex-article[data-chars-reveal]",
-    );
-
-    sections.forEach((section) => {
-      if (section.dataset.revealInitialized) return;
-
-      section.dataset.revealInitialized = "true";
-      let frameId: number | undefined;
-
-      const cleanup = () => {
-        window.removeEventListener("scroll", queueRevealCheck);
-        window.removeEventListener("resize", queueRevealCheck);
-        document.removeEventListener("astro:before-swap", cleanup);
-        if (frameId) window.cancelAnimationFrame(frameId);
-      };
-
-      const revealIfVisible = () => {
-        frameId = undefined;
-
-        const rect = section.getBoundingClientRect();
-        const visibleHeight = Math.max(
-          0,
-          Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0),
-        );
-        const requiredVisibleHeight =
-          Math.min(rect.height, window.innerHeight) * 0.8;
-
-        if (visibleHeight < requiredVisibleHeight) return;
-
-        section.classList.add("is-chars-visible");
-        cleanup();
-      };
-
-      function queueRevealCheck() {
-        if (frameId) return;
-        frameId = window.requestAnimationFrame(revealIfVisible);
-      }
-
-      window.addEventListener("scroll", queueRevealCheck, { passive: true });
-      window.addEventListener("resize", queueRevealCheck);
-      document.addEventListener("astro:before-swap", cleanup, { once: true });
-      queueRevealCheck();
-    });
-  }
-
-  document.addEventListener("astro:page-load", initCodexCharsReveal);
+  import "../../scripts/tile-reveal";
 </script>
