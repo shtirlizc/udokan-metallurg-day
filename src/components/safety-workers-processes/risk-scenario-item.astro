@@ -39,7 +39,7 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 			hint && (
 				<div class:list={['scenario-item__hint']}>
 					<div class='scenario-item__hint__body'>
-						<picture class='scenario-item__hint__bubble' aria-hidden='true'>
+						<picture class='scenario-item__hint__bubble' >
 							<source media='(min-width: 960px)' srcset={hint.bubble.desktop.src} type='image/svg+xml' />
 							<img src={hint.bubble.mobile.src} alt='' />
 						</picture>

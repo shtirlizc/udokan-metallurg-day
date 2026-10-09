@@ -73,6 +73,10 @@
 	}
 	.definition__decor_bottom {
 		bottom: -1px;
+		.definition__decor::after,
+		.definition__decor::before {
+			background: var(--black-100);
+		}
 	}
 	.definition__decor::after,
 	.definition__decor::before {
@@ -88,6 +92,10 @@
 	}
 	.definition__decor::before {
 		left: calc(100% - 1px);
+	}
+	.definition__decor_bottom::after,
+	.definition__decor_bottom::before {
+		background: var(--black-100);
 	}
 	@media (width < 960px) {
 		.definition {

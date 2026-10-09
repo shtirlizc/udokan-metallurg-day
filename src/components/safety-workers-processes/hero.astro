@@ -10,15 +10,15 @@ const { title } = Astro.props;
 const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: HeroBgMobile }), getImage({ src: HeroBgDesktop })]);
 ---
 
-<section class='hero' aria-labelledby='article-title'>
+<section class='hero'>
 	<div class='hero__inner'>
 		<h1 id='article-title'>{title}</h1>
 		<p class='hero__text'>
 			Начинаем серию статей, посвященных «Кодексу Удокана», нашим корпоративным ценностям и их воплощению в реальных рабочих процессах и ситуациях.
 			Сегодня в фокусе — приоритет безопасности жизни и здоровья сотрудников.
 		</p>
-		<a class='hero__link' href='#risk-scenarios'>
-			Разобраться на примерах <span aria-hidden='true'>↓</span>
+		<a class='hero__link' href='#values'>
+			Разобраться на примерах <span>↓</span>
 		</a>
 	</div>
 	<div class='hero__background'>
@@ -216,7 +216,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		bottom: 0;
 		background: var(--white-0);
 		height: 100%;
-		width: calc((100vw - 1438px) / 2);
+		width: 50vw;
 	}
 	.hero__footer::after {
 		right: calc(100% - 1px);
@@ -236,7 +236,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		.hero__inner {
 			box-sizing: border-box;
 			width: 100%;
-			max-width: 375px;
+			max-width: 600px;
 			padding: 116px 20px 0;
 			z-index: 5;
 		}

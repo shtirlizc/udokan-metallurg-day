@@ -171,6 +171,26 @@ const stats = [
 			}
 		}
 
+		.traffic-stats__title {
+			font-size: 34px;
+			line-height: 36px;
+			text-align: left;
+		}
+
+		.traffic-stats__text {
+			margin: 16px 0 0;
+			font-size: 17px;
+			line-height: 26px;
+			text-align: left;
+		}
+	}
+	@media (width < 760px) {
+
+		.traffic-stats__list {
+			
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
 		.traffic-stats__total {
 			display: flex;
 			margin: 90px 0 0;
@@ -183,18 +203,6 @@ const stats = [
 			margin: 20px 0 0;
 			font-size: 14px;
 			line-height: 20px;
-			text-align: left;
-		}
-		.traffic-stats__title {
-			font-size: 34px;
-			line-height: 36px;
-			text-align: left;
-		}
-
-		.traffic-stats__text {
-			margin: 16px 0 0;
-			font-size: 17px;
-			line-height: 26px;
 			text-align: left;
 		}
 	}
