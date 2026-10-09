@@ -20,7 +20,7 @@ import CodexArticle from "../components/main/codex-article.astro";
 
     <OurValues />
 
-    <div class="grid__cols">
+    <div class="grid__one-two-cols">
       <Presentation />
       <MetallurgistDay />
     </div>
@@ -36,6 +36,19 @@ import CodexArticle from "../components/main/codex-article.astro";
       @media (width >= 960px) {
         display: grid;
         grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    & .grid__one-two-cols {
+      /* desktop */
+      @media (width >= 960px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      /* widescreen */
+      @media (width >= 1200px) {
+        grid-template-columns: 1fr 2fr;
       }
     }
   }

@@ -281,6 +281,12 @@ const cover = new URL(withBase(coverSrc), Astro.site);
       // Keep the current page visible until the game is ready, then swap
       // immediately. Transitions out of games and between quiz scenes remain.
       if (enteringQuizHome && !leavingQuizScene) {
+        // Skipping the animation rejects ready with an expected AbortError.
+        void swap.viewTransition.ready.catch((error: unknown) => {
+          if (error instanceof DOMException && error.name === "AbortError")
+            return;
+          throw error;
+        });
         swap.viewTransition.skipTransition();
       }
     });

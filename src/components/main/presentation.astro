@@ -134,6 +134,15 @@ import charsImg from "./assets/presentation-chars.webp";
         margin-top: -2vw;
       }
 
+      /* widescreen */
+      @media (width >= 1200px) {
+        margin-top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        max-height: 50%;
+      }
+
       img {
         width: 100%;
         height: auto;
@@ -143,6 +152,16 @@ import charsImg from "./assets/presentation-chars.webp";
         /* desktop */
         @media (width >= 960px) {
           max-width: none;
+        }
+
+        /* widescreen */
+        @media (width >= 1200px) {
+          width: 90%;
+        }
+
+        /* fullhd */
+        @media (width >= 1440px) {
+          width: 100%;
         }
       }
 
