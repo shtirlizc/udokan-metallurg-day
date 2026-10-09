@@ -1,0 +1,57 @@
+---
+import type { QuizAnswer } from "../../types/quiz";
+
+interface Props {
+  answer: QuizAnswer;
+}
+
+const { answer } = Astro.props;
+---
+
+<span class="custom-answer">
+  <span class="custom-answer__text">{answer.text}</span>
+</span>
+
+<style>
+  .custom-answer {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    color: var(--white-0);
+    font: var(--font-answer);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 65px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200%;
+      background-image: var(--link-bg);
+      transform: translateY(0);
+      transition: transform var(--transition) var(--transition-f);
+    }
+
+    @media (hover: hover) {
+      &:hover::before {
+        transform: translateY(-50%);
+      }
+    }
+
+    & .custom-answer__text {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* desktop */
+    @media (width >= 960px) {
+      min-height: 84px;
+    }
+  }
+</style>

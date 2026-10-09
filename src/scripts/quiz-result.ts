@@ -9,6 +9,7 @@ export interface QuizResult {
 export function readStoredQuizResult(
   storageKey: string,
   questionsCount: number,
+  excludedQuestionNumbers: string[] = [],
 ): QuizResult | null {
   if (!Number.isInteger(questionsCount) || questionsCount <= 0) return null;
 
@@ -42,24 +43,27 @@ export function readStoredQuizResult(
 
   if (
     entries.length !== questionsCount ||
-    !entries.every(
-      ([, value]) => value === "success" || value === "fail",
-    )
+    !entries.every(([, value]) => value === "success" || value === "fail")
   ) {
     return null;
   }
 
-  const answers = Object.fromEntries(entries) as Record<
+  // Keep all answers in storage for navigation and completion checks.
+  // Only considered questions contribute to the report.
+  const consideredEntries = entries.filter(
+    ([questionNumber]) => !excludedQuestionNumbers.includes(questionNumber),
+  );
+  const answers = Object.fromEntries(consideredEntries) as Record<
     string,
     QuizAnswerResult
   >;
-  const correctAnswersCount = entries.filter(
+  const correctAnswersCount = consideredEntries.filter(
     ([, value]) => value === "success",
   ).length;
 
   return {
     answers,
     correctAnswersCount,
-    totalAnswers: entries.length,
+    totalAnswers: consideredEntries.length,
   };
 }

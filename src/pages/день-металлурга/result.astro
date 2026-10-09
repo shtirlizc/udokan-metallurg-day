@@ -9,6 +9,9 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
 
 const questions = await getCollection("metallurgistQuestions");
 const questionsCount = questions.length;
+const excludedQuestionNumbers = questions
+  .filter(({ data }) => !data.consider)
+  .map(({ data }) => data.questionNumber);
 ---
 
 <MainLayout>
@@ -17,6 +20,7 @@ const questionsCount = questions.length;
     <main class="content">
       <ResultMessage
         questionsCount={questionsCount}
+        excludedQuestionNumbers={excludedQuestionNumbers}
         storageKey={QUIZ_STORAGE_KEYS.metallurgistDay}
       />
     </main>

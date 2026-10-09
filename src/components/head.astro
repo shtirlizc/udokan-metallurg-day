@@ -68,6 +68,7 @@ const cover = new URL("/cover.jpg", Astro.site);
     name="twitter:image:alt"
     content="Карьер Удокана с логотипом компании"
   />
+  <!-- Yandex.Metrika counter -->
   <script is:inline>
     (function (m, e, t, r, i, k, a) {
       m[i] =
@@ -76,6 +77,9 @@ const cover = new URL("/cover.jpg", Astro.site);
           (m[i].a = m[i].a || []).push(arguments);
         };
       m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) {
+        if (document.scripts[j].src === r) return;
+      }
       k = e.createElement(t);
       a = e.getElementsByTagName(t)[0];
       k.async = 1;
@@ -85,11 +89,11 @@ const cover = new URL("/cover.jpg", Astro.site);
       window,
       document,
       "script",
-      "https://mc.yandex.ru/metrika/tag.js?id=110817186",
+      "https://mc.yandex.ru/metrika/tag.js?id=113155978",
       "ym",
     );
 
-    ym(110817186, "init", {
+    ym(113155978, "init", {
       ssr: true,
       webvisor: true,
       clickmap: true,
@@ -103,10 +107,12 @@ const cover = new URL("/cover.jpg", Astro.site);
 
     document.addEventListener("astro:page-load", () => {
       const currentUrl = location.href;
-      ym(110817186, "hit", currentUrl, { referer: previousUrl });
+      ym(113155978, "hit", currentUrl, { referer: previousUrl });
       previousUrl = currentUrl;
     });
   </script>
+  <!-- Yandex.Metrika counter -->
+
   <script>
     type PreparationEvent = Event & {
       loader: () => Promise<void>;

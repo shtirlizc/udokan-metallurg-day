@@ -1,12 +1,18 @@
 ---
 import type { QuizAnswer } from "../../types/quiz";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 interface Props {
   answer: QuizAnswer;
   correctAnswerId: string;
+  customComponent?: AstroComponentFactory;
 }
 
-const { answer, correctAnswerId } = Astro.props;
+const {
+  answer,
+  correctAnswerId,
+  customComponent: CustomComponent,
+} = Astro.props;
 const { id, text, comment } = answer;
 ---
 
@@ -16,19 +22,27 @@ const { id, text, comment } = answer;
   data-number={id}
   data-correct-answer-id={correctAnswerId}
 >
-  <span class="answer__body">
-    <span class="answer__number">
-      <span>{id}</span>
-    </span>
-    <span class="answer__text">{text}</span>
+  <span
+    class:list={["answer__body", { "answer__body--custom": CustomComponent }]}
+  >
+    {
+      CustomComponent ? (
+        <CustomComponent answer={answer} correctAnswerId={correctAnswerId} />
+      ) : (
+        <>
+          <span class="answer__number">
+            <span>{id}</span>
+          </span>
+          <span class="answer__text">{text}</span>
+        </>
+      )
+    }
   </span>
   <span class="answer__comment">{comment}</span>
 </button>
 
 <style>
   .answer {
-    --success-border: #5ff03b;
-    --success-bg: #cbfbbf;
     --fail-border: var(--red-accent);
     --fail-bg: #f5c7bb;
     --active-color: var(--answer-active-color, var(--yellow-orange-accent));
@@ -51,8 +65,8 @@ const { id, text, comment } = answer;
     &:not(:disabled) {
       cursor: pointer;
 
-      &:hover {
-        .answer__body {
+      @media (hover: hover) {
+        .answer__body:not(.answer__body--custom):hover {
           border-color: var(--active-color);
 
           .answer__number {
@@ -68,6 +82,9 @@ const { id, text, comment } = answer;
     }
 
     &.success {
+      --success-border: #5ff03b;
+      --success-bg: #cbfbbf;
+
       .answer__body {
         border: 1px solid var(--success-border) !important;
 
@@ -87,7 +104,15 @@ const { id, text, comment } = answer;
       }
     }
 
-    & .answer__body {
+    & .answer__body--custom {
+      display: block;
+    }
+
+    &:disabled .answer__body--custom {
+      pointer-events: none;
+    }
+
+    & .answer__body:not(.answer__body--custom) {
       display: grid;
       grid-template-columns: 74px 1fr;
       border: 1px solid var(--divider-50);

@@ -8,12 +8,16 @@ import { QUIZ_STORAGE_KEYS } from "../../config/quizzes.ts";
 
 const questions = await getCollection("safetyQuestions");
 const questionsCount = questions.length;
+const excludedQuestionNumbers = questions
+  .filter(({ data }) => !data.consider)
+  .map(({ data }) => data.questionNumber);
 ---
 
 <MainLayout>
   <SafetyLayout>
     <ResultMessage
       questionsCount={questionsCount}
+      excludedQuestionNumbers={excludedQuestionNumbers}
       storageKey={QUIZ_STORAGE_KEYS.safety}
     />
   </SafetyLayout>
