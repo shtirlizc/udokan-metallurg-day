@@ -21,8 +21,13 @@ interface Props {
 }
 
 const { title, text, image, index, hint, attention } = Astro.props;
-const mobileBackground = image ? await getImage({ src: image.mobile }) : undefined;
-const desktopBackground = image ? await getImage({ src: image.desktop }) : undefined;
+const mobileBackground = image ? await getImage({ src: image.mobile, widths: [750, 1125, 1500, 1800], quality: 78 }) : undefined;
+const desktopBackground = image
+	? await getImage({ src: image.desktop, widths: [image.desktop.width / 2, image.desktop.width], quality: 78 })
+	: undefined;
+// panels are laid out in em on a 1440px canvas, desktop art is exported at 2x
+const desktopCssWidth = image ? image.desktop.width / 2 : 0;
+const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixed(1)}vw, ${desktopCssWidth}px`;
 ---
 
 <div class:list={['scenario-item', `scenario-item_${index}`]}>
@@ -32,12 +37,21 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 				<picture class='scenario-item__image'>
 					<source
 						media='(min-width: 960px)'
-						srcset={desktopBackground.src}
+						srcset={desktopBackground.srcSet.attribute}
+						sizes={desktopSizes}
 						width={image.desktop.width}
 						height={image.desktop.height}
 						type='image/webp'
 					/>
-					<img src={mobileBackground.src} width={image.mobile.width} height={image.mobile.height} alt='' loading='lazy' />
+					<img
+						src={mobileBackground.src}
+						srcset={mobileBackground.srcSet.attribute}
+						sizes='100vw'
+						width={image.mobile.width}
+						height={image.mobile.height}
+						alt=''
+						loading='lazy'
+					/>
 				</picture>
 			)
 		}

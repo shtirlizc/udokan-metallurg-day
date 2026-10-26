@@ -4,8 +4,8 @@ import ClosingDesktop from './assets/closing-desktop.webp';
 import ClosingMobile from './assets/closing-mobile.webp';
 import Pattern from './assets/principles-pattern.webp';
 const [mobileBackground, desktopBackground, patternImg] = await Promise.all([
-	getImage({ src: ClosingMobile }),
-	getImage({ src: ClosingDesktop, widths: [1440, 2880] }),
+	getImage({ src: ClosingMobile, widths: [750, 1125, 1500], quality: 78 }),
+	getImage({ src: ClosingDesktop, widths: [1440, 2160, 2880], quality: 78 }),
 	getImage({ src: Pattern }),
 ]);
 ---
@@ -21,7 +21,15 @@ const [mobileBackground, desktopBackground, patternImg] = await Promise.all([
 			height={ClosingDesktop.height}
 			type='image/webp'
 		/>
-		<img src={mobileBackground.src} width={ClosingMobile.width} height={ClosingMobile.height} alt='' loading='lazy' />
+		<img
+			src={mobileBackground.src}
+			srcset={mobileBackground.srcSet.attribute}
+			sizes='100vw'
+			width={ClosingMobile.width}
+			height={ClosingMobile.height}
+			alt=''
+			loading='lazy'
+		/>
 	</picture>
 </section>
 
