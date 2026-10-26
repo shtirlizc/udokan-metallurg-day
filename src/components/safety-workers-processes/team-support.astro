@@ -235,14 +235,14 @@ const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths
 
 		/* panels stacked one under another, quotes are part of the images */
 		.team-support__people {
-			margin: 0;
+			margin: 0 0 32px;
 			padding: 32px 0 0;
 			background: linear-gradient(to bottom, var(--black-100) calc(100% - 120px), #c8d2dc calc(100% - 120px));
 		}
 		.team-support__image {
 			display: none;
 		}
-		.team-support__stack {
+		.team-support__people .team-support__stack {
 			display: flex;
 			flex-direction: column;
 			gap: 16px;
