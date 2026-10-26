@@ -43,12 +43,13 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 			</div>
 		</aside>
 		<div class='risk-map__scene'>
+			<div class='risk-map__stage'>
 			<div class='risk-map__img'>
 				<picture class='risk-map__image'>
 					<source
 						media='(min-width: 960px)'
 						srcset={desktopBackground.srcSet.attribute}
-						sizes='min(100vw, 1440px, calc((100vh - 69px) * 16 / 9))'
+						sizes='min(100vw, calc((100vh - 69px) * 16 / 9))'
 						width={RiskMapDesktop.width}
 						height={RiskMapDesktop.height}
 						type='image/webp'
@@ -78,6 +79,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 						/>
 					))
 				}
+			</div>
 			</div>
 			<div class='risk-map__bubble' data-risk-bubble hidden>
 				<button class='risk-map__bubble-close' type='button' aria-label='Закрыть' data-risk-bubble-close>×</button>
@@ -173,15 +175,8 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	}
 
 	.risk-map__aside {
-		position: absolute;
-		top: 0;
-		left: 0;
 		display: flex;
 		flex-direction: column;
-		padding: 20px;
-		height: 100%;
-		width: 32.85%;
-		z-index: 10;
 		background: #e5ecfd;
 	}
 	.risk-map__details {
@@ -206,11 +201,9 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	.risk-map__placeholder {
 		color: rgba(25, 50, 75, 0.6);
 	}
-	/* fits one screen: the scene keeps 16:9 and shrinks to the viewport height under the fixed header */
 	.risk-map__inner {
 		position: relative;
 		width: 100%;
-		max-width: min(1440px, calc((100vh - 69px) * 16 / 9));
 	}
 	.risk-map__img {
 		display: flex;
@@ -230,11 +223,79 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 		height: 100%;
 		z-index: 10;
 	}
-	.risk-map__scene {
+	.risk-map__scene,
+	.risk-map__stage {
 		position: relative;
 		width: 100%;
-		min-height: 260px;
+	}
+	.risk-map__scene {
 		background: #b6c4ce;
+	}
+
+	/*
+	 * Desktop, as in the layout: the panel sits on the left over the art, the art is anchored to the right edge.
+	 * The 16:9 stage is as tall as the screen under the fixed header allows;
+	 * its left 32.85% is always covered by the panel, so the scene shows only the right part and the panel takes
+	 * whatever width is left. Hotspots keep their percentages because they live on the full stage.
+	 */
+	@media (width >= 960px) {
+		.risk-map {
+			--stage-h: min(calc(100vh - 69px), 56.25vw);
+			--stage-w: calc(var(--stage-h) * 16 / 9);
+		}
+		.risk-map__inner {
+			display: flex;
+			justify-content: flex-end;
+			max-width: none;
+		}
+		.risk-map__aside {
+			flex: 1 1 auto;
+			min-width: 0;
+			padding: 20px 32px 20px max(20px, calc((100vw - 1440px) / 2 + 20px));
+			& > * {
+				max-width: 433px;
+			}
+		}
+		.risk-map__scene {
+			flex: none;
+			align-self: stretch;
+			width: calc(var(--stage-w) * 0.6715);
+			min-height: var(--stage-h);
+			overflow: hidden;
+		}
+		/* if the panel text is taller than the art, the stage grows with the block instead of leaving a gap */
+		.risk-map__stage {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: auto;
+			height: 100%;
+			aspect-ratio: 16 / 9;
+		}
+		.risk-map__img {
+			height: 100%;
+			picture,
+			img {
+				height: 100%;
+			}
+		}
+	}
+	@media (960px <= width < 1200px) {
+		.risk-map__title {
+			font-size: 28px;
+		}
+		.risk-map__text {
+			margin-top: 16px;
+			font-size: 15px;
+		}
+		.risk-map__details {
+			margin-top: 24px;
+			padding: 14px;
+			font-size: 15px;
+			h3 {
+				margin-bottom: 12px;
+			}
+		}
 	}
 	.risk-map__point {
 		position: absolute;

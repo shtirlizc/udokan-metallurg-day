@@ -22,7 +22,7 @@ const people = await Promise.all(
 		img: await getImage({ src: image, widths: [400, 750, 1137], quality: 78 }),
 	})),
 );
-const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths: [1440, 2160, 2880], quality: 78 });
+const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths: [1440, 2000], quality: 78 });
 ---
 
 <section class='team-support'>
