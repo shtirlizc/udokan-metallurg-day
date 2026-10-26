@@ -1,5 +1,5 @@
 ---
-import charsImg from "./assets/metallurgist-day-chars.webp";
+import charsImg from "./assets/codex-chars.webp";
 import { withBase } from "../../utils/paths.ts";
 import { Image } from "astro:assets";
 import Tag from "../tag.astro";
@@ -22,7 +22,7 @@ import Tag from "../tag.astro";
   </div>
 
   <div class="codex-article__chars">
-    <Image src={charsImg} alt="" />
+    <Image src={charsImg} widths={[480, 720, 1080, 1440]} sizes="(width < 960px) 100vw, 50vw" alt="" />
   </div>
 
   <a href={withBase("/безопасность-работников-и-процессов/")}>
