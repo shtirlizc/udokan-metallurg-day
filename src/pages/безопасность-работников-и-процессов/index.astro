@@ -22,7 +22,13 @@ const description =
   "Статья о безопасности работников и производственных процессов на Удокане.";
 ---
 
-<MainLayout title={title} description={description}>
+<MainLayout
+  title={title}
+  description={description}
+  coverSrc="/safety-article-cover.jpg"
+  coverAlt="Сотрудники Удокана в касках и защитных очках — «Безопасность работников и процессов»"
+  ogType="article"
+>
   <Progress />
   <main class="safety-article">
     <ArticleHeader />
