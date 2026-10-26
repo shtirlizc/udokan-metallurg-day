@@ -11,17 +11,15 @@ const responsibilities = [
 	'Помогают коллегам правильно оформлять отказ от работы в небезопасных условиях',
 ];
 
-// on mobile the strip becomes a stack of panels with the quotes as text
+// on mobile the strip becomes a stack of panels; the quotes are part of these images
+const personImages = [TeamSupportPerson0, TeamSupportPerson1, TeamSupportPerson2];
+const widest = Math.max(...personImages.map((image) => image.width));
 const people = await Promise.all(
-	[
-		{ image: TeamSupportPerson0, quote: '«Я меняю привычные подходы, процедуры ради достижения общей цели и внедряю лучшие практики и технологии»' },
-		{ image: TeamSupportPerson1, quote: '«Я помогаю коллегам развиваться вместе с компанией»' },
-		{ image: TeamSupportPerson2, quote: '«Я помогаю другим понять изменения и адаптироваться к ним»' },
-	].map(async ({ image, quote }) => ({
-		quote,
+	personImages.map(async (image) => ({
 		width: image.width,
 		height: image.height,
-		img: await getImage({ src: image, widths: [600, 900, 1200, 1440], quality: 78 }),
+		share: `${((image.width / widest) * 100).toFixed(2)}%`,
+		img: await getImage({ src: image, widths: [400, 750, 1137], quality: 78 }),
 	})),
 );
 const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths: [1440, 2160, 2880], quality: 78 });
@@ -59,12 +57,11 @@ const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths
 			<ul class='team-support__stack'>
 				{
 					people.map((person) => (
-						<li class='team-support__person'>
-							<blockquote class='team-support__quote'>{person.quote}</blockquote>
+						<li class='team-support__person' style={`--share: ${person.share}`}>
 							<img
 								src={person.img.src}
 								srcset={person.img.srcSet.attribute}
-								sizes='(width < 600px) 82vw, 480px'
+								sizes='(width < 600px) 100vw, 560px'
 								width={person.width}
 								height={person.height}
 								alt=''
@@ -236,10 +233,10 @@ const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths
 			line-height: 26px;
 		}
 
-		/* panels stacked one under another, quotes as speech bubbles above the heads */
+		/* panels stacked one under another, quotes are part of the images */
 		.team-support__people {
 			margin: 0;
-			padding: 40px 20px 0;
+			padding: 32px 0 0;
 			background: linear-gradient(to bottom, var(--black-100) calc(100% - 120px), #c8d2dc calc(100% - 120px));
 		}
 		.team-support__image {
@@ -248,18 +245,17 @@ const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths
 		.team-support__stack {
 			display: flex;
 			flex-direction: column;
-			gap: 28px;
+			gap: 16px;
 			width: 100%;
 			max-width: 560px;
 			margin: 0 auto;
 			padding: 0;
 			list-style: none;
 		}
-		.team-support__person {
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			width: 82%;
+		/* doubled class beats the generic `.team-support__tasks li` rules */
+		.team-support__stack .team-support__person {
+			display: block;
+			width: var(--share, 100%);
 			padding: 0;
 			border: 0;
 			img {
@@ -269,36 +265,7 @@ const desktopBackground = await getImage({ src: TeamSupportPeopleDesktop, widths
 			}
 			&:nth-child(2) {
 				align-self: flex-end;
-				align-items: flex-end;
 			}
-			&:nth-child(3) {
-				align-self: center;
-			}
-		}
-		.team-support__quote {
-			position: relative;
-			margin: 0 0 18px;
-			padding: 10px 12px;
-			max-width: 250px;
-			background: var(--color-white);
-			color: var(--black-100);
-			font-size: 13px;
-			font-weight: 600;
-			line-height: 120%;
-			transform: rotate(-3deg);
-			&::after {
-				position: absolute;
-				content: '';
-				left: 40%;
-				bottom: -7px;
-				width: 14px;
-				height: 14px;
-				background: inherit;
-				transform: rotate(45deg);
-			}
-		}
-		.team-support__person:nth-child(2) .team-support__quote {
-			transform: rotate(3deg);
 		}
 		.team-support__tasks {
 			margin-top: 40px;
