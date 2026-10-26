@@ -47,7 +47,7 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
     z-index: 1;
 
     /* desktop */
-    @media (width >= 960px) {
+    @media (width >= 960px) and (orientation: landscape) {
       text-align: center;
       padding: 0;
     }
@@ -65,7 +65,7 @@ import MetallurgistDayLayout from "../../layouts/metallurgist-day.astro";
       margin-top: 25px;
 
       /* desktop */
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         margin-top: 34px;
       }
     }

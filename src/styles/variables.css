@@ -78,8 +78,13 @@
     --quiz-border-radius: var(--border-radius12);
   }
 
+  /* tablet portrait: mobile layout with a wider picture, so the quiz keeps room */
+  @media (width >= 768px) and (orientation: portrait) {
+    --question-aspect-ratio: 4 / 3;
+  }
+
   /* desktop */
-  @media (width >= 960px) {
+  @media (width >= 960px) and (orientation: landscape) {
     --question-padding: 10px;
     --question-aspect-ratio: auto;
     --quiz-border-radius: 24px;

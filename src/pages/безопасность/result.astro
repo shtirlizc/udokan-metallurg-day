@@ -27,7 +27,7 @@ const excludedQuestionNumbers = questions
     >
       <picture class="root__bg" data-result-shield data-transition-image>
         <source
-          media="(min-width: 960px)"
+          media="(min-width: 960px) and (orientation: landscape)"
           srcset={shieldDesktop.src}
           width={shieldDesktop.width}
           height={shieldDesktop.height}
@@ -60,7 +60,7 @@ const excludedQuestionNumbers = questions
     background-color: #1c2c44;
 
     /* desktop */
-    @media (width >= 960px) {
+    @media (width >= 960px) and (orientation: landscape) {
       background-image: url("assets/result/bg-desktop.webp");
     }
 
@@ -73,7 +73,7 @@ const excludedQuestionNumbers = questions
       transform: scale(1.5);
       filter: blur(6px);
 
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         height: 140%;
         top: -20%;
       }
@@ -91,7 +91,7 @@ const excludedQuestionNumbers = questions
         object-fit: cover;
         object-position: center;
 
-        @media (width >= 960px) {
+        @media (width >= 960px) and (orientation: landscape) {
           object-fit: contain;
         }
       }
