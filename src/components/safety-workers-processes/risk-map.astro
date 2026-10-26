@@ -35,7 +35,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	<div class='risk-map__inner'>
 		<aside class='risk-map__aside'>
 			<h2 class='risk-map__title'>Что не так с безопасностью на промплощадке?</h2>
-			<p class='risk-map__text'>Внимательно посмотрите на иллюстрацию и объясните все потенциально опасные ситуации. Нажмите на ситуацию, чтобы проверить себя.</p>
+			<p class='risk-map__text'>Внимательно посмотрите на иллюстрацию и объясните все потенциально опасные ситуации.<span class='risk-map__text-hint'> Нажмите на ситуацию, чтобы проверить себя.</span></p>
 			<div class='risk-map__details' aria-live='polite'>
 				<p class='risk-map__placeholder' data-risk-placeholder>Нажмите на красную точку на иллюстрации — здесь появится описание опасной ситуации.</p>
 				<h3 data-risk-display-title></h3>
@@ -196,6 +196,12 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 
 		p {
 			margin: 0;
+		}
+	}
+	/* on desktop the dashed box already says it; on mobile there is no box */
+	.risk-map__text-hint {
+		@media (width >= 960px) {
+			display: none;
 		}
 	}
 	.risk-map__placeholder {
