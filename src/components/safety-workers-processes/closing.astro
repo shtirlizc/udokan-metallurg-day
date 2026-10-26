@@ -5,7 +5,7 @@ import ClosingMobile from './assets/closing-mobile.webp';
 import Pattern from './assets/principles-pattern.webp';
 const [mobileBackground, desktopBackground, patternImg] = await Promise.all([
 	getImage({ src: ClosingMobile }),
-	getImage({ src: ClosingDesktop }),
+	getImage({ src: ClosingDesktop, widths: [1440, 2880] }),
 	getImage({ src: Pattern }),
 ]);
 ---
@@ -13,8 +13,15 @@ const [mobileBackground, desktopBackground, patternImg] = await Promise.all([
 <section class='closing' style={`--principles-pattern: url(${patternImg.src})`}>
 	<h2 class='closing__title'> Безопасность — это не свод запретов, а ответственность и внимательность каждого из нас </h2>
 	<picture class='closing__image'>
-		<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-		<img src={mobileBackground.src} alt='' />
+		<source
+			media='(min-width: 960px)'
+			srcset={desktopBackground.srcSet.attribute}
+			sizes='100vw'
+			width={ClosingDesktop.width}
+			height={ClosingDesktop.height}
+			type='image/webp'
+		/>
+		<img src={mobileBackground.src} width={ClosingMobile.width} height={ClosingMobile.height} alt='' loading='lazy' />
 	</picture>
 </section>
 
@@ -58,7 +65,7 @@ const [mobileBackground, desktopBackground, patternImg] = await Promise.all([
 	}
 	.closing__image {
 		position: relative;
-		margin-top: -12px;
+		margin-top: -103px;
 		display: flex;
 		width: 100%;
 		height: auto;
@@ -81,6 +88,9 @@ const [mobileBackground, desktopBackground, patternImg] = await Promise.all([
 			max-width: 780px;
 			font-size: 34px;
 			line-height: 36px;
+		}
+		.closing__image {
+			margin-top: -16px;
 		}
 	}
 </style>

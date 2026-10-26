@@ -22,7 +22,7 @@ import Logo from "./logo.astro";
 <script>
 	const btn = document.querySelector('.article-header__btn');
 	const menu = document.querySelector('.article-header__nav');
-	let isOpen = true;
+	let isOpen = false;
 	if (menu && btn) {
 		const links = menu.querySelectorAll('a');
 		const clickMenuLinkHeader = () => {

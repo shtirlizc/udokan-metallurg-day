@@ -38,6 +38,8 @@ const evidenceCards = await Promise.all(
 	practices.map(async ({ image, ...practice }) => ({
 		...practice,
 		image: await getImage({ src: image }),
+		width: image.width,
+		height: image.height,
 	})),
 );
 ---
@@ -53,7 +55,7 @@ const evidenceCards = await Promise.all(
 				evidenceCards.map((card) => (
 					<div class='evidence__card'>
 						<div class='evidence__image'>
-							<img src={card.image.src} alt='' loading='lazy' />
+							<img src={card.image.src} width={card.width} height={card.height} alt='' loading='lazy' />
 						</div>
 						<h3 class='evidence__card-title'>{card.title}</h3>
 						<p class='evidence__card-text'>{card.text}</p>
@@ -130,6 +132,7 @@ const evidenceCards = await Promise.all(
 		width: 100%;
 		img {
 			width: 100%;
+			height: auto;
 		}
 	}
 

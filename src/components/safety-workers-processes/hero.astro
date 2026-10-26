@@ -1,13 +1,12 @@
 ---
 import { getImage } from 'astro:assets';
 import HeroBgDesktop from './assets/hero-bg-desktop.webp';
-import HeroBgMobile from './assets/hero-bg-desktop.webp';
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
-const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: HeroBgMobile }), getImage({ src: HeroBgDesktop })]);
+const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: HeroBgDesktop, width: 760 }), getImage({ src: HeroBgDesktop })]);
 ---
 
 <section class='hero'>
@@ -35,7 +34,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		<div class='hero__image'>
 			<picture>
 				<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-				<img src={mobileBackground.src} alt='' />
+				<img src={mobileBackground.src} width={HeroBgDesktop.width} height={HeroBgDesktop.height} alt='' />
 			</picture>
 		</div>
 	</div>

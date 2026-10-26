@@ -11,7 +11,7 @@ const responsibilities = [
 
 const [mobileBackground, desktopBackground] = await Promise.all([
 	getImage({ src: TeamSupportPeopleMobile }),
-	getImage({ src: TeamSupportPeopleDesktop }),
+	getImage({ src: TeamSupportPeopleDesktop, widths: [1440, 2880] }),
 ]);
 ---
 
@@ -35,8 +35,21 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	<div class='team-support__tasks'>
 		<div class='team-support__people'>
 			<picture class='team-support__image'>
-				<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-				<img src={mobileBackground.src} alt='' />
+				<source
+					media='(min-width: 960px)'
+					srcset={desktopBackground.srcSet.attribute}
+					sizes='100vw'
+					width={TeamSupportPeopleDesktop.width}
+					height={TeamSupportPeopleDesktop.height}
+					type='image/webp'
+				/>
+				<img
+					src={mobileBackground.src}
+					width={TeamSupportPeopleMobile.width}
+					height={TeamSupportPeopleMobile.height}
+					alt=''
+					loading='lazy'
+				/>
 			</picture>
 		</div>
 		<div class='team-support__inner'>

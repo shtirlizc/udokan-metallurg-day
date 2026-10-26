@@ -4,7 +4,7 @@ import TeamSupportPeopleDesktop from './assets/safety-at-udokan-desktop.webp';
 import TeamSupportPeopleMobile from './assets/safety-at-udokan-mobile.webp';
 const [mobileBackground, desktopBackground] = await Promise.all([
 	getImage({ src: TeamSupportPeopleMobile }),
-	getImage({ src: TeamSupportPeopleDesktop }),
+	getImage({ src: TeamSupportPeopleDesktop, widths: [1440, 2880] }),
 ]);
 ---
 
@@ -24,8 +24,21 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 	</div>
 	<div class='safety-at-udokan__visual'>
 		<picture class='safety-at-udokan__image'>
-			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-			<img src={mobileBackground.src} alt='' />
+			<source
+				media='(min-width: 960px)'
+				srcset={desktopBackground.srcSet.attribute}
+				sizes='100vw'
+				width={TeamSupportPeopleDesktop.width}
+				height={TeamSupportPeopleDesktop.height}
+				type='image/webp'
+			/>
+			<img
+				src={mobileBackground.src}
+				width={TeamSupportPeopleMobile.width}
+				height={TeamSupportPeopleMobile.height}
+				alt=''
+				loading='lazy'
+			/>
 		</picture>
 	</div>
 </section>

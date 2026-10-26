@@ -28,10 +28,16 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 <div class:list={['scenario-item', `scenario-item_${index}`]}>
 	<div class='scenario-item__visual'>
 		{
-			mobileBackground && desktopBackground && (
+			image && mobileBackground && desktopBackground && (
 				<picture class='scenario-item__image'>
-					<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-					<img src={mobileBackground.src} alt='' />
+					<source
+						media='(min-width: 960px)'
+						srcset={desktopBackground.src}
+						width={image.desktop.width}
+						height={image.desktop.height}
+						type='image/webp'
+					/>
+					<img src={mobileBackground.src} width={image.mobile.width} height={image.mobile.height} alt='' loading='lazy' />
 				</picture>
 			)
 		}
@@ -83,21 +89,21 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 	}
 	.scenario-item_0 {
 		top: 0;
-		left: 0;
-		width: 45.375em;
+		left: 0.125em;
+		width: 45em;
 		height: 48.125em;
 		.scenario-item__caption {
-			left: 0.3125em;
-			bottom: 1.8125em;
+			left: 0.1875em;
+			bottom: 2.25em;
 			max-width: 20.625em;
 		}
 		.scenario-item__hint {
-			top: 25.75em;
-			left: 10.0625em;
+			top: 32.4375em;
+			left: 9em;
 		}
 		.scenario-item__hint__body {
-			top: -4.5em;
-			left: -1.3125em;
+			top: -4.5625em;
+			left: -1.4em;
 
 			width: 19.625em;
 			height: 3.5em;
@@ -106,69 +112,69 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 	}
 	.scenario-item_1 {
 		top: 0;
-		right: -0.3125em;
-		width: 48.75em;
+		right: 0;
+		width: 48.125em;
 		height: 48.125em;
 		.scenario-item__caption {
-			right: 0.5em;
-			bottom: 2.75em;
-			max-width: 21.875em;
+			right: 0.25em;
+			bottom: 3.125em;
+			max-width: 21.8125em;
 		}
 		.scenario-item__hint {
-			top: 12.125em;
-			left: 20.8125em;
+			top: 11.75em;
+			left: 20.5625em;
 		}
 		.scenario-item__hint__body {
-			top: 1em;
-			left: -20.25em;
+			top: 1.125em;
+			left: -20.8125em;
 			width: 20.0625em;
 			height: 4.6875em;
 			transform: rotate(-11.24deg);
 		}
 	}
 	.scenario-item_2 {
-		top: 45.125em;
-		left: -0.25em;
-		width: 51.8125em;
+		top: 45em;
+		left: 0;
+		width: 51.25em;
 		height: 45em;
 		z-index: 4;
 
 		.scenario-item__caption {
-			left: 0.1875em;
-			bottom: 0;
+			left: 0;
+			bottom: 0.25em;
 			max-width: 25.375em;
 		}
 		.scenario-item__hint {
-			top: 20.1875em;
-			left: 17.5em;
+			top: 20em;
+			left: 17.3125em;
 		}
 		.scenario-item__hint__body {
-			top: -2.5em;
-			left: -13.8125em;
+			top: -2.6875em;
+			left: -14.53em;
 			width: 13.4375em;
 			height: 4.75em;
 			transform: rotate(9.51deg);
 		}
 	}
 	.scenario-item_3 {
-		top: 44.9375em;
+		top: 45em;
 		right: 0;
-		width: 45.4375em;
-		height: 45em;
+		width: 45em;
+		height: 48.0625em;
 		z-index: 5;
 		.scenario-item__caption {
-			left: 1.4375em;
-			bottom: 1.6875em;
+			left: 1.125em;
+			bottom: 4.125em;
 			max-width: 36.625em;
 		}
 		.scenario-item__hint {
-			top: 15.375em;
-			left: 25.875em;
+			top: 14.9375em;
+			left: 25.4375em;
 		}
 		.scenario-item__hint__body {
 			padding: 2.125em 1.1875em 0;
-			top: 2.375em;
-			left: 1.375em;
+			top: 3.03em;
+			left: 1.40625em;
 			width: 12.75em;
 			height: 6.5625em;
 			transform: rotate(-15.63deg);
@@ -183,7 +189,7 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 			padding: 1.5em 1.5em 3.5em;
 			display: flex;
 			right: 0;
-			bottom: 1.25em;
+			bottom: 4.125em;
 			background: #f9fafe;
 			max-width: 31.6em;
 			p {
@@ -309,8 +315,8 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 		}
 		.scenario-item_0 {
 			.scenario-item__hint {
-				top: 53.5%;
-				left: 20.8%;
+				top: calc(69.3% - 11px);
+				left: calc(22.8% - 11px);
 			}
 			.scenario-item__hint__body {
 				top: -56px;
@@ -322,8 +328,8 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 		}
 		.scenario-item_1 {
 			.scenario-item__hint {
-				top: 26.6%;
-				left: 38.3%;
+				top: calc(27% - 11px);
+				left: calc(45.3% - 11px);
 			}
 			.scenario-item__hint__body {
 				top: -70px;
@@ -335,8 +341,8 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 		}
 		.scenario-item_2 {
 			.scenario-item__hint {
-				top: 61.5%;
-				left: 25%;
+				top: calc(47.2% - 11px);
+				left: calc(34.3% - 11px);
 			}
 			.scenario-item__hint__body {
 				padding: 10px 12px 10px 21px;
@@ -349,8 +355,8 @@ const desktopBackground = image ? await getImage({ src: image.desktop }) : undef
 		}
 		.scenario-item_3 {
 			.scenario-item__hint {
-				top: 32%;
-				left: 48%;
+				top: calc(36% - 11px);
+				left: calc(59.3% - 11px);
 			}
 			.scenario-item__hint__body {
 				padding: 16px 12px 10px 11px;
