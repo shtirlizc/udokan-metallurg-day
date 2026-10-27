@@ -1,32 +1,54 @@
 ---
 import { getImage } from 'astro:assets';
-import TeamSupportPeopleDesktop from './assets/safety-at-udokan-desktop.webp';
-import TeamSupportPeopleMobile from './assets/safety-at-udokan-mobile.webp';
-const [mobileBackground, desktopBackground] = await Promise.all([
-	getImage({ src: TeamSupportPeopleMobile }),
-	getImage({ src: TeamSupportPeopleDesktop }),
+import SafetyBackground from './assets/safety-at-udokan-bg.webp';
+import SafetyPeople from './assets/safety-at-udokan-people.webp';
+// the stage is 16:9 on desktop; on mobile it keeps its height and is cropped to a centred square
+const widths = [750, 1125, 1500, 2160, 2880];
+const sizes = '(width < 960px) 178vw, 100vw';
+const [background, people] = await Promise.all([
+	getImage({ src: SafetyBackground, widths, quality: 78 }),
+	getImage({ src: SafetyPeople, widths, quality: 78 }),
 ]);
 ---
 
 <section class='safety-at-udokan'>
 	<div class='safety-at-udokan__inner'>
-		<h2 class='safety-at-udokan__title'>Безопасность на Удокане — дело каждого из нас</h2>
+		<h2 class='safety-at-udokan__title'>Безопасность на Удокане — дело каждого из нас</h2>
 		<div class='safety-at-udokan__text'>
 			<p>
-				С 2023 года в компании действует специальная процедура, определяющая критерии поощрения за достижения в области охраны труда: отсутствие травм
+				С 2023 года в компании действует специальная процедура, определяющая критерии поощрения за достижения в области охраны труда: отсутствие травм
 				и несчастных случаев, безопасное состояние рабочих мест, демонстрируемые инициативы в области ОТиПБ.
 			</p>
 			<p>
-				В 2024 году процедуры были дополнены отдельным положением о поощрении работников Управления автотранспортом за соблюдение мер безопасности
+				В 2024 году процедуры были дополнены отдельным положением о поощрении работников Управления автотранспортом за соблюдение мер безопасности
 				дорожного движения. Предусмотрены благодарственные письма от высшего руководства, знаки отличия, корпоративные сувениры и денежные премии.
 			</p>
 		</div>
 	</div>
 	<div class='safety-at-udokan__visual'>
-		<picture class='safety-at-udokan__image'>
-			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-			<img src={mobileBackground.src} alt='' />
-		</picture>
+		<div class='safety-at-udokan__stage'>
+			<img
+				class='safety-at-udokan__bg'
+				src={background.src}
+				srcset={background.srcSet.attribute}
+				sizes={sizes}
+				width={SafetyBackground.width}
+				height={SafetyBackground.height}
+				alt=''
+				loading='lazy'
+			/>
+			<div class='safety-at-udokan__hex' aria-hidden='true'><span></span></div>
+			<img
+				class='safety-at-udokan__people'
+				src={people.src}
+				srcset={people.srcSet.attribute}
+				sizes={sizes}
+				width={SafetyPeople.width}
+				height={SafetyPeople.height}
+				alt=''
+				loading='lazy'
+			/>
+		</div>
 	</div>
 </section>
 
@@ -57,18 +79,61 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 		line-height: 1.4;
 	}
 	.safety-at-udokan__visual {
+		position: relative;
 		margin-top: 108px;
-		display: flex;
 		width: 100%;
-		min-height: 400px;
+		aspect-ratio: 1440 / 810;
+		overflow: hidden;
 	}
-	.safety-at-udokan__image {
-		display: flex;
-		width: 100%;
+	.safety-at-udokan__stage {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		aspect-ratio: 1440 / 810;
+		transform: translateX(-50%);
+	}
+	.safety-at-udokan__bg,
+	.safety-at-udokan__people {
+		position: absolute;
+		display: block;
 		height: auto;
-		img {
+	}
+	.safety-at-udokan__bg {
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+	/* positions from the layout: hexagon 484×559 at 478,125; people 1375×774 at 32,36 on a 1440×810 frame */
+	.safety-at-udokan__people {
+		left: 2.222%;
+		top: 4.444%;
+		width: 95.486%;
+	}
+	.safety-at-udokan__hex {
+		position: absolute;
+		left: 33.194%;
+		top: 15.432%;
+		width: 33.611%;
+		height: 69.012%;
+		perspective: 1400px;
+		span {
+			display: block;
 			width: 100%;
-			height: auto;
+			height: 100%;
+			background: var(--brand-gradient-original);
+			clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+			animation: safety-hex-spin 10s linear infinite;
+		}
+		@media (prefers-reduced-motion: reduce) {
+			span {
+				animation: none;
+			}
+		}
+	}
+	@keyframes safety-hex-spin {
+		to {
+			transform: rotateY(360deg);
 		}
 	}
 	@media (width < 960px) {
@@ -90,6 +155,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([
 		}
 		.safety-at-udokan__visual {
 			margin-top: 40px;
+			aspect-ratio: 1;
 		}
 	}
 </style>

@@ -5,18 +5,18 @@ import RiskMapMobile from './assets/risk-map-mobile.webp';
 const riskPoints = [
 	{
 		title: 'Человек в зоне действия экскаватора.',
-		text: 'Например, водитель выходит из кабины, кто-то подходит убрать просыпь или что-то проверить. Опасен не только ковш, но и задняя часть поворотной платформы с противовесом. При повороте машинист её не видит, и она может прижать человека к самосвалу. Во время погрузки водитель сидит в кабине под козырьком.',
+		text: 'Например, водитель выходит из кабины, кто-то подходит убрать просыпь или что-то проверить. Опасен не только ковш, но и задняя часть поворотной платформы с противовесом. При повороте машинист её не видит, и она может прижать человека к самосвалу. Во время погрузки водитель сидит в кабине под козырьком.',
 	},
 	{
-		title: 'Ковш проносят над кабиной самосвала.',
-		text: 'Грузить положено только сбоку или сзади кузова. Если ковш идёт над кабиной, то при открытии днища раньше времени или срыве крупного куска породы удар приходится прямо на кабину. Защитный козырёк кузова выдерживает отдельные мелкие куски, а содержимое ковша (десятки тонн) он не держит.',
+		title: 'Ковш проносят над кабиной самосвала.',
+		text: 'Грузить положено только сбоку или сзади кузова. Если ковш идёт над кабиной, то при открытии днища раньше времени или срыве крупного куска породы удар приходится прямо на кабину. Защитный козырёк кузова выдерживает отдельные мелкие куски, а содержимое ковша (десятки тонн) он не держит.',
 	},
 	{
 		title: 'Перегруз, неравномерная загрузка и разгрузка с высоты.',
-		text: 'Порода выше бортов падает на дорогу и на встречные машины на съездах. Смещённый на одну сторону груз меняет центр тяжести и повышает риск опрокидывания на уклонах и поворотах. Если высыпать породу с большой высоты или бросить в кузов негабарит, удар придётся на раму и подвеску и передастся водителю в кабину.',
+		text: 'Порода выше бортов падает на дорогу и на встречные машины на съездах. Смещённый на одну сторону груз меняет центр тяжести и повышает риск опрокидывания на уклонах и поворотах. Если высыпать породу с большой высоты или бросить в кузов негабарит, удар придётся на раму и подвеску и передастся водителю в кабину.',
 	},
 	{
-		title: 'Самосвал заезжает под погрузку без сигнала машиниста или не стоит на тормозе. ',
+		title: 'Самосвал заезжает под погрузку без сигнала машиниста или не стоит на тормозе. ',
 		text: 'Самосвал ждёт за пределами радиуса действия экскаватора и въезжает только по сигналу. Если он заедет, пока платформа поворачивается, его ударит ковш или противовес. Если он откатится во время погрузки, ковш промахнётся и порода упадёт мимо кузова.',
 	},
 	{
@@ -25,84 +25,131 @@ const riskPoints = [
 	},
 ];
 
-const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: RiskMapMobile }), getImage({ src: RiskMapDesktop })]);
+const [mobileBackground, desktopBackground] = await Promise.all([
+	getImage({ src: RiskMapMobile, widths: [750, 1125, 1500], quality: 78 }),
+	getImage({ src: RiskMapDesktop, widths: [1440, 2160, 2880], quality: 78 }),
+]);
 ---
 
 <section class='risk-map'>
 	<div class='risk-map__inner'>
 		<aside class='risk-map__aside'>
 			<h2 class='risk-map__title'>Что не так с безопасностью на промплощадке?</h2>
-			<p class='risk-map__text'>Внимательно посмотрите на иллюстрацию и объясните все потенциально опасные ситуации.</p>
-			<div class='risk-map__details' >
+			<p class='risk-map__text'>Внимательно посмотрите на иллюстрацию и объясните все потенциально опасные ситуации.<span class='risk-map__text-hint'> Нажмите на ситуацию, чтобы проверить себя.</span></p>
+			<div class='risk-map__details' aria-live='polite'>
+				<p class='risk-map__placeholder' data-risk-placeholder>Нажмите на красную точку на иллюстрации — здесь появится описание опасной ситуации.</p>
 				<h3 data-risk-display-title></h3>
 				<p data-risk-display-text></p>
 			</div>
 		</aside>
 		<div class='risk-map__scene'>
+			<div class='risk-map__stage'>
 			<div class='risk-map__img'>
 				<picture class='risk-map__image'>
-					<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-					<img src={mobileBackground.src} alt='' />
+					<source
+						media='(min-width: 960px)'
+						srcset={desktopBackground.srcSet.attribute}
+						sizes='min(100vw, calc((100vh - 69px) * 16 / 9))'
+						width={RiskMapDesktop.width}
+						height={RiskMapDesktop.height}
+						type='image/webp'
+					/>
+					<img
+						src={mobileBackground.src}
+						srcset={mobileBackground.srcSet.attribute}
+						sizes='100vw'
+						width={RiskMapMobile.width}
+						height={RiskMapMobile.height}
+						alt=''
+						loading='lazy'
+					/>
 				</picture>
 			</div>
 
 			<div class='risk-map__points'>
-				{riskPoints.map((point) => <button class='risk-map__point' type='button' />)}
+				{
+					riskPoints.map((point, index) => (
+						<button
+							class='risk-map__point'
+							type='button'
+							aria-label={`Опасная ситуация ${index + 1}`}
+							aria-pressed='false'
+							data-title={point.title}
+							data-text={point.text}
+						/>
+					))
+				}
+			</div>
+			</div>
+			<div class='risk-map__bubble' data-risk-bubble hidden>
+				<button class='risk-map__bubble-close' type='button' aria-label='Закрыть' data-risk-bubble-close>×</button>
+				<h3 data-risk-bubble-title></h3>
+				<p data-risk-bubble-text></p>
 			</div>
 		</div>
 	</div>
 </section>
 
 <script>
-	const map = document.querySelector('.risk-map');
-	const riskPoints = [
-		{
-			title: 'Человек в зоне действия экскаватора.',
-			text: 'Например, водитель выходит из кабины, кто-то подходит убрать просыпь или что-то проверить. Опасен не только ковш, но и задняя часть поворотной платформы с противовесом. При повороте машинист её не видит, и она может прижать человека к самосвалу. Во время погрузки водитель сидит в кабине под козырьком.',
-		},
-		{
-			title: 'Ковш проносят над кабиной самосвала.',
-			text: 'Грузить положено только сбоку или сзади кузова. Если ковш идёт над кабиной, то при открытии днища раньше времени или срыве крупного куска породы удар приходится прямо на кабину. Защитный козырёк кузова выдерживает отдельные мелкие куски, а содержимое ковша (десятки тонн) он не держит.',
-		},
-		{
-			title: 'Перегруз, неравномерная загрузка и разгрузка с высоты.',
-			text: 'Порода выше бортов падает на дорогу и на встречные машины на съездах. Смещённый на одну сторону груз меняет центр тяжести и повышает риск опрокидывания на уклонах и поворотах. Если высыпать породу с большой высоты или бросить в кузов негабарит, удар придётся на раму и подвеску и передастся водителю в кабину.',
-		},
-		{
-			title: 'Самосвал заезжает под погрузку без сигнала машиниста или не стоит на тормозе. ',
-			text: 'Самосвал ждёт за пределами радиуса действия экскаватора и въезжает только по сигналу. Если он заедет, пока платформа поворачивается, его ударит ковш или противовес. Если он откатится во время погрузки, ковш промахнётся и порода упадёт мимо кузова.',
-		},
-		{
-			title: 'Наезд на силовой кабель экскаватора.',
-			text: 'Экскаватор электрический: сзади виден кабельный барабан, питание идёт по высоковольтному кабелю. Переезжать кабель можно только по специальным кабельным переездам. Колесо гружёного самосвала продавливает изоляцию, что грозит пробоем, напряжением на корпусе или грунте, поражением током и пожаром.',
-		},
-	];
-	let activeIndex = -1;
+	const map = document.querySelector<HTMLElement>('.risk-map');
 	if (map) {
 		const title = map.querySelector<HTMLElement>('[data-risk-display-title]');
 		const text = map.querySelector<HTMLElement>('[data-risk-display-text]');
+		const placeholder = map.querySelector<HTMLElement>('[data-risk-placeholder]');
+		const scene = map.querySelector<HTMLElement>('.risk-map__scene');
+		const bubble = map.querySelector<HTMLElement>('[data-risk-bubble]');
+		const bubbleTitle = map.querySelector<HTMLElement>('[data-risk-bubble-title]');
+		const bubbleText = map.querySelector<HTMLElement>('[data-risk-bubble-text]');
 		const points = map.querySelectorAll<HTMLButtonElement>('.risk-map__point');
+		const mobile = window.matchMedia('(width < 960px)');
 
-		points.forEach((point, index) => {
-			point.addEventListener('click', () => {
-				activeIndex = index;
-				const selectedTitle = riskPoints[index].title;
-				const selectedText = riskPoints[index].text;
-				if (!title || !text || !selectedTitle || !selectedText) {
-					return;
+		const setActive = (active: HTMLButtonElement | null) => {
+			points.forEach((item) => {
+				const isActive = item === active;
+				item.classList.toggle('risk-map__point--active', isActive);
+				item.setAttribute('aria-pressed', String(isActive));
+			});
+		};
+
+		const closeBubble = () => {
+			if (!bubble) return;
+			bubble.hidden = true;
+			setActive(null);
+		};
+
+		// on mobile the description appears next to the point, like the characters' speech bubbles
+		const openBubble = (point: HTMLButtonElement) => {
+			if (!bubble || !scene || !bubbleTitle || !bubbleText) return;
+			bubbleTitle.textContent = point.dataset.title ?? '';
+			bubbleText.textContent = point.dataset.text ?? '';
+			bubble.hidden = false;
+			const sceneRect = scene.getBoundingClientRect();
+			const pointRect = point.getBoundingClientRect();
+			const x = pointRect.left + pointRect.width / 2 - sceneRect.left;
+			const y = pointRect.top + pointRect.height / 2 - sceneRect.top;
+			const below = y < sceneRect.height / 2;
+			bubble.classList.toggle('risk-map__bubble--below', below);
+			bubble.style.top = below ? `${y + 26}px` : '';
+			bubble.style.bottom = below ? '' : `${sceneRect.height - y + 26}px`;
+			bubble.style.setProperty('--tail-x', `${x - bubble.offsetLeft}px`);
+		};
+
+		points.forEach((point) => {
+			point.addEventListener('click', (event) => {
+				event.stopPropagation();
+				setActive(point);
+				if (title && text && placeholder) {
+					placeholder.hidden = true;
+					title.textContent = point.dataset.title ?? '';
+					text.textContent = point.dataset.text ?? '';
 				}
-
-				title.textContent = selectedTitle;
-				text.textContent = selectedText;
-				points.forEach((item, id) => {
-					if (id === activeIndex) {
-						item.classList.add('risk-map__point--active');
-					} else {
-						item.classList.remove('risk-map__point--active');
-					}
-				});
+				if (mobile.matches) openBubble(point);
 			});
 		});
+
+		map.querySelector('[data-risk-bubble-close]')?.addEventListener('click', closeBubble);
+		document.addEventListener('click', () => bubble && !bubble.hidden && closeBubble());
+		mobile.addEventListener('change', () => bubble && (bubble.hidden = true));
 	}
 </script>
 
@@ -115,7 +162,7 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 	}
 
 	.risk-map__text {
-		margin-top: 32px;
+		margin-top: 20px;
 		font-size: 16px;
 		line-height: 120%;
 		font-weight: 500;
@@ -128,21 +175,17 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 	}
 
 	.risk-map__aside {
-		position: absolute;
-		top: 0;
-		left: 0;
-		padding: 20px;
-		height: 100%;
-		width: 473px;
-		z-index: 10;
+		display: flex;
+		flex-direction: column;
 		background: #e5ecfd;
 	}
 	.risk-map__details {
-		min-height: 291px;
-		margin-top: 56px;
+		flex: 0 1 291px;
+		min-height: 120px;
+		margin-top: 40px;
 		padding: 18px;
-		background: var(--bg-20);
-		border: 2px dashed #bb2014;
+		overflow: auto;
+		border: 2px dashed #182939;
 		border-radius: 10px;
 		font-size: 16px;
 		line-height: 120%;
@@ -155,10 +198,18 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 			margin: 0;
 		}
 	}
+	/* on desktop the dashed box already says it; on mobile there is no box */
+	.risk-map__text-hint {
+		@media (width >= 960px) {
+			display: none;
+		}
+	}
+	.risk-map__placeholder {
+		color: rgba(25, 50, 75, 0.6);
+	}
 	.risk-map__inner {
 		position: relative;
 		width: 100%;
-		max-width: 1440px;
 	}
 	.risk-map__img {
 		display: flex;
@@ -178,11 +229,77 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		height: 100%;
 		z-index: 10;
 	}
-	.risk-map__scene {
+	.risk-map__scene,
+	.risk-map__stage {
 		position: relative;
 		width: 100%;
-		min-height: 260px;
+	}
+	.risk-map__scene {
 		background: #b6c4ce;
+	}
+
+	/*
+	 * Desktop, as in the layout: the panel sits on the left over the art, the art is anchored to the right edge.
+	 * The 16:9 stage is as tall as the screen under the fixed header allows;
+	 * its left 32.85% is always covered by the panel, so the scene shows only the right part and the panel takes
+	 * whatever width is left. Hotspots keep their percentages because they live on the full stage.
+	 */
+	@media (width >= 960px) {
+		.risk-map {
+			--stage-h: min(calc(100vh - 69px), 56.25vw);
+			--stage-w: calc(var(--stage-h) * 16 / 9);
+		}
+		.risk-map__inner {
+			display: flex;
+			justify-content: flex-end;
+			max-width: none;
+		}
+		.risk-map__aside {
+			flex: 1 1 auto;
+			min-width: 0;
+			padding: 20px 32px 20px max(20px, calc((100vw - 1440px) / 2 + 20px));
+			& > * {
+				max-width: 433px;
+			}
+		}
+		.risk-map__scene {
+			flex: none;
+			align-self: stretch;
+			width: calc(var(--stage-w) * 0.6715);
+			min-height: var(--stage-h);
+			overflow: hidden;
+		}
+		/* if the panel text is taller than the art, the stage grows with the block instead of leaving a gap */
+		.risk-map__stage {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: auto;
+			height: 100%;
+			aspect-ratio: 16 / 9;
+		}
+		.risk-map__img {
+			height: 100%;
+			picture,
+			img {
+				height: 100%;
+			}
+		}
+	}
+	@media (960px <= width < 1200px) {
+		.risk-map__title {
+			font-size: 28px;
+		}
+		.risk-map__text {
+			font-size: 15px;
+		}
+		.risk-map__details {
+			padding: 14px;
+			font-size: 15px;
+			h3 {
+				margin-bottom: 12px;
+			}
+		}
 	}
 	.risk-map__point {
 		position: absolute;
@@ -202,22 +319,28 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			width: 42px;
-			height: 42px;
+			width: 24px;
+			height: 24px;
 			border-radius: 50%;
-			background: rgba(164, 28, 17, 0.5);
-			filter: blur(2px);
+			background: rgba(255, 43, 31, 0.35);
+			border: 3px solid #ff2b1f;
+			box-shadow: 0 0 10px rgba(255, 43, 31, 0.9);
+			box-sizing: border-box;
 			z-index: -1;
 			transition: background ease 0.15s;
+			animation: risk-point-pulse 1.6s ease-out infinite;
 		}
 		&::after {
 			position: absolute;
 			content: '';
 			inset: 0;
 			box-sizing: border-box;
-			background: #bb2014;
-			border: 1px solid #ffffff;
+			background: #ff2b1f;
+			border: 2px solid #ffffff;
 			border-radius: 50%;
+			box-shadow:
+				0 0 0 2px rgba(255, 43, 31, 0.45),
+				0 0 12px 2px rgba(255, 43, 31, 0.8);
 			z-index: 0;
 			transition:
 				border ease 0.15s,
@@ -229,11 +352,29 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		&.risk-map__point--active {
 			&::before {
 				background: rgba(255, 255, 255, 0.5);
+				animation: none;
 			}
 			&::after {
 				background: #ffffff;
-				border: 1px solid #112233;
+				border: 2px solid #112233;
+				box-shadow: 0 0 12px 2px rgba(255, 255, 255, 0.8);
 			}
+		}
+	}
+	@keyframes risk-point-pulse {
+		0% {
+			transform: translate(-50%, -50%) scale(1);
+			opacity: 1;
+		}
+		80%,
+		100% {
+			transform: translate(-50%, -50%) scale(3.2);
+			opacity: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.risk-map__point::before {
+			animation: none;
 		}
 	}
 
@@ -244,33 +385,146 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 	.risk-map__point:nth-child(2) {
 		top: 26.3%;
 		left: 65.4%;
+		&::before {
+			animation-delay: 0.35s;
+		}
 	}
 	.risk-map__point:nth-child(3) {
 		top: 41.4%;
 		left: 80.9%;
+		&::before {
+			animation-delay: 0.7s;
+		}
 	}
 	.risk-map__point:nth-child(4) {
 		top: 55.3%;
 		left: 60.8%;
+		&::before {
+			animation-delay: 1.05s;
+		}
 	}
 	.risk-map__point:nth-child(5) {
 		top: 83.6%;
 		left: 67.7%;
+		&::before {
+			animation-delay: 1.4s;
+		}
+	}
+
+	.risk-map__bubble {
+		display: none;
 	}
 
 	@media (width < 960px) {
-		.risk-map__scene{
-			min-height: auto;
-		}
 		.risk-map__inner {
 			display: flex;
-			flex-direction: column-reverse;
-		}
-		.risk-map__aside{
-			width: 100%;
+			flex-direction: column;
+			max-width: none;
+			padding: 80px 0 0;
 		}
 		.risk-map__aside {
-			position: relative;
+			display: contents;
+		}
+		.risk-map__title,
+		.risk-map__text {
+			padding: 0 20px;
+		}
+		.risk-map__title {
+			font-size: 34px;
+			line-height: 36px;
+		}
+		.risk-map__text {
+			margin: 16px 0 40px;
+			font-size: 17px;
+			line-height: 26px;
+			font-weight: 400;
+		}
+		.risk-map__details {
+			display: none;
+		}
+		.risk-map__scene {
+			min-height: auto;
+		}
+		.risk-map__point {
+			transform: translate(-50%, -50%);
+		}
+		.risk-map__point:nth-child(1) {
+			top: 66.1%;
+			left: 16.7%;
+		}
+		.risk-map__point:nth-child(2) {
+			top: 28%;
+			left: 55.9%;
+		}
+		.risk-map__point:nth-child(3) {
+			top: 43.3%;
+			left: 83.4%;
+		}
+		.risk-map__point:nth-child(4) {
+			top: 56.9%;
+			left: 47.5%;
+		}
+		.risk-map__point:nth-child(5) {
+			top: 85.2%;
+			left: 59.8%;
+		}
+		.risk-map__bubble {
+			position: absolute;
+			display: block;
+			left: 12px;
+			right: 12px;
+			max-width: 520px;
+			margin: 0 auto;
+			padding: 14px 40px 16px 16px;
+			background: var(--color-white);
+			color: var(--black-100);
+			box-shadow: 0 12px 32px rgba(11, 32, 52, 0.28);
+			z-index: 20;
+			/* taps go through to the points underneath, only the close button is interactive */
+			pointer-events: none;
+			h3 {
+				margin: 0 0 8px;
+				font-size: 16px;
+				line-height: 120%;
+			}
+			p {
+				margin: 0;
+				font-size: 14px;
+				line-height: 130%;
+			}
+			/* tail pointing at the tapped point */
+			&::after {
+				position: absolute;
+				content: '';
+				left: clamp(16px, var(--tail-x, 50%), calc(100% - 16px));
+				bottom: -9px;
+				width: 18px;
+				height: 18px;
+				background: inherit;
+				transform: translateX(-50%) rotate(45deg);
+			}
+			&.risk-map__bubble--below::after {
+				top: -9px;
+				bottom: auto;
+			}
+			&[hidden] {
+				display: none;
+			}
+		}
+		.risk-map__bubble-close {
+			position: absolute;
+			top: 6px;
+			right: 6px;
+			width: 32px;
+			height: 32px;
+			padding: 0;
+			border: 0;
+			background: transparent;
+			color: inherit;
+			font-size: 24px;
+			line-height: 1;
+			cursor: pointer;
+			pointer-events: auto;
 		}
 	}
 </style>

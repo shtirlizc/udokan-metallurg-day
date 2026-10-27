@@ -19,10 +19,16 @@ import Closing from "../../components/safety-workers-processes/closing.astro";
 
 const title = "Безопасность работников и процессов";
 const description =
-  "Статья о безопасности работников и производственных процессов на Удокане.";
+  "Начинаем серию статей, посвященных «Кодексу Удокана», нашим корпоративным ценностям и их воплощению в реальных рабочих процессах и ситуациях. Сегодня в фокусе — приоритет безопасности жизни и здоровья сотрудников.";
 ---
 
-<MainLayout title={title} description={description}>
+<MainLayout
+  title={title}
+  description={description}
+  coverSrc="/safety-article-cover.jpg"
+  coverAlt="Сотрудники Удокана в касках и защитных очках — «Безопасность работников и процессов»"
+  ogType="article"
+>
   <Progress />
   <main class="safety-article">
     <ArticleHeader />

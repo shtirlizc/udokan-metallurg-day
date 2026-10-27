@@ -121,7 +121,7 @@ const questionsCount = questionNumbers.length;
     }
 
     /* desktop */
-    @media (width >= 960px) {
+    @media (width >= 960px) and (orientation: landscape) {
       align-items: center;
     }
 
@@ -136,7 +136,7 @@ const questionsCount = questionNumbers.length;
       opacity: 0;
       transform: translateY(24px);
 
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         height: min(82dvh, 46vw);
       }
 
@@ -160,7 +160,7 @@ const questionsCount = questionNumbers.length;
         display: none;
       }
 
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         .message__chars-mobile {
           display: none;
         }
@@ -223,7 +223,7 @@ const questionsCount = questionNumbers.length;
 
     & .message__result {
       /* desktop */
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         padding-top: var(--space20);
       }
 
@@ -236,7 +236,7 @@ const questionsCount = questionNumbers.length;
         margin-top: 116px;
 
         /* desktop */
-        @media (width >= 960px) {
+        @media (width >= 960px) and (orientation: landscape) {
           margin-top: 0;
           gap: var(--space48);
         }
@@ -261,7 +261,7 @@ const questionsCount = questionNumbers.length;
         margin-top: var(--space44);
 
         /* desktop */
-        @media (width >= 960px) {
+        @media (width >= 960px) and (orientation: landscape) {
           font-size: 60px;
           margin-top: var(--space40);
         }
@@ -276,7 +276,7 @@ const questionsCount = questionNumbers.length;
       margin-bottom: var(--space36);
 
       /* desktop */
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         max-width: 520px;
         margin-top: var(--space16);
         margin-bottom: var(--space32);
@@ -293,13 +293,13 @@ const questionsCount = questionNumbers.length;
   import { setSafetyResultCharacters } from "../../scripts/safety-result-characters";
 
   const RESULT_ZERO =
-    "Рефлекс пока не выработан, попробуй ещё раз! Берегите свою жизнь и здоровье своих коллег.";
+    "Рефлекс пока не выработан, попробуйте ещё раз! Берегите свою жизнь и здоровье своих коллег.";
   const RESULT_C =
-    "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег.";
+    "Рефлекс пока не выработан, но вы на верном пути! Берегите свою жизнь и здоровье своих коллег.";
   const RESULT_B =
-    "Ценим ваши старания сделать пространство вокруг безопаснее! Осталось немного подучиться, и вы станете настоящим асом в вопросах охраны труда.";
+    "Ценим ваши старания сделать пространство вокруг безопаснее! Осталось немного подучиться, и вы станете настоящим асом в вопросах охраны труда.";
   const RESULT_A =
-    "Вы настоящий мастер безопасности и подлинный человек Удокана! С вами комфортно работать плечом к плечу и в офисе, и на промплощадке. Так держать!";
+    "Вы настоящий мастер безопасности и подлинный человек Удокана! С вами комфортно работать плечом к плечу и в офисе, и на промплощадке. Так держать!";
 
   async function initSafetyQuizResult() {
     const resultElement =

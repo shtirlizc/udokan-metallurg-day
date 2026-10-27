@@ -44,7 +44,7 @@ const {
       >
         <picture class="bg__image" data-transition-image>
           <source
-            media="(min-width: 960px), (orientation: landscape)"
+            media="(orientation: landscape), (min-width: 768px)"
             srcset={desktopBackgroundSrc}
             width="1440"
             height="810"
@@ -68,7 +68,7 @@ const {
       >
         <picture data-transition-image>
           <source
-            media="(min-width: 960px), (orientation: landscape)"
+            media="(orientation: landscape), (min-width: 768px)"
             srcset={desktopCharsSrc}
             width="1440"
             height="810"
@@ -112,7 +112,7 @@ const {
     }
 
     /* desktop */
-    @media (width >= 960px) {
+    @media (width >= 960px) and (orientation: landscape) {
       height: 100vh;
       grid-template-rows: none;
       grid-template-columns: 473px 1fr;
@@ -120,7 +120,7 @@ const {
     }
 
     &.question--split {
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         grid-template-rows: minmax(0, 1fr);
         grid-template-columns: 473px minmax(0, 1fr);
 
@@ -155,7 +155,7 @@ const {
       }
 
       /* desktop */
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -229,7 +229,7 @@ const {
     }
 
     /* desktop */
-    @media (width >= 960px) {
+    @media (width >= 960px) and (orientation: landscape) {
       height: 100%;
       border-radius: 0;
       padding: 0;

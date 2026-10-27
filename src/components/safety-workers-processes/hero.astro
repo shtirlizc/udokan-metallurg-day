@@ -1,13 +1,12 @@
 ---
 import { getImage } from 'astro:assets';
 import HeroBgDesktop from './assets/hero-bg-desktop.webp';
-import HeroBgMobile from './assets/hero-bg-desktop.webp';
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
-const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: HeroBgMobile }), getImage({ src: HeroBgDesktop })]);
+const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: HeroBgDesktop, widths: [760, 1140, 1280], quality: 78 }), getImage({ src: HeroBgDesktop, quality: 78 })]);
 ---
 
 <section class='hero'>
@@ -15,10 +14,10 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		<h1 id='article-title'>{title}</h1>
 		<p class='hero__text'>
 			Начинаем серию статей, посвященных «Кодексу Удокана», нашим корпоративным ценностям и их воплощению в реальных рабочих процессах и ситуациях.
-			Сегодня в фокусе — приоритет безопасности жизни и здоровья сотрудников.
+			Сегодня в фокусе — приоритет безопасности жизни и здоровья сотрудников.
 		</p>
 		<a class='hero__link' href='#values'>
-			Разобраться на примерах <span>↓</span>
+			Разобраться на примерах <span>↓</span>
 		</a>
 	</div>
 	<div class='hero__background'>
@@ -35,7 +34,14 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		<div class='hero__image'>
 			<picture>
 				<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-				<img src={mobileBackground.src} alt='' />
+				<img
+					src={mobileBackground.src}
+					srcset={mobileBackground.srcSet.attribute}
+					sizes='(width < 600px) 380px, 640px'
+					width={HeroBgDesktop.width}
+					height={HeroBgDesktop.height}
+					alt=''
+				/>
 			</picture>
 		</div>
 	</div>
@@ -310,6 +316,16 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 		.hero__footer {
 			bottom: -1px;
 			width: 100%;
+		}
+	}
+	/* tablet: bigger characters on the first screen */
+	@media (600px <= width < 960px) {
+		.hero {
+			min-height: 1060px;
+		}
+		.hero__image {
+			width: 640px;
+			height: 603px;
 		}
 	}
 </style>

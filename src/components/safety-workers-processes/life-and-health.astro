@@ -1,9 +1,11 @@
 ---
 import { getImage } from 'astro:assets';
 import LHImgDesktop from './assets/lh-img-desktop.webp';
-import LHImgMobile from './assets/lh-img-desktop.webp';
 
-const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src: LHImgMobile }), getImage({ src: LHImgDesktop })]);
+const [mobileBackground, desktopBackground] = await Promise.all([
+	getImage({ src: LHImgDesktop, widths: [750, 1125, 1500], quality: 78 }),
+	getImage({ src: LHImgDesktop, widths: [1440, 2160, 2880], quality: 78 }),
+]);
 ---
 
 <section class='life-health'>
@@ -16,8 +18,16 @@ const [mobileBackground, desktopBackground] = await Promise.all([getImage({ src:
 	<div class='life-health__inner'>
 		<h2 class='life-health__title'>Жизнь и здоровье всегда перевешивают</h2>
 		<picture class='life-health__img'>
-			<source media='(min-width: 960px)' srcset={desktopBackground.src} type='image/webp' />
-			<img src={mobileBackground.src} alt='' />
+			<source media='(min-width: 960px)' srcset={desktopBackground.srcSet.attribute} sizes='100vw' type='image/webp' />
+			<img
+				src={mobileBackground.src}
+				srcset={mobileBackground.srcSet.attribute}
+				sizes='100vw'
+				width={LHImgDesktop.width}
+				height={LHImgDesktop.height}
+				alt=''
+				loading='lazy'
+			/>
 		</picture>
 		<div class='life-health__text'>
 			<p>

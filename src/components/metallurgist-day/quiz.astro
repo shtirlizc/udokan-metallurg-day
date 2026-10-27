@@ -91,7 +91,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}/`;
     }
 
     /* desktop */
-    @media (width >= 960px) {
+    @media (width >= 960px) and (orientation: landscape) {
       & .quiz__scroll-cue {
         display: none;
       }
@@ -140,7 +140,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}/`;
         font: var(--font-text-medium);
 
         /* desktop */
-        @media (width >= 960px) {
+        @media (width >= 960px) and (orientation: landscape) {
           margin-top: var(--space32);
         }
       }
@@ -155,7 +155,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}/`;
       padding: var(--quiz-body-padding);
 
       /* desktop */
-      @media (width >= 960px) {
+      @media (width >= 960px) and (orientation: landscape) {
         margin-top: var(--space24);
         gap: var(--space8);
       }
@@ -323,7 +323,7 @@ const nextPageHref = `${quizBasePaths[question.collection]}/${nextPage}/`;
   }
 
   function scrollToQuizBottom() {
-    if (!window.matchMedia("(max-width: 959px)").matches) return;
+    if (!window.matchMedia("(max-width: 959px), (orientation: portrait)").matches) return;
 
     requestAnimationFrame(() => {
       const scrollContainer =
