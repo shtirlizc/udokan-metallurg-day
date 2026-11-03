@@ -178,8 +178,9 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		z-index: 5;
 		.scenario-item__caption {
 			left: 1.125em;
-			bottom: 4.125em;
-			max-width: 36.625em;
+			bottom: 3.25em;
+			/* must fit the white cut-out in the bottom left of the picture */
+			max-width: 23.5em;
 		}
 		.scenario-item__hint {
 			top: 14.9375em;
@@ -209,6 +210,14 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			p {
 				line-height: 140%;
 			}
+		}
+	}
+	/* the picture already has a slanted white cut-out under these captions:
+	   a rectangular background would stick out of its edges */
+	@media (width >= 960px) {
+		.scenario-item_3 .scenario-item__caption,
+		.scenario-item_4 .scenario-item__caption {
+			background: transparent;
 		}
 	}
 	.scenario-item__icon {
