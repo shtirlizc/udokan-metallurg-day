@@ -111,16 +111,10 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		width: 45em;
 		height: 48.0625em;
 		z-index: 5;
-		/* flush with the bottom of the picture, left side follows its slanted edge */
 		.scenario-item__caption {
-			left: 0;
-			bottom: 3.36em;
-			max-width: 25em;
-
-			@media (width >= 960px) {
-				padding-left: 2.5em;
-				clip-path: polygon(2em 0, 100% 0, 100% 100%, 0.7em 100%);
-			}
+			left: 1.125em;
+			bottom: 3.25em;
+			max-width: 23.5em;
 		}
 	}
 	.scenario-item_4 {
@@ -140,16 +134,19 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			}
 		}
 	}
-	/* the caption continues the slanted cut-out of the picture down to its bottom edge */
+	/* these pictures have a white cut-out drawn for the caption: the text sits in it without a background */
 	@media (width >= 960px) {
+		.scenario-item_0 .scenario-item__caption,
+		.scenario-item_3 .scenario-item__caption,
 		.scenario-item_4 .scenario-item__caption {
-			top: 60%;
+			background: transparent;
+		}
+		.scenario-item_4 .scenario-item__caption {
+			top: 55%;
 			left: 64.5%;
 			bottom: 0;
 			max-width: none;
-			padding: 4.5em 3em 1.5em 1.5em;
-			background: #f9fbfc;
-			clip-path: polygon(0 10.5%, 100% 0, 100% 100%, 1.2% 100%);
+			padding: 2em 3em 1.5em 2em;
 		}
 	}
 	.scenario-item__icon {
