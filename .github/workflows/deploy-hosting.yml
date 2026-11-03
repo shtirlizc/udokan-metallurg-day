@@ -2,7 +2,7 @@ name: Deploy to мы-удокан.рф
 
 # Push to `production` (or run manually) → build for the site root → upload over SFTP.
 # Repository secrets: SFTP_USER, SFTP_PASSWORD.
-# Repository variable (optional): SFTP_PATH — the site folder on the server.
+# Repository variable (optional): SFTP_PATH — the site folder on the server (default: the login folder, which is the site root).
 
 on:
   push:
@@ -39,7 +39,7 @@ jobs:
         env:
           SFTP_USER: ${{ secrets.SFTP_USER }}
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
-          SFTP_PATH: ${{ vars.SFTP_PATH || 'xn----8sblyhke2b8d.xn--p1ai' }}
+          SFTP_PATH: ${{ vars.SFTP_PATH || '.' }}
         run: |
           if [ -z "$SFTP_USER" ] || [ -z "$SFTP_PASSWORD" ]; then
             echo "::error::Add SFTP_USER and SFTP_PASSWORD in Settings → Secrets and variables → Actions"
@@ -50,8 +50,5 @@ jobs:
           lftp -u "$SFTP_USER,$SFTP_PASSWORD" sftp://legko.sparse.ru:22 -e "
             set sftp:auto-confirm yes;
             set net:max-retries 3;
-            pwd;
-            cls -1 --classify;
-            cls -1 --classify $SFTP_PATH;
             mirror --reverse --only-newer --parallel=4 --verbose dist/ $SFTP_PATH;
             bye"
