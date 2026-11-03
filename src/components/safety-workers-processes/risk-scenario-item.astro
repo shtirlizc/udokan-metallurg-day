@@ -111,10 +111,16 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		width: 45em;
 		height: 48.0625em;
 		z-index: 5;
+		/* flush with the bottom of the picture, left side follows its slanted edge */
 		.scenario-item__caption {
-			left: 1.125em;
-			bottom: 3.25em;
-			max-width: 23.5em;
+			left: 0;
+			bottom: 3.36em;
+			max-width: 25em;
+
+			@media (width >= 960px) {
+				padding-left: 2.5em;
+				clip-path: polygon(2em 0, 100% 0, 100% 100%, 0.7em 100%);
+			}
 		}
 	}
 	.scenario-item_4 {
@@ -134,11 +140,16 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			}
 		}
 	}
-	/* the picture already has a slanted white cut-out under this caption:
-	   a rectangular background would stick out of its edges */
+	/* the caption continues the slanted cut-out of the picture down to its bottom edge */
 	@media (width >= 960px) {
 		.scenario-item_4 .scenario-item__caption {
-			background: transparent;
+			top: 60%;
+			left: 64.5%;
+			bottom: 0;
+			max-width: none;
+			padding: 4.5em 3em 1.5em 1.5em;
+			background: #f9fbfc;
+			clip-path: polygon(0 10.5%, 100% 0, 100% 100%, 1.2% 100%);
 		}
 	}
 	.scenario-item__icon {
