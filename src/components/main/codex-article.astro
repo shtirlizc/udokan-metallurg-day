@@ -1,11 +1,11 @@
 ---
 import charsImg from "./assets/codex-chars.webp";
-import { withBase } from "../../utils/paths.ts";
 import { Image } from "astro:assets";
 import Tag from "../tag.astro";
 ---
 
-<section class="codex-article" data-tile-reveal>
+<!-- The article is temporarily unpublished: the card stays, greyed out and not clickable. -->
+<section class="codex-article codex-article--disabled" data-tile-reveal>
   <div class="codex-article__bg"></div>
 
   <div class="codex-article__head">
@@ -24,10 +24,6 @@ import Tag from "../tag.astro";
   <div class="codex-article__chars">
     <Image src={charsImg} widths={[480, 720, 1080, 1440]} sizes="(width < 960px) 100vw, 50vw" alt="" />
   </div>
-
-  <a href={withBase("/безопасность-работников-и-процессов/")}>
-    Кодекс Удокана
-  </a>
 </section>
 
 <style>
@@ -37,7 +33,12 @@ import Tag from "../tag.astro";
     flex-direction: column;
     overflow: hidden;
 
-    &:hover .codex-article__chars {
+    &.codex-article--disabled {
+      filter: grayscale(1);
+      opacity: 0.6;
+    }
+
+    &:not(.codex-article--disabled):hover .codex-article__chars {
       --chars-scale: 1.05;
 
       transition:
@@ -160,13 +161,6 @@ import Tag from "../tag.astro";
         transform: none;
         transition: none;
       }
-    }
-
-    a {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      font-size: 0;
     }
   }
 </style>

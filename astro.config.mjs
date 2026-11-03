@@ -1,16 +1,21 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
+import { loadEnv } from "vite";
 
-const base = "/udokan-metallurg-day";
+// Environment variables (no prefix filter), without relying on Node typings.
+const env = loadEnv("production", ".", "");
+
+// The hosting build (мы-удокан.рф) overrides these, see .github/workflows/deploy-hosting.yml
+const base = env.SITE_BASE ?? "/udokan-metallurg-day";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://shtirlizc.github.io",
+  site: env.SITE_URL ?? "https://shtirlizc.github.io",
   base,
   trailingSlash: "ignore",
   // site: 'https://мы-удокан.рф',
   redirects: {
-    "/404": `${base}/`,
+    "/404": `${base.replace(/\/$/, "")}/`,
   },
   fonts: [
     {

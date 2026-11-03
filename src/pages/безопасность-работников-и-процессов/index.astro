@@ -16,6 +16,10 @@ import TrafficStats from "../../components/safety-workers-processes/traffic-stat
 import SafetyAtUdokan from "../../components/safety-workers-processes/safety-at-udokan.astro";
 import Commitments from "../../components/safety-workers-processes/commitments.astro";
 import Closing from "../../components/safety-workers-processes/closing.astro";
+import { withBase } from "../../utils/paths";
+
+// The article is temporarily unpublished: old links lead to the home page.
+return Astro.redirect(withBase("/"));
 
 const title = "Безопасность работников и процессов";
 const description =
