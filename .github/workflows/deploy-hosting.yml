@@ -50,5 +50,8 @@ jobs:
           lftp -u "$SFTP_USER,$SFTP_PASSWORD" sftp://legko.sparse.ru:22 -e "
             set sftp:auto-confirm yes;
             set net:max-retries 3;
+            pwd;
+            cls -1 --classify;
+            cls -1 --classify $SFTP_PATH;
             mirror --reverse --only-newer --parallel=4 --verbose dist/ $SFTP_PATH;
             bye"
