@@ -11,7 +11,7 @@
 
 :root {
   scroll-behavior: smooth;
-  background-color: var(--color-white);
+  background-color: var(--white-0);
   color: var(--black-100);
   line-height: 120%;
   font-weight: 400;
