@@ -75,7 +75,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		left: 0.125em;
 		width: 45em;
 		height: 48.125em;
-		z-index: 2;
 		.scenario-item__caption {
 			left: 0.1875em;
 			bottom: 2.25em;
@@ -98,13 +97,11 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		left: 0;
 		width: 51.25em;
 		height: 45em;
-		/* lies under the neighbouring pictures above and below */
-		z-index: 1;
+		z-index: 4;
 
-		/* above the edge of the bottom picture, which overlaps this one */
 		.scenario-item__caption {
 			left: 0;
-			bottom: 4.5em;
+			bottom: 0.25em;
 			max-width: 25.375em;
 		}
 	}
