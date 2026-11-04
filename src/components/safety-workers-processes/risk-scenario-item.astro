@@ -11,16 +11,11 @@ interface Props {
 		mobile: ImageMetadata;
 		desktop: ImageMetadata;
 	};
-	hint?: {
-		text: string;
-		bubble: {
-			mobile: ImageMetadata;
-			desktop: ImageMetadata;
-		};
-	};
+	/** Speech bubble drawn on the picture, repeated for screen readers. */
+	quote?: string;
 }
 
-const { title, text, image, index, hint, attention } = Astro.props;
+const { title, text, image, index, quote, attention } = Astro.props;
 const mobileBackground = image ? await getImage({ src: image.mobile, widths: [750, 1125, 1500, 1800], quality: 78 }) : undefined;
 const desktopBackground = image
 	? await getImage({ src: image.desktop, widths: [image.desktop.width / 2, image.desktop.width], quality: 78 })
@@ -49,36 +44,10 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 						sizes='100vw'
 						width={image.mobile.width}
 						height={image.mobile.height}
-						alt=''
+						alt={quote ?? ''}
 						loading='lazy'
 					/>
 				</picture>
-			)
-		}
-		{
-			hint && (
-				<div class:list={['scenario-item__hint']}>
-					<div class='scenario-item__hint__body'>
-						<picture class='scenario-item__hint__bubble' >
-							<source media='(min-width: 960px)' srcset={hint.bubble.desktop.src} type='image/svg+xml' />
-							<img src={hint.bubble.mobile.src} alt='' />
-						</picture>
-						<p>{hint.text}</p>
-					</div>
-					<div class='scenario-item__hint__icon'>
-						<svg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
-							<circle cx='20' cy='20' r='20' fill='url(#paint0_linear_2266_4267)' />
-							<path d='M25.3047 15.1934L14.6981 25.8' stroke='white' stroke-width='3' />
-							<path d='M25.3047 25.7998L14.6981 15.1932' stroke='white' stroke-width='3' />
-							<defs>
-								<linearGradient id='paint0_linear_2266_4267' x1='20' y1='0' x2='20' y2='40' gradientUnits='userSpaceOnUse'>
-									<stop stop-color='#FF4747' />
-									<stop offset='1' stop-color='#B11414' />
-								</linearGradient>
-							</defs>
-						</svg>
-					</div>
-				</div>
 			)
 		}
 	</div>
@@ -111,18 +80,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			bottom: 2.25em;
 			max-width: 20.625em;
 		}
-		.scenario-item__hint {
-			top: 32.4375em;
-			left: 9em;
-		}
-		.scenario-item__hint__body {
-			top: -4.5625em;
-			left: -1.4em;
-
-			width: 19.625em;
-			height: 3.5em;
-			transform: rotate(4.47deg);
-		}
 	}
 	.scenario-item_1 {
 		top: 0;
@@ -133,17 +90,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			right: 0.25em;
 			bottom: 3.125em;
 			max-width: 21.8125em;
-		}
-		.scenario-item__hint {
-			top: 11.75em;
-			left: 20.5625em;
-		}
-		.scenario-item__hint__body {
-			top: 1.125em;
-			left: -20.8125em;
-			width: 20.0625em;
-			height: 4.6875em;
-			transform: rotate(-11.24deg);
 		}
 	}
 	.scenario-item_2 {
@@ -158,17 +104,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			bottom: 0.25em;
 			max-width: 25.375em;
 		}
-		.scenario-item__hint {
-			top: 20em;
-			left: 17.3125em;
-		}
-		.scenario-item__hint__body {
-			top: -2.6875em;
-			left: -14.53em;
-			width: 13.4375em;
-			height: 4.75em;
-			transform: rotate(9.51deg);
-		}
 	}
 	.scenario-item_3 {
 		top: 45em;
@@ -178,20 +113,8 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		z-index: 5;
 		.scenario-item__caption {
 			left: 1.125em;
-			bottom: 4.125em;
-			max-width: 36.625em;
-		}
-		.scenario-item__hint {
-			top: 14.9375em;
-			left: 25.4375em;
-		}
-		.scenario-item__hint__body {
-			padding: 2.125em 1.1875em 0;
-			top: 3.03em;
-			left: 1.40625em;
-			width: 12.75em;
-			height: 6.5625em;
-			transform: rotate(-15.63deg);
+			bottom: 3.25em;
+			max-width: 23.5em;
 		}
 	}
 	.scenario-item_4 {
@@ -204,11 +127,26 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			display: flex;
 			right: 0;
 			bottom: 4.125em;
-			background: #f9fafe;
+			background: var(--color-white);
 			max-width: 31.6em;
 			p {
 				line-height: 140%;
 			}
+		}
+	}
+	/* these pictures have a white cut-out drawn for the caption: the text sits in it without a background */
+	@media (width >= 960px) {
+		.scenario-item_0 .scenario-item__caption,
+		.scenario-item_3 .scenario-item__caption,
+		.scenario-item_4 .scenario-item__caption {
+			background: transparent;
+		}
+		.scenario-item_4 .scenario-item__caption {
+			top: 55%;
+			left: 64.5%;
+			bottom: 0;
+			max-width: none;
+			padding: 2em 3em 1.5em 2em;
 		}
 	}
 	.scenario-item__icon {
@@ -243,46 +181,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 		}
 	}
 
-	.scenario-item__hint {
-		position: absolute;
-		z-index: 1;
-	}
-	.scenario-item__hint__icon {
-		position: relative;
-		display: flex;
-		width: 2.5em;
-		height: 2.5em;
-		svg {
-			width: 100%;
-			height: auto;
-		}
-	}
-	.scenario-item__hint__body {
-		padding: 1.0625em 1.1875em;
-		position: absolute;
-		background: transparent;
-		border: 0;
-	}
-	.scenario-item__hint__bubble {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		width: 100%;
-		height: 100%;
-		img {
-			width: 100%;
-			height: auto;
-		}
-	}
-	.scenario-item__hint__body p {
-		position: relative;
-		z-index: 1;
-	}
-	.scenario-item__hint {
-		margin: 0;
-		line-height: 120%;
-		font-weight: 600;
-	}
 
 	.scenario-item__caption {
 		position: absolute;
@@ -327,60 +225,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			max-width: 100%;
 			position: relative;
 		}
-		.scenario-item_0 {
-			.scenario-item__hint {
-				top: calc(69.3% - 11px);
-				left: calc(22.8% - 11px);
-			}
-			.scenario-item__hint__body {
-				top: -56px;
-				left: -13px;
-				width: 149px;
-				height: 53px;
-				transform: rotate(5.66deg);
-			}
-		}
-		.scenario-item_1 {
-			.scenario-item__hint {
-				top: calc(27% - 11px);
-				left: calc(45.3% - 11px);
-			}
-			.scenario-item__hint__body {
-				top: -70px;
-				left: -30px;
-				width: 149px;
-				height: 50px;
-				transform: rotate(-6.1deg);
-			}
-		}
-		.scenario-item_2 {
-			.scenario-item__hint {
-				top: calc(47.2% - 11px);
-				left: calc(34.3% - 11px);
-			}
-			.scenario-item__hint__body {
-				padding: 10px 12px 10px 21px;
-				top: 3px;
-				left: 26px;
-				width: 144px;
-				height: 50px;
-				transform: rotate(8.84deg);
-			}
-		}
-		.scenario-item_3 {
-			.scenario-item__hint {
-				top: calc(36% - 11px);
-				left: calc(59.3% - 11px);
-			}
-			.scenario-item__hint__body {
-				padding: 16px 12px 10px 11px;
-				top: 43px;
-				left: -20px;
-				width: 149px;
-				height: 59px;
-				transform: rotate(15.89deg);
-			}
-		}
 		.scenario-item_4{
 			.scenario-item__caption{
 				padding: 20px;
@@ -399,33 +243,6 @@ const desktopSizes = `(width < 1440px) ${((desktopCssWidth / 1440) * 100).toFixe
 			height: auto;
 		}
 
-		.scenario-item__hint__icon {
-			width: 22px;
-			height: 22px;
-		}
-		.scenario-item__hint__body {
-			padding: 10px 12px;
-		}
-		.scenario-item__hint__bubble {
-			position: absolute;
-			inset: 0;
-			z-index: 0;
-			width: 100%;
-			height: 100%;
-			img {
-				width: 100%;
-				height: auto;
-			}
-		}
-		.scenario-item__hint__body p {
-			position: relative;
-			z-index: 1;
-		}
-		.scenario-item__hint {
-			font-weight: 600;
-			font-size: 12px;
-			line-height: 12px;
-		}
 
 		.scenario-item__caption {
 			h3 {

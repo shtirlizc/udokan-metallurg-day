@@ -11,14 +11,6 @@ import RiskComicsImg3Desktop from './assets/risk-comics-img-3.webp';
 import RiskComicsImg3Mobile from './assets/risk-comics-img-3-mobile.webp';
 import RiskComicsImg4Desktop from './assets/risk-comics-img-4.webp';
 import RiskComicsImg4Mobile from './assets/risk-comics-img-4-mobile.webp';
-import RiskComicsBubble0Desktop from './assets/risk-comics-bubble-0.svg';
-import RiskComicsBubble0Mobile from './assets/risk-comics-bubble-0-mobile.svg';
-import RiskComicsBubble1Desktop from './assets/risk-comics-bubble-1.svg';
-import RiskComicsBubble1Mobile from './assets/risk-comics-bubble-1-mobile.svg';
-import RiskComicsBubble2Desktop from './assets/risk-comics-bubble-2.svg';
-import RiskComicsBubble2Mobile from './assets/risk-comics-bubble-2-mobile.svg';
-import RiskComicsBubble3Desktop from './assets/risk-comics-bubble-3.svg';
-import RiskComicsBubble3Mobile from './assets/risk-comics-bubble-3-mobile.svg';
 
 const scenariosData = [
 	{
@@ -28,28 +20,18 @@ const scenariosData = [
 			mobile: RiskComicsImg0Mobile,
 			desktop: RiskComicsImg0Desktop,
 		},
-		hint: {
-			text: '«Фиксатор сломан? И так доеду!»',
-			bubble: {
-				mobile: RiskComicsBubble0Mobile,
-				desktop: RiskComicsBubble0Desktop,
-			},
-		},
+		// the speech bubble is part of the picture
+		quote: '«Фиксатор сломан? И так доеду!»',
 	},
 	{
-		title: 'Без СИЗ в зоне погрузки',
-		text: 'Сотрудник находится в карьере БелАЗов без каски. Пренебрежение обязательным СИЗом в опасной зоне может привести к травме.',
+		title: 'Без СИЗ на производстве',
+		text: 'Сотрудник находится на производственной площадке без каски. Пренебрежение обязательным СИЗом в опасной зоне может привести к травме.',
 		image: {
 			mobile: RiskComicsImg1Mobile,
 			desktop: RiskComicsImg1Desktop,
 		},
-		hint: {
-			text: '«Каску в столовой забыл, ну да ладно, позже заберу»',
-			bubble: {
-				mobile: RiskComicsBubble1Mobile,
-				desktop: RiskComicsBubble1Desktop,
-			},
-		},
+		// the speech bubble is part of the picture
+		quote: '«Каску в столовой забыл, ну да ладно, позже заберу»',
 	},
 	{
 		title: 'Сломанное ограждение',
@@ -58,28 +40,18 @@ const scenariosData = [
 			mobile: RiskComicsImg2Mobile,
 			desktop: RiskComicsImg2Desktop,
 		},
-		hint: {
-			text: '«Это не моя зона ответственности»',
-			bubble: {
-				mobile: RiskComicsBubble2Mobile,
-				desktop: RiskComicsBubble2Desktop,
-			},
-		},
+		// the speech bubble is part of the picture
+		quote: '«Это не моя зона ответственности»',
 	},
 	{
 		title: 'Работа на высоте',
-		text: 'Сотрудник поднимается на высоту без страховочного пояса. Неиспользование страховочной системы создает риск падения и травмы.',
+		text: 'Сотрудник поднимается на высоту без страховочной привязи. Неиспользование страховочной системы создает риск падения и травмы.',
 		image: {
 			mobile: RiskComicsImg3Mobile,
 			desktop: RiskComicsImg3Desktop,
 		},
-		hint: {
-			text: '«Да я на 1 минуту, дольше буду надевать пояс»',
-			bubble: {
-				mobile: RiskComicsBubble3Mobile,
-				desktop: RiskComicsBubble3Desktop,
-			},
-		},
+		// the speech bubble is part of the picture
+		quote: '«Да я на 1 минуту, дольше буду надевать страховочную привязь»',
 	},
 	{
 		text: 'Перечисленные действия могут на первый взгляд показаться незначительными. Но они запускают цепочку событий, которые приводят к возникновению риска, а в худшем случае — к травмам. Наша цель — научиться своевременно замечать и предотвращать такие риски и выстроить действительно безопасное производство.',
@@ -115,7 +87,8 @@ const scenariosData = [
 		flex-direction: column;
 		align-items: center;
 		padding: 181px 0 0;
-		background: var(--white-0);
+		/* pure white like the pictures and captions, so there are no two shades */
+		background: var(--color-white);
 	}
 	.scenarios__intro {
 		max-width: 780px;
@@ -137,7 +110,7 @@ const scenariosData = [
 		margin: 40px auto 0;
 		position: relative;
 		width: 100%;
-		height: 128.125em;
+		height: 123.375em;
 		max-width: 1440px;
 		font-size: min(16px, 1.111111vw);
 	}
